@@ -11,12 +11,12 @@ namespace App\Users\ManageUser;
 class User
 {
     public $id='';
-    public $firstName='';
-    public $lastName='';
     public $userName='';
     public $userType='';
     public $password='';
     public $permittedActions='';
+    public $employeeId='';
+    public $newPassword='';
 
     public function __construct() {
         $conn=  mysql_connect('localhost','root','acs_bl2016')or die("Server Not Found");
@@ -26,12 +26,6 @@ class User
     public function prepare($data=''){
         if(array_key_exists('id', $data)){
             $this->id=$data['id'];
-        }
-        if(array_key_exists('firstName', $data)){
-            $this->firstName=$data['firstName'];
-        }
-        if(array_key_exists('lastName', $data)){
-            $this->lastName=$data['lastName'];
         }
         if(array_key_exists('userName', $data)){
             $this->userName=$data['userName'];
@@ -45,6 +39,9 @@ class User
         if(array_key_exists('permittedActions', $data)){
             $this->permittedActions=$data['permittedActions'];
         }
+        if(array_key_exists('newPassword', $data)){
+            $this->newPassword=$data['newPassword'];
+        }
 
 //        print_r($this);
 //
@@ -54,8 +51,8 @@ class User
 
     }
     public function store(){
-        if(isset($this->firstName) && !empty($this->firstName) && isset($this->lastName) && !empty($this->lastName) && isset($this->userName) && !empty($this->userName) && isset($this->userType) && !empty($this->userType) && isset($this->password) && !empty($this->password)){
-            $query="INSERT INTO `tbl_user` (`id`, `first_name`,`last_name`,`user_name`,`user_type`,`password`,`permitted_actions`,`created_at`) VALUES ('', '".$this->firstName."','". $this->lastName."','". $this->userName."','". $this->userType."','". $this->password."','". $this->permittedActions."','". date('Y-m-d')."')";
+        if(isset($this->userName) && !empty($this->userName) && isset($this->userType) && !empty($this->userType) && isset($this->password) && !empty($this->password)){
+            $query="INSERT INTO `tbl_user` (`id`,`user_name`,`user_type`,`password`,`permitted_actions`,`created_at`) VALUES ('','". $this->userName."','". $this->userType."','". $this->password."','". $this->permittedActions."','". date('Y-m-d')."')";
 //            echo $query;
 //            die();
             if(mysql_query($query)){
@@ -98,7 +95,7 @@ class User
      *
      */
     public function update(){
-        $query="UPDATE `tbl_user` SET `first_name` = '".$this->firstName."',`last_name`='".$this->lastName."',`user_name`='".$this->userName."',`user_type`='".$this->userType."',`permitted_actions`='".$this->permittedActions."' WHERE `tbl_user`.`id` =". $this->id;
+        $query="UPDATE `tbl_user` SET `user_name`='".$this->userName."',`user_type`='".$this->userType."',`permitted_actions`='".$this->permittedActions."' WHERE `tbl_user`.`id` =". $this->id;
 //        echo $query;
 //        die();
         mysql_query($query);
@@ -169,7 +166,26 @@ class User
         return $row;
     }
 
-    public function resetPassword(){
+
+
+    public function findUser($employeeId=''){
+        $this->employeeId=$employeeId;
+        $query="SELECT * FROM `tbl_user` where user_name=".$this->employeeId;
+//        echo $query;
+//        die();
+        $result=  mysql_query($query);
+        $row=  mysql_fetch_assoc($result);
+        return $row;
+    }
+
+    public function resetPassword($employeeId=''){
+        $this->employeeId=$employeeId;
+        $query="UPDATE `tbl_user` SET `password`='".$this->newPassword."' WHERE `tbl_user`.`user_name` =". $this->employeeId;
+//        echo $query;
+//        die();
+        mysql_query($query);
+        $_SESSION['successMessage']="Password Reset Successfull";
+        header('location:../../../../index.php');
 
     }
 

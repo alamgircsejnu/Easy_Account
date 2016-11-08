@@ -64,18 +64,10 @@ include_once '../../../../view/Navigation/Nav/Navbar/navigation.php';
                 <input type="hidden" name="id" value="<?php echo $id ?>">
 
                 <div class="col-sm-6">
-                    <label for="firstName" style="margin-top: 4px">First Name</label>
-                    <input type="text" id="firstName" name="firstName" class="form-control custom-input"
-                           value="<?php echo $oneUser['first_name']; ?>" placeholder="First" required>
-
-                    <label for="lastname" style="margin-top: 4px">Last Name</label>
-                    <input type="text" id="lastname" name="lastName" class="form-control custom-input"
-                           value="<?php echo $oneUser['last_name']; ?>" placeholder="Last" required>
-
-
-                    <label for="userName" style="margin-top: 4px">User Name</label>
+                    <br>
+                    <label for="userName" style="margin-top: 4px">Employee ID</label>
                     <input type="text" id="userName" name="userName" class="form-control custom-input"
-                           value="<?php echo $oneUser['user_name']; ?>" placeholder="User Name" required>
+                           value="<?php echo $oneUser['user_name']; ?>" placeholder="User Name" required><br><br>
 
                     <label for="userType" style="margin-top: 4px">User Type</label>
                     <select required name="userType" class="form-control col-sm-6 custom-input" id="userType">
@@ -92,7 +84,7 @@ include_once '../../../../view/Navigation/Nav/Navbar/navigation.php';
 
                 <div class="form-group">
                     <label for="permittedActions" class="col-md-6" style="margin-top: 4px">Roles</label><br><br>
-                    <div class="form-group pre-scrollable scrollable-checkbox col-md-12" style="float: right;width: 47%">
+                    <div class="form-group pre-scrollable scrollable-checkbox col-md-12" style="float: right;width: 47%;height: 111px">
 
                         <div class="col-md-12" style="height: 155px">
                             <?php

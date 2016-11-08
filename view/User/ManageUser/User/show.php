@@ -81,39 +81,16 @@ include_once '../../../../view/Navigation/Nav/Navbar/navigation.php';
                     <tr>
                         <td>
                             <div>
-                                <p>User Id :</p>
+                                <p>Employee ID :</p>
                             </div>
                         </td>
                         <td>
                             <div>
-                                <p><?php echo $oneUser['id'] ?></p>
+                                <p><?php echo $oneUser['user_name'] ?></p>
                             </div>
                         </td>
                     </tr>
-                    <tr>
-                        <td>
-                            <div>
-                                <p>Name</p>
-                            </div>
-                        </td>
-                        <td>
-                            <div>
-                                <p><?php echo $oneUser['first_name'] . ' ' . $oneUser['last_name']; ?></p>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div>
-                                <p>User Name</p>
-                            </div>
-                        </td>
-                        <td>
-                            <div>
-                                <p><?php echo $oneUser['user_name']; ?></p>
-                            </div>
-                        </td>
-                    </tr>
+
                     <tr>
                         <td>
                             <div>

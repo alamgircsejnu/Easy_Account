@@ -1,10 +1,10 @@
 <?php
+
 include_once '../../../../vendor/autoload.php';
+use App\Employee\ManageEmployee\Employee;
 
-use App\Users\ManageUser\User;
-
-$user = new User();
-$allUsers = $user->index();
+$employee = new Employee();
+$allEmployees = $employee->index();
 ?>
 
 <!DOCTYPE html>
@@ -70,33 +70,35 @@ include_once '../../../../view/Navigation/Nav/Navbar/navigation.php';
                 <tr>
                     <th align="center">SL#</th>
                     <th align="center">Employee ID</th>
-                    <th align="center">User Type</th>
-                    <th align="center">Roles</th>
+                    <th align="center">Employee Name</th>
+                    <th align="center">Department</th>
+                    <th align="center">Designation</th>
                     <th align="center">Action</th>
                 </tr>
                 </thead>
                 <?php
-                if (isset($allUsers) && !empty($allUsers)) {
+                if (isset($allEmployees) && !empty($allEmployees)) {
                 $serial = 0;
-                foreach ($allUsers as $oneUser) {
+                foreach ($allEmployees as $oneEmployee) {
                 $serial++
                 ?>
                 <tbody>
                 <tr>
                     <td><?php echo $serial ?></td>
-                    <td><?php echo $oneUser['user_name'] ?></td>
-                    <td><?php echo $oneUser['user_type']; ?></td>
-                    <td style="max-width: 550px"><?php echo $oneUser['permitted_actions']; ?></td>
+                    <td><?php echo $oneEmployee['employee_id'] ?></td>
+                    <td><?php echo $oneEmployee['employee_name']; ?></td>
+                    <td><?php echo $oneEmployee['department']; ?></td>
+                    <td><?php echo $oneEmployee['designation']; ?></td>
                     <td>
-                        <a href="show.php?id=<?php echo $oneUser['id'] ?>"> <img style="margin: 3%" border="0"
+                        <a href="show.php?id=<?php echo $oneEmployee['id'] ?>"> <img style="margin: 3%" border="0"
                                                                                  title="See Details" alt="Details"
                                                                                  src="../../../../asset/images/showDetails.png"
                                                                                  width="25" height="20"></a>
-                        <a href="edit.php?id=<?php echo $oneUser['id'] ?>"> <img style="margin: 3%" border="0"
+                        <a href="edit.php?id=<?php echo $oneEmployee['id'] ?>"> <img style="margin: 3%" border="0"
                                                                                  title="Edit User Info" alt="Edit"
                                                                                  src="../../../../asset/images/edit.png"
                                                                                  width="25" height="20"></a>
-                        <a href="trash.php?id=<?php echo $oneUser['id'] ?>" onclick="return confirm('Are you sure?')">
+                        <a href="trash.php?id=<?php echo $oneEmployee['id'] ?>" onclick="return confirm('Are you sure?')">
                             <img style="margin: 3%" border="0" title="Delete This User" alt="Delete"
                                  src="../../../../asset/images/delete.png" width="25" height="20"></a>
                     </td>

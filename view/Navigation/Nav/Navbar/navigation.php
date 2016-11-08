@@ -52,10 +52,10 @@
 
                             </ul>
                         </li>
-                        <li class="dropdown-submenu"><a tabindex="-1" href="#">Empleyee</a>
+                        <li class="dropdown-submenu"><a tabindex="-1" href="#">Employee</a>
                             <ul class="dropdown-menu">
-                                <li><a tabindex="-1" href="view/BasicEntry/Project/CreateEmployee.php">Create Employee</a></li>
-                                <li><a href="view/BasicEntry/Project/EditEmployee.php">Edit Employee</a></li>
+                                <li><a tabindex="-1" href="../../../BasicEntry/Employee/ManageEmployee/create.php">Create Employee</a></li>
+                                <li><a href="../../../BasicEntry/Employee/ManageEmployee/index.php">Employee List</a></li>
                             </ul>
                         </li>
                         <li><a href="#">Create/Edit Supplier</a></li>

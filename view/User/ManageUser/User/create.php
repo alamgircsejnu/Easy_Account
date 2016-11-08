@@ -2,9 +2,13 @@
 include_once '../../../../vendor/autoload.php';
 
 use App\Users\Role\Role;
+use App\Employee\ManageEmployee\Employee;
 
 $role = new Role();
 $allRoles = $role->index();
+
+$employee = new Employee();
+$allEmployees = $employee->index();
 
 //print_r($allUsers);
 
@@ -75,33 +79,32 @@ include_once '../../../../view/Navigation/Nav/Navbar/navigation.php';
             <form role="form" action="store.php" method="post">
 
                     <div class="col-sm-6">
-                        <label for="firstName" style="margin-top: 4px">First Name</label>
-                        <input type="text" id="firstName" name="firstName" class="form-control custom-input"
-                               placeholder="First" required>
-
-                    <label for="lastname" style="margin-top: 4px">Last Name</label>
-                        <input type="text" id="lastname" name="lastName" class="form-control custom-input"
-                               placeholder="Last" required>
-
 
                     <label for="userName" style="margin-top: 4px">Employee ID</label>
-                        <input type="text" id="userName" name="userName" class="form-control custom-input"
-                               placeholder="Employee ID" required>
+                        <select required name="userName" class="form-control col-sm-6 custom-input" id="userType">
+                            <?php
+                            if (isset($allEmployees) && !empty($allEmployees)) {
+                            foreach ($allEmployees as $oneEmployee) {
+                            ?>
+                            <option><?php echo $oneEmployee['employee_id']?></option>
+
+                            <?php }}  ?>
+                        </select><br><br><br>
 
                     <label for="userType" style="margin-top: 4px">User Type</label>
                         <select required name="userType" class="form-control col-sm-6 custom-input" id="userType">
                             <option>Admin</option>
                             <option selected>Operator</option>
-                        </select><br>
+                        </select><br><br><br>
 
 
                         <label for="password" style="margin-top: 4px">Type Password</label>
                         <input type="password" id="password" name="password"
-                               class="form-control custom-input" required>
+                               class="form-control custom-input" required><br>
 
                     <label for="retypePassword" style="margin-top: 4px">Retype Password</label>
                         <input type="password" id="retypePassword" name="retypePassword"
-                               class="form-control custom-input" required>
+                               class="form-control custom-input" required><br>
 
                 </div>
                 <div class="form-group">

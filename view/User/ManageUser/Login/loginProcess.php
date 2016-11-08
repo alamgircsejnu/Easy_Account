@@ -14,11 +14,17 @@ $user = new User();
 $user->prepare($_POST);
 $oneData = $user->login();
 //$oneUser = $user->showIndex($oneData['id']);
-//print_r($oneData);
-if($username == $oneData['user_name'] && password_verify($password, $oneData['password'])){
+//print_r($oneData['user_name']);
+//die();
+
+//$test = password_verify($_POST['password'], $oneData['password']);
+//echo $test;
+//die();
+if($username == $oneData['user_name'] && password_verify($_POST['password'], $oneData['password'])==1){
     $_SESSION['id'] = $oneData['id'];
     $_SESSION['username'] = $oneData['user_name'];
     $_SESSION['password'] = $password;
+    print_r($_SESSION);
     $_SESSION['successMessage'] = '<h4>Welcome, <b>'.$oneUser['first_name'].' '.$oneUser['last_name'].'</b>. You are successfully logged in.</h4>';
     header('Location:../../../../index.php');
 } else {

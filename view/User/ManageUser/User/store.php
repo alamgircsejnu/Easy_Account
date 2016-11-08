@@ -2,7 +2,8 @@
 session_start();
 include_once '../../../../vendor/autoload.php';
 use App\Users\ManageUser\User;
-//var_dump($_POST);
+//print_r($_POST);
+//die();
 
 if ($_POST['password'] == $_POST['retypePassword']){
 $permittedActions=$_POST['permittedActions'];
@@ -25,7 +26,7 @@ $user = new User();
 $user->prepare($_POST);
 $user->store();
 } else {
-    $_SESSION['errorMessage'] = "Pasword Mis-matched";
+    $_SESSION['errorMessage'] = "Password doesn't match";
     header('location:create.php');
 
 }

@@ -1,8 +1,9 @@
+
 <?php
-if (isset($_SESSION['id']) && !empty($_SESSION['id'])) {
-
-
-    ?>
+//if (isset($_SESSION['id']) && !empty($_SESSION['id'])) {
+//
+//
+//    ?>
 
     <!DOCTYPE html>
     <html>
@@ -93,11 +94,11 @@ if (isset($_SESSION['id']) && !empty($_SESSION['id'])) {
 
                                 </ul>
                             </li>
-                            <li class="dropdown-submenu"><a tabindex="-1" href="#">Empleyee</a>
+                            <li class="dropdown-submenu"><a tabindex="-1" href="#">Employee</a>
                                 <ul class="dropdown-menu">
-                                    <li><a tabindex="-1" href="view/BasicEntry/Project/CreateEmployee.php">Create
+                                    <li><a tabindex="-1" href="view/BasicEntry/Employee/ManageEmployee/create.php">Create
                                             Employee</a></li>
-                                    <li><a href="view/BasicEntry/Project/EditEmployee.php">Edit Employee</a></li>
+                                    <li><a href="view/BasicEntry/Employee/ManageEmployee/index.php">Employee List</a></li>
                                 </ul>
                             </li>
 
@@ -237,9 +238,9 @@ if (isset($_SESSION['id']) && !empty($_SESSION['id'])) {
     </body>
     </html>
 
-    <?php
-} else{
-    header('Location:view/User/ManageUser/Login/login.php');
-
-}
-?>
+<!--    --><?php
+//} else{
+//    header('Location:view/User/ManageUser/Login/login.php');
+//
+//}
+//?>

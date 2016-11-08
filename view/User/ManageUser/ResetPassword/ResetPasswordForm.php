@@ -62,7 +62,11 @@ include_once '../../../../view/Navigation/Nav/Navbar/navigation.php';
             <div class="panel-heading">Create User Role</div>
             <br>
             <form role="form" action="ResetPassword.php" method="post">
-                <input type="hidden" name="id" value="<?php  ?>">
+                <div class="col-sm-12">
+                <label for="employeeId" style="margin-top: 5px">Employee ID</label>
+                <input type="text" id="employeeId" name="employeeId" class="form-control custom-input"
+                       placeholder="Employee ID" required>
+                </div>
                 <div class="col-sm-12">
                     <label for="currentPassword" style="margin-top: 10px">Current Password</label>
                     <input type="password" id="currentPassword" name="currentPassword" class="form-control custom-input"
@@ -71,13 +75,13 @@ include_once '../../../../view/Navigation/Nav/Navbar/navigation.php';
                 </div>
                 <div class="col-sm-12">
                     <label for="newPassword" style="margin-top: 10px">New Password</label>
-                    <input type="text" id="newPassword" name="newPassword" class="form-control custom-input"
+                    <input type="password" id="newPassword" name="newPassword" class="form-control custom-input"
                            placeholder="New Password" required>
 
                 </div>
                 <div class="col-sm-12">
                     <label for="retypeNewPassword" style="margin-top: 10px">Retype New Password</label>
-                    <input type="text" id="retypeNewPassword" name="retypeNewPassword" class="form-control custom-input"
+                    <input type="password" id="retypeNewPassword" name="retypeNewPassword" class="form-control custom-input"
                            placeholder="Retype New Password" required>
 
                 </div>
