@@ -16,7 +16,8 @@ class Employee
     public $id = '';
     public $employeeId = '';
     public $department = '';
-    public $employeeName = '';
+    public $firstName = '';
+    public $lastName = '';
     public $designation = '';
     public $cardId = '';
     public $shift = '';
@@ -47,8 +48,11 @@ class Employee
         if (array_key_exists('department', $data)) {
             $this->department = $data['department'];
         }
-        if (array_key_exists('employeeName', $data)) {
-            $this->employeeName = $data['employeeName'];
+        if (array_key_exists('firstName', $data)) {
+            $this->firstName = $data['firstName'];
+        }
+        if (array_key_exists('lastName', $data)) {
+            $this->lastName = $data['lastName'];
         }
         if (array_key_exists('designation', $data)) {
             $this->designation = $data['designation'];
@@ -102,8 +106,8 @@ class Employee
 
     public function store(){
         if(isset($this->employeeId) && !empty($this->employeeId)){
-            $query="INSERT INTO `tbl_employee` (`id`, `employee_id`,`employee_name`,`card_id`,`department`,`designation`,`date_of_birth`,`joining_date`,`shift`,`contact_no`,`present_address`,
-`permanent_address`,`status`,`blood_group`,`remarks`,`created_at`) VALUES ('', '".$this->employeeId."','". $this->employeeName."','". $this->cardId."','". $this->department."','". $this->designation."','". $this->dateOfBirth."','". $this->joiningDate."','". $this->shift."','". $this->contactNo."','". $this->presentAddress."','". $this->permanentAddress."','". $this->status."','". $this->bloodGroup."','". $this->remarks."','". date('Y-m-d')."')";
+            $query="INSERT INTO `tbl_employee` (`id`, `employee_id`,`first_name`,`last_name`,`card_id`,`department`,`designation`,`date_of_birth`,`joining_date`,`shift`,`contact_no`,`present_address`,
+`permanent_address`,`status`,`blood_group`,`remarks`,`created_at`) VALUES ('', '".$this->employeeId."','". $this->firstName."','". $this->lastName."','". $this->cardId."','". $this->department."','". $this->designation."','". $this->dateOfBirth."','". $this->joiningDate."','". $this->shift."','". $this->contactNo."','". $this->presentAddress."','". $this->permanentAddress."','". $this->status."','". $this->bloodGroup."','". $this->remarks."','". date('Y-m-d')."')";
 //            echo $query;
 //            die();
             if(mysql_query($query)){
@@ -142,7 +146,7 @@ class Employee
     }
 
     public function update(){
-        $query="UPDATE `tbl_employee` SET `employee_id` = '".$this->employeeId."',`employee_name`='".$this->employeeName."',`card_id`='".$this->cardId."',`department`='".$this->department."',`designation`='".$this->designation."',`date_of_birth`='".$this->dateOfBirth."',`joining_date`='".$this->joiningDate."',`shift`='".$this->shift."',`contact_no`='".$this->contactNo."',`present_address`='".$this->presentAddress."',`permanent_address`='".$this->permanentAddress."',`status`='".$this->status."',`blood_group`='".$this->bloodGroup."',`remarks`='".$this->remarks."' WHERE `tbl_employee`.`id` =". $this->id;
+        $query="UPDATE `tbl_employee` SET `employee_id` = '".$this->employeeId."',`first_name`='".$this->firstName."',`last_name`='".$this->lastName."',`card_id`='".$this->cardId."',`department`='".$this->department."',`designation`='".$this->designation."',`date_of_birth`='".$this->dateOfBirth."',`joining_date`='".$this->joiningDate."',`shift`='".$this->shift."',`contact_no`='".$this->contactNo."',`present_address`='".$this->presentAddress."',`permanent_address`='".$this->permanentAddress."',`status`='".$this->status."',`blood_group`='".$this->bloodGroup."',`remarks`='".$this->remarks."' WHERE `tbl_employee`.`id` =". $this->id;
 //        echo $query;
 //        die();
         mysql_query($query);
@@ -164,5 +168,6 @@ class Employee
 
         header('location:index.php');
     }
+
 
 }

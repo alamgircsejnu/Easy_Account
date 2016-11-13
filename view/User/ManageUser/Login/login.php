@@ -1,4 +1,6 @@
-
+<?php
+session_start();
+?>
 
 <!DOCTYPE html>
 <html>
@@ -33,25 +35,14 @@
 <body>
 
 <?php
+
 include_once '../../../../view/Navigation/Nav/Navbar/navigation.php';
 ?>
 
 <br><br>
 
 <div class="row">
-    <div style="width: 200px">
-        <?php
 
-        if (isset($_SESSION['successMessage'])) {
-            echo '<h2 style="color: green;>' . $_SESSION['successMessage'] . '</h2><br>';
-            unset($_SESSION['successMessage']);
-        } else if (isset($_SESSION['errorMessage'])) {
-            echo '<h2 style="color: red;>' . $_SESSION['errorMessage'] . '</h2><br>';
-            unset($_SESSION['errorMessage']);
-        }
-
-        ?>
-    </div>
     <div class="col-md-4"></div>
 
     <div class="col-md-4">
@@ -59,13 +50,13 @@ include_once '../../../../view/Navigation/Nav/Navbar/navigation.php';
 
         <div class="panel panel-primary custom-panel" style="391px">
 
-            <div class="panel-heading">Create User Role</div>
+            <div class="panel-heading">Login here</div>
             <br>
             <form role="form" action="loginProcess.php" method="post">
                 <input type="hidden" name="id" value="<?php  ?>">
                 <div class="col-sm-12">
                     <label for="employeeId" style="margin-top: 10px">Employee ID</label>
-                    <input type="text" id="employeeId" name="employeeId" class="form-control custom-input"
+                    <input type="text" id="employeeId" name="userName" class="form-control custom-input"
                            placeholder="Employee Id" required>
 
                 </div>
@@ -80,7 +71,7 @@ include_once '../../../../view/Navigation/Nav/Navbar/navigation.php';
                     <div class="form-group">
                         <div>
                             <div class="col-md-4" style="float: right;width: 27%;margin-top: 11px;margin-right: 14px;">
-                                <button type="submit" class="btn btn-info pull-right">Submit</button>
+                                <button type="submit" class="btn btn-info pull-right">Login</button>
                             </div>
                         </div>
                     </div>

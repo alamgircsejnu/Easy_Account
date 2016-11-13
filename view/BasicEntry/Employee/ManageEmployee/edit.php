@@ -1,4 +1,5 @@
 <?php
+session_start();
 include_once '../../../../vendor/autoload.php';
 use App\Employee\ManageEmployee\Employee;
 
@@ -69,7 +70,7 @@ include_once '../../../../view/Navigation/Nav/Navbar/navigation.php';
 
         <div class="panel panel-primary custom-panel">
 
-            <div class="panel-heading">Add Employee Information</div>
+            <div class="panel-heading">Edit Employee Information</div>
             <br>
             <form role="form" action="update.php" method="post">
                 <input type="hidden" name="id" value="<?php echo $id ?>">
@@ -86,9 +87,14 @@ include_once '../../../../view/Navigation/Nav/Navbar/navigation.php';
                     </div>
                     <br><br><br>
                     <div class="col-md-6">
-                        <label for="employeeName" style="margin-top: 5px">Employee Name</label>
-                        <input type="text" id="employeeName" name="employeeName" class="form-control custom-input"
-                               value="<?php echo $oneEmployee['employee_name'] ?>"  placeholder="Employee Name" required>
+                        <label for="firstName" style="margin-top: 5px">First Name</label>
+                        <input type="text" id="firstName" name="firstName" class="form-control custom-input"
+                               value="<?php echo $oneEmployee['first_name'] ?>"  placeholder="First Name" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="lastName" style="margin-top: 5px">Last Name</label>
+                        <input type="text" id="lastName" name="lastName" class="form-control custom-input"
+                               value="<?php echo $oneEmployee['last_name'] ?>"  placeholder="Last Name" required>
                     </div>
                     <div class="col-md-6">
                         <label for="designation" style="margin-top: 5px">Designation</label>
@@ -135,6 +141,18 @@ include_once '../../../../view/Navigation/Nav/Navbar/navigation.php';
                                value="<?php echo $oneEmployee['blood_group'] ?>"  placeholder="Blood Group">
                     </div>
                     <br><br><br>
+                    <div class="col-md-6">
+                        <label for="status" style="margin-top: 5px">Status</label>
+                        <select required name="status" class="form-control col-sm-6 custom-input" id="status">
+                            <option <?php if ($oneEmployee['status'] == "Active") {
+                                echo 'selected';
+                            } ?>>Active</option>
+                            <option <?php if ($oneEmployee['status'] == "Inactive") {
+                                echo 'selected';
+                            } ?>>Inactive</option>
+                        </select>
+                    </div>
+                    <br><br><br>
                     <div class="col-md-12">
                         <label for="presentAddress" style="margin-top: 5px">Present Address</label>
                         <input type="text" id="presentAddress" name="presentAddress" class="form-control custom-input"
@@ -147,18 +165,8 @@ include_once '../../../../view/Navigation/Nav/Navbar/navigation.php';
                                value="<?php echo $oneEmployee['permanent_address'] ?>"   placeholder="Permanent Address">
                     </div>
                     <br><br><br>
-                    <div class="col-md-6">
-                        <label for="status" style="margin-top: 5px">Status</label>
-                        <select required name="status" class="form-control col-sm-6 custom-input" id="status">
-                            <option <?php if ($oneEmployee['status'] == "Active") {
-                                echo 'selected';
-                            } ?>>Active</option>
-                            <option <?php if ($oneEmployee['status'] == "Inactive") {
-                                echo 'selected';
-                            } ?>>Inactive</option>
-                        </select>
-                    </div>
-                    <div class="col-md-6">
+
+                    <div class="col-md-12">
                         <label for="remarks" style="margin-top: 5px">Remarks</label>
                         <input type="text" id="remarks" name="remarks" class="form-control custom-input"
                                value="<?php echo $oneEmployee['remarks'] ?>"  placeholder="Remarks">
@@ -172,7 +180,7 @@ include_once '../../../../view/Navigation/Nav/Navbar/navigation.php';
                     <div class="form-group">
                         <div>
                             <div class="col-md-4" style="float: right;width: 4%;margin-top: 11px;margin-right: 17px">
-                                <button type="submit" class="btn btn-info pull-right">Submit</button>
+                                <button type="submit" class="btn btn-info pull-right">Update</button>
                             </div>
                         </div>
                     </div>

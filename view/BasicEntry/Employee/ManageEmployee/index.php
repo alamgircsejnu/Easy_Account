@@ -1,5 +1,5 @@
 <?php
-
+session_start();
 include_once '../../../../vendor/autoload.php';
 use App\Employee\ManageEmployee\Employee;
 
@@ -86,7 +86,7 @@ include_once '../../../../view/Navigation/Nav/Navbar/navigation.php';
                 <tr>
                     <td><?php echo $serial ?></td>
                     <td><?php echo $oneEmployee['employee_id'] ?></td>
-                    <td><?php echo $oneEmployee['employee_name']; ?></td>
+                    <td><?php echo $oneEmployee['first_name'].' '.$oneEmployee['last_name']; ?></td>
                     <td><?php echo $oneEmployee['department']; ?></td>
                     <td><?php echo $oneEmployee['designation']; ?></td>
                     <td>

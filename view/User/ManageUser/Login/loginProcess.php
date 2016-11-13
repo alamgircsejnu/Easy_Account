@@ -5,31 +5,37 @@ use App\Users\ManageUser\User;
 session_start();
 //print_r($_POST);
 //die();
-$username = stripcslashes($_POST['employeeId']);
-$password = stripcslashes($_POST['password']);
-$_POST['userName'] = $username;
-$_POST['password'] = $password;
+$username = $_POST['userName'];
+$password = $_POST['password'];
 //echo $_SESSION['username'].$_SESSION['password'];
 $user = new User();
 $user->prepare($_POST);
 $oneData = $user->login();
-//$oneUser = $user->showIndex($oneData['id']);
-//print_r($oneData['user_name']);
-//die();
 
-//$test = password_verify($_POST['password'], $oneData['password']);
-//echo $test;
+//print_r($_POST);
 //die();
-if($username == $oneData['user_name'] && password_verify($_POST['password'], $oneData['password'])==1){
+$oneEmployee = $user->employeeInfo();
+
+
+
+if($username == $oneData['user_name'] && password_verify($_POST['password'], $oneData['password'])){
     $_SESSION['id'] = $oneData['id'];
     $_SESSION['username'] = $oneData['user_name'];
+    $_SESSION['admin'] = $oneData['is_admin'];
+    $_SESSION['permitted_actions'] = $oneData['permitted_actions'];
     $_SESSION['password'] = $password;
-    print_r($_SESSION);
-    $_SESSION['successMessage'] = '<h4>Welcome, <b>'.$oneUser['first_name'].' '.$oneUser['last_name'].'</b>. You are successfully logged in.</h4>';
+    $_SESSION['employeeName'] = $oneEmployee['first_name'].' '.$oneEmployee['last_name'];
+    $_SESSION['successMessage'] = 'Welcome, <b>'.$_SESSION['employeeName'].' </b>. You are successfully logged in.';
+
+//    print_r($_SESSION);
     header('Location:../../../../index.php');
-} else {
-    $_SESSION['Message'] = '<h2>Invalid username or password</h2>';
-    header('Location:../../../../index.php');
+
 }
+else {
+    $_SESSION['errorMessage'] = 'Invalid username or password';
+    header('Location:login.php');
+}
+
+
 ?>
 

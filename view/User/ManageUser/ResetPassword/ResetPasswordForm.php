@@ -1,4 +1,23 @@
 
+<?php
+session_start();
+use App\Users\Role\Role;
+use App\Employee\ManageEmployee\Employee;
+//echo $_SESSION['id'];
+//die();
+if (isset($_SESSION['id']) && !empty($_SESSION['id'])) {
+    include_once '../../../../vendor/autoload.php';
+
+
+
+    $role = new Role();
+    $allRoles = $role->index();
+
+    $employee = new Employee();
+    $allEmployees = $employee->index();
+
+?>
+
 
 <!DOCTYPE html>
 <html>
@@ -39,19 +58,6 @@ include_once '../../../../view/Navigation/Nav/Navbar/navigation.php';
 <br><br>
 
 <div class="row">
-    <div style="width: 200px">
-        <?php
-
-        if (isset($_SESSION['successMessage'])) {
-            echo '<h2 style="color: green;>' . $_SESSION['successMessage'] . '</h2><br>';
-            unset($_SESSION['successMessage']);
-        } else if (isset($_SESSION['errorMessage'])) {
-            echo '<h2 style="color: red;>' . $_SESSION['errorMessage'] . '</h2><br>';
-            unset($_SESSION['errorMessage']);
-        }
-
-        ?>
-    </div>
     <div class="col-md-4"></div>
 
     <div class="col-md-4">
@@ -59,13 +65,24 @@ include_once '../../../../view/Navigation/Nav/Navbar/navigation.php';
 
         <div class="panel panel-primary custom-panel" style="391px">
 
-            <div class="panel-heading">Create User Role</div>
+            <div class="panel-heading">Reset Your Password</div>
             <br>
             <form role="form" action="ResetPassword.php" method="post">
                 <div class="col-sm-12">
-                <label for="employeeId" style="margin-top: 5px">Employee ID</label>
-                <input type="text" id="employeeId" name="employeeId" class="form-control custom-input"
-                       placeholder="Employee ID" required>
+                    <label for="employeeId" style="margin-top: 4px">Employee ID</label>
+                    <?php if($_SESSION['admin'] == 1){?>
+                    <select required name="employeeId" class="form-control col-sm-6 custom-input" id="userType">
+                        <?php
+                        if (isset($allEmployees) && !empty($allEmployees)) {
+                            foreach ($allEmployees as $oneEmployee) {
+                                ?>
+                                <option><?php echo $oneEmployee['employee_id']?></option>
+
+                            <?php }}  ?>
+                    </select>
+        <?php } else { ?>
+                        <input type="text" id="employeeId" name="employeeId" class="form-control custom-input" value="<?php echo $_SESSION['username'];?>" readonly>
+                    <?php }?>
                 </div>
                 <div class="col-sm-12">
                     <label for="currentPassword" style="margin-top: 10px">Current Password</label>
@@ -90,7 +107,7 @@ include_once '../../../../view/Navigation/Nav/Navbar/navigation.php';
                     <div class="form-group">
                         <div>
                             <div class="col-md-4" style="float: right;width: 27%;margin-top: 11px;margin-right: 14px;">
-                                <button type="submit" class="btn btn-info pull-right">Submit</button>
+                                <button type="submit" class="btn btn-info pull-right">Reset Password</button>
                             </div>
                         </div>
                     </div>
@@ -126,3 +143,10 @@ include_once '../../../../view/Navigation/Nav/Navbar/navigation.php';
 </script>
 </body>
 </html>
+
+    <?php
+} else{
+    header('Location:../Login/login.php');
+
+}
+?>

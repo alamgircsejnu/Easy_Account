@@ -1,8 +1,14 @@
 <?php
-include_once '../../../../vendor/autoload.php';
-
+session_start();
 use App\Users\Role\Role;
 use App\Employee\ManageEmployee\Employee;
+//echo $_SESSION['id'];
+//die();
+if (isset($_SESSION['id']) && !empty($_SESSION['id'])) {
+
+include_once '../../../../vendor/autoload.php';
+
+
 
 $role = new Role();
 $allRoles = $role->index();
@@ -74,7 +80,7 @@ include_once '../../../../view/Navigation/Nav/Navbar/navigation.php';
 
         <div class="panel panel-primary custom-panel">
 
-            <div class="panel-heading">Create User</div>
+            <div class="panel-heading">Create New User</div>
             <br>
             <form role="form" action="store.php" method="post">
 
@@ -147,7 +153,7 @@ include_once '../../../../view/Navigation/Nav/Navbar/navigation.php';
                             </div>
 
                             <div class="col-md-4" style="float: left;width: 4%;margin-top: 11px">
-                                <button type="submit" class="btn btn-info pull-right">Submit</button>
+                                <button type="submit" class="btn btn-info pull-right">Create</button>
                             </div>
                         </div>
                     </div>
@@ -158,7 +164,7 @@ include_once '../../../../view/Navigation/Nav/Navbar/navigation.php';
     </div>
 
 
-    <div class="col-md-4"></div>
+    <div class="col-md-3"></div>
 </div>
 
 
@@ -183,3 +189,10 @@ include_once '../../../../view/Navigation/Nav/Navbar/navigation.php';
 </script>
 </body>
 </html>
+
+<?php
+} else{
+    header('Location:../Login/login.php');
+
+}
+?>

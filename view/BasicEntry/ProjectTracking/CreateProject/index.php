@@ -1,11 +1,10 @@
 <?php
 session_start();
 include_once '../../../../vendor/autoload.php';
+use App\ProjectTracking\CreateProject\ProjectTracking;
 
-use App\Users\Role\Role;
-
-$role = new Role();
-$allRoles = $role->index();
+$project = new ProjectTracking();
+$allprojects = $project->index();
 ?>
 
 <!DOCTYPE html>
@@ -61,8 +60,8 @@ include_once '../../../../view/Navigation/Nav/Navbar/navigation.php';
 
         ?>
     </div>
-    <div class="col-md-4"></div>
-    <div id="custom-table" class="col-md-4" style="background-color: #9acfea;padding: 1px">
+    <div class="col-md-1"></div>
+    <div id="custom-table" class="col-md-10" style="background-color: #9acfea;padding: 1px">
 
 
         <div class="table-responsive" id="custom-table">
@@ -70,24 +69,39 @@ include_once '../../../../view/Navigation/Nav/Navbar/navigation.php';
                 <thead>
                 <tr>
                     <th align="center">SL#</th>
-                    <th align="center">User Roles</th>
-                    <th align="center">Delete</th>
-
+                    <th align="center">Task ID</th>
+                    <th align="center">Task Name</th>
+                    <th align="center">Customer Name</th>
+                    <th align="center">Created By</th>
+                    <th align="center">Creation Date</th>
+                    <th align="center">Action</th>
                 </tr>
                 </thead>
                 <?php
-                if (isset($allRoles) && !empty($allRoles)) {
+                if (isset($allprojects) && !empty($allprojects)) {
                 $serial = 0;
-                foreach ($allRoles as $oneRole) {
+                foreach ($allprojects as $oneproject) {
                 $serial++
                 ?>
                 <tbody>
                 <tr>
                     <td><?php echo $serial ?></td>
-                    <td><?php echo $oneRole['user_role']; ?></td>
+                    <td><?php echo $oneproject['project_id'] ?></td>
+                    <td><?php echo $oneproject['project_name']; ?></td>
+                    <td><?php echo $oneproject['customer_name']; ?></td>
+                    <td><?php echo $oneproject['created_by']; ?></td>
+                    <td><?php echo $oneproject['created_at']; ?></td>
                     <td>
-                        <a href="delete.php?id=<?php echo $oneRole['id'] ?>" onclick="return confirm('Are you sure?')">
-                            <img style="margin: 3%" border="0" title="Delete This Role" alt="Delete"
+                        <a href="show.php?id=<?php echo $oneproject['id'] ?>"> <img style="margin: 3%" border="0"
+                                                                                     title="See Details" alt="Details"
+                                                                                     src="../../../../asset/images/showDetails.png"
+                                                                                     width="25" height="20"></a>
+                        <a href="edit.php?id=<?php echo $oneproject['id'] ?>"> <img style="margin: 3%" border="0"
+                                                                                     title="Edit User Info" alt="Edit"
+                                                                                     src="../../../../asset/images/edit.png"
+                                                                                     width="25" height="20"></a>
+                        <a href="trash.php?id=<?php echo $oneproject['id'] ?>" onclick="return confirm('Are you sure?')">
+                            <img style="margin: 3%" border="0" title="Delete This User" alt="Delete"
                                  src="../../../../asset/images/delete.png" width="25" height="20"></a>
                     </td>
                 </tr>

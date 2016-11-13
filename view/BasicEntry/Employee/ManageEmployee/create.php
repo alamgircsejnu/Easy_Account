@@ -1,14 +1,5 @@
 <?php
-//include_once '../../../../vendor/autoload.php';
-//
-//use App\Users\Role\Role;
-//
-//$role = new Role();
-//$allRoles = $role->index();
-//
-////print_r($allUsers);
-//
-////die();
+session_start();
 //?>
 
 <!DOCTYPE html>
@@ -71,7 +62,7 @@ include_once '../../../../view/Navigation/Nav/Navbar/navigation.php';
 
         <div class="panel panel-primary custom-panel">
 
-            <div class="panel-heading">Add Employee Information</div>
+            <div class="panel-heading">Add New Employee</div>
             <br>
             <form role="form" action="store.php" method="post">
 
@@ -88,21 +79,27 @@ include_once '../../../../view/Navigation/Nav/Navbar/navigation.php';
                     </div>
                         <br><br><br>
                         <div class="col-md-6">
-                    <label for="employeeName" style="margin-top: 5px">Employee Name</label>
-                    <input type="text" id="employeeName" name="employeeName" class="form-control custom-input"
-                           placeholder="Employee Name" required>
+                    <label for="firstName" style="margin-top: 5px">First Name</label>
+                    <input type="text" id="firstName" name="firstName" class="form-control custom-input"
+                           placeholder="First Name" required>
                         </div>
+                    <div class="col-md-6">
+                        <label for="lastName" style="margin-top: 5px">Last Name</label>
+                        <input type="text" id="lastName" name="lastName" class="form-control custom-input"
+                               placeholder="Last Name" required>
+                    </div>
+                    <br><br><br>
                     <div class="col-md-6">
                         <label for="designation" style="margin-top: 5px">Designation</label>
                         <input type="text" id="designation" name="designation" class="form-control custom-input"
                                placeholder="Designation" required>
                     </div>
-                    <br><br><br>
                     <div class="col-md-6">
                         <label for="cardId" style="margin-top: 5px">Card ID</label>
                         <input type="text" id="cardId" name="cardId" class="form-control custom-input"
                                placeholder="Card ID" required>
                     </div>
+                    <br><br><br>
                             <div class="col-md-6">
                     <label for="shift" style="margin-top: 5px">Shift</label>
                     <select name="shift" class="form-control col-sm-6 custom-input" id="shift">
@@ -110,28 +107,37 @@ include_once '../../../../view/Navigation/Nav/Navbar/navigation.php';
                         <option>Night</option>
                     </select>
                             </div>
-                    <br><br><br>
+
                     <div class="col-md-6">
                         <label for="dateOfBirth" style="margin-top: 5px">Date of Birth</label>
                         <input type="text" id="dateOfBirth" name="dateOfBirth" class="form-control custom-input"
                                placeholder="Date of Birth">
                     </div>
+                    <br><br><br>
                     <div class="col-md-6">
                         <label for="joiningDate" style="margin-top: 5px">Joining Date</label>
                         <input type="text" id="joiningDate" name="joiningDate" class="form-control custom-input"
                                placeholder="Joining Date">
                     </div>
-                    <br><br><br>
                     <div class="col-md-6">
                         <label for="contactNo" style="margin-top: 5px">Contact No</label>
                         <input type="text" id="contactNo" name="contactNo" class="form-control custom-input"
                                placeholder="Contact No">
                     </div>
+                    <br><br><br>
                     <div class="col-md-6">
                         <label for="bloodGroup" style="margin-top: 5px">Blood Group</label>
                         <input type="text" id="bloodGroup" name="bloodGroup" class="form-control custom-input"
                                placeholder="Blood Group">
                     </div>
+                    <div class="col-md-6">
+                        <label for="status" style="margin-top: 5px">Status</label>
+                        <select required name="status" class="form-control col-sm-6 custom-input" id="status">
+                            <option selected>Active</option>
+                            <option>Inactive</option>
+                        </select>
+                    </div>
+
                     <br><br><br>
                     <div class="col-md-12">
                         <label for="presentAddress" style="margin-top: 5px">Present Address</label>
@@ -145,19 +151,14 @@ include_once '../../../../view/Navigation/Nav/Navbar/navigation.php';
                                placeholder="Permanent Address">
                     </div>
                     <br><br><br>
-                    <div class="col-md-6">
-                        <label for="status" style="margin-top: 5px">Status</label>
-                        <select required name="status" class="form-control col-sm-6 custom-input" id="status">
-                            <option selected>Active</option>
-                            <option>Inactive</option>
-                        </select>
-                    </div>
-                    <div class="col-md-6">
+                    <div class="col-md-12">
                         <label for="remarks" style="margin-top: 5px">Remarks</label>
                         <input type="text" id="remarks" name="remarks" class="form-control custom-input"
                                placeholder="Remarks">
                     </div>
                     <br><br><br>
+
+
 
                 </div>
 
@@ -166,7 +167,7 @@ include_once '../../../../view/Navigation/Nav/Navbar/navigation.php';
                     <div class="form-group">
                         <div>
                             <div class="col-md-4" style="float: right;width: 4%;margin-top: 11px;margin-right: 17px">
-                                <button type="submit" class="btn btn-info pull-right">Submit</button>
+                                <button type="submit" class="btn btn-info pull-right">Add Employee</button>
                             </div>
                         </div>
                     </div>

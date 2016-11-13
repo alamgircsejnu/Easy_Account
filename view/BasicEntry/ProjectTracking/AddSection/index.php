@@ -1,11 +1,10 @@
 <?php
 session_start();
 include_once '../../../../vendor/autoload.php';
+use App\ProjectTracking\AddSection\AddSection;
 
-use App\Users\Role\Role;
-
-$role = new Role();
-$allRoles = $role->index();
+$section = new AddSection();
+$allSections = $section->index();
 ?>
 
 <!DOCTYPE html>
@@ -61,8 +60,8 @@ include_once '../../../../view/Navigation/Nav/Navbar/navigation.php';
 
         ?>
     </div>
-    <div class="col-md-4"></div>
-    <div id="custom-table" class="col-md-4" style="background-color: #9acfea;padding: 1px">
+    <div class="col-md-1"></div>
+    <div id="custom-table" class="col-md-10" style="background-color: #9acfea;padding: 1px">
 
 
         <div class="table-responsive" id="custom-table">
@@ -70,24 +69,44 @@ include_once '../../../../view/Navigation/Nav/Navbar/navigation.php';
                 <thead>
                 <tr>
                     <th align="center">SL#</th>
-                    <th align="center">User Roles</th>
-                    <th align="center">Delete</th>
-
+                    <th align="center">Task ID</th>
+                    <th align="center">Section ID</th>
+                    <th align="center">Section Description</th>
+                    <th align="center">Assigned To</th>
+                    <th align="center">Primary Estimated Date</th>
+                    <th align="center">Latest Estimated Date</th>
+                    <th align="center">Estimated Days</th>
+                    <th align="center">Latest Estimated Days</th>
                 </tr>
                 </thead>
                 <?php
-                if (isset($allRoles) && !empty($allRoles)) {
+                if (isset($allSections) && !empty($allSections)) {
                 $serial = 0;
-                foreach ($allRoles as $oneRole) {
+                foreach ($allSections as $oneSections) {
                 $serial++
                 ?>
                 <tbody>
                 <tr>
                     <td><?php echo $serial ?></td>
-                    <td><?php echo $oneRole['user_role']; ?></td>
-                    <td>
-                        <a href="delete.php?id=<?php echo $oneRole['id'] ?>" onclick="return confirm('Are you sure?')">
-                            <img style="margin: 3%" border="0" title="Delete This Role" alt="Delete"
+                    <td><?php echo $oneSections['project_id'] ?></td>
+                    <td><?php echo $oneSections['section_id']; ?></td>
+                    <td><?php echo $oneSections['section_description']; ?></td>
+                    <td><?php echo $oneSections['assigned_to']; ?></td>
+                    <td><?php echo $oneSections['primary_est_date']; ?></td>
+                    <td><?php echo $oneSections['est_date']; ?></td>
+                    <td><?php echo $oneSections['est_days']; ?></td>
+                    <td><?php echo $oneSections['latest_est_days']; ?></td>
+                    <td style="width: 120px">
+                        <a href="show.php?id=<?php echo $oneSections['id'] ?>"> <img style="margin: 3%" border="0"
+                                                                                    title="See Details" alt="Details"
+                                                                                    src="../../../../asset/images/showDetails.png"
+                                                                                    width="25" height="20"></a>
+                        <a href="edit.php?id=<?php echo $oneSections['id'] ?>"> <img style="margin: 3%" border="0"
+                                                                                    title="Edit User Info" alt="Edit"
+                                                                                    src="../../../../asset/images/edit.png"
+                                                                                    width="25" height="20"></a>
+                        <a href="trash.php?id=<?php echo $oneSections['id'] ?>" onclick="return confirm('Are you sure?')">
+                            <img style="margin: 3%" border="0" title="Delete This User" alt="Delete"
                                  src="../../../../asset/images/delete.png" width="25" height="20"></a>
                     </td>
                 </tr>

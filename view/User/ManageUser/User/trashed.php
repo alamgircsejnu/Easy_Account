@@ -1,7 +1,10 @@
 <?php
+session_start();
 include_once '../../../../vendor/autoload.php';
 
 use App\Users\ManageUser\User;
+
+if (isset($_SESSION['id']) && !empty($_SESSION['id'])) {
 
 $user = new User();
 $allUsers = $user->trashed();
@@ -142,3 +145,10 @@ include_once '../../../../view/Navigation/Nav/Navbar/navigation.php';
 </script>
 </body>
 </html>
+
+    <?php
+} else{
+    header('Location:../Login/login.php');
+
+}
+?>

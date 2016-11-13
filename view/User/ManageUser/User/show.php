@@ -1,7 +1,10 @@
 <?php
+session_start();
 include_once '../../../../vendor/autoload.php';
 
 use App\Users\ManageUser\User;
+
+if (isset($_SESSION['id']) && !empty($_SESSION['id'])) {
 
 //session_start();
 $id = $_GET['id'];
@@ -131,9 +134,11 @@ include_once '../../../../view/Navigation/Nav/Navbar/navigation.php';
         </div>
         <div class="col-md-1"></div>
     </div>
-
-
+</div>
+</div>
     <br><br><br><br>
+
+
     <script src="asset/js/bootstrap.min.js" type="text/javascript"></script>
     <script src="asset/js/jquery-3.1.1.min.js" type="text/javascript"></script>
 
@@ -154,3 +159,10 @@ include_once '../../../../view/Navigation/Nav/Navbar/navigation.php';
     </script>
 </body>
 </html>
+
+    <?php
+} else{
+    header('Location:../Login/login.php');
+
+}
+?>

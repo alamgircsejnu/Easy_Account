@@ -167,7 +167,6 @@ class User
     }
 
 
-
     public function findUser($employeeId=''){
         $this->employeeId=$employeeId;
         $query="SELECT * FROM `tbl_user` where user_name=".$this->employeeId;
@@ -187,6 +186,15 @@ class User
         $_SESSION['successMessage']="Password Reset Successfull";
         header('location:../../../../index.php');
 
+    }
+
+    public function employeeInfo() {
+        $query = "SELECT * FROM `tbl_employee` WHERE `employee_id`='$this->userName'";
+//        echo $query;
+//        die();
+        $result = mysql_query($query);
+        $row = mysql_fetch_assoc($result);
+        return $row;
     }
 
 

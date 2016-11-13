@@ -1,9 +1,23 @@
-
 <?php
-//if (isset($_SESSION['id']) && !empty($_SESSION['id'])) {
-//
-//
-//    ?>
+session_start();
+
+//session_start();
+include_once 'vendor/autoload.php';
+
+use App\Users\ManageUser\User;
+
+//session_start();
+
+//$roles = explode(',',$oneUser['permitted_actions']);
+
+if (isset($_SESSION['id']) && !empty($_SESSION['id'])) {
+
+    $id = $_SESSION['id'];
+
+    $user = new User();
+    $oneUser = $user->show($id);
+
+    ?>
 
     <!DOCTYPE html>
     <html>
@@ -56,41 +70,71 @@
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-                           aria-expanded="false">User <span class="caret"></span></a>
-                        <ul class="dropdown-menu dropdown-menu multi-level" role="menu" aria-labelledby="dropdownMenu">
+                    <?php if (isset($_SESSION['id']) && !empty($_SESSION['id'])) { ?>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                               aria-haspopup="true"
+                               aria-expanded="false">User <span class="caret"></span></a>
+                            <ul class="dropdown-menu dropdown-menu multi-level" role="menu"
+                                aria-labelledby="dropdownMenu">
+                                <?php
 
-                            <li class="dropdown-submenu"><a tabindex="-1" href="#">Manage User</a>
-                                <ul class="dropdown-menu">
-                                    <li><a tabindex="-1" href="view/User/ManageUser/User/create.php">Add New User</a>
-                                    </li>
-                                    <li><a href="view/User/ManageUser/User/index.php">User List</a></li>
-                                </ul>
-                            </li>
-                            <li class="dropdown-submenu"><a tabindex="-1" href="#">User Role</a>
-                                <ul class="dropdown-menu">
-                                    <li><a tabindex="-1" href="view/User/Role/User/create.php">Create User Role</a></li>
-                                    <li><a tabindex="-1" href="view/User/Role/User/index.php">User Role List</a></li>
-                                </ul>
-                            </li>
-                            <li><a href="view/User/ManageUser/ResetPassword/ResetPasswordForm.php">Reset Password</a>
-                            </li>
-                            <li><a href="view/User/ManageUser/Logout/logout.php">Log Out</a></li>
+                                if (strstr($oneUser['permitted_actions'],'Manage User') || $oneUser['is_admin']==1) {
+                                ?>
+                                <li class="dropdown-submenu"><a tabindex="-1" href="#">Manage User</a>
+                                    <ul class="dropdown-menu">
+                                        <li><a tabindex="-1" href="view/User/ManageUser/User/create.php">Add New
+                                                User</a>
+                                        </li>
+                                        <li><a href="view/User/ManageUser/User/index.php">User List</a></li>
+                                    </ul>
+                                </li>
+                                <?php }  ?>
+                                <li class="dropdown-submenu"><a tabindex="-1" href="#">User Role</a>
+                                    <ul class="dropdown-menu">
+                                        <li><a tabindex="-1" href="view/User/Role/User/create.php">Create User Role</a>
+                                        </li>
+                                        <li><a tabindex="-1" href="view/User/Role/User/index.php">User Role List</a>
+                                        </li>
+                                    </ul>
+                                </li>
 
-                        </ul>
-                    </li>
+                                <li><a href="view/User/ManageUser/ResetPassword/ResetPasswordForm.php">Reset
+                                        Password</a>
+                                </li>
+                                <li><a href="view/User/ManageUser/Logout/logout.php">Log Out</a></li>
 
+
+                            </ul>
+                        </li>
+                    <?php } ?>
+                    <?php
+
+                    if (strstr($oneUser['permitted_actions'],'Basic Entry') || $oneUser['is_admin']==1) {
+                    ?>
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
                            aria-expanded="false">Basic Entry <span class="caret"></span></a>
                         <ul class="dropdown-menu dropdown-menu multi-level" role="menu" aria-labelledby="dropdownMenu">
-                            <li class="dropdown-submenu"><a tabindex="-1" href="#">Project Tracking</a>
+                            <li class="dropdown-submenu"><a tabindex="-1" href="#">Task Tracking</a>
                                 <ul class="dropdown-menu">
-                                    <li><a tabindex="-1" href="view/BasicEntry/Project/CreateProject.php">Create
-                                            Project</a></li>
-                                    <li><a href="view/BasicEntry/Project/ExecuteProject.php">Execute Project</a></li>
-                                    <li><a href="view/BasicEntry/Project/ProjectReport.php">Project Report</a></li>
+                                    <li class="dropdown-submenu"><a tabindex="-1" href="#">Create Task</a>
+                                        <ul class="dropdown-menu">
+                                            <li><a tabindex="-1" href="view/BasicEntry/ProjectTracking/CreateProject/Create.php">Create New Task</a></li>
+                                            <li><a tabindex="-1" href="view/BasicEntry/ProjectTracking/CreateProject/index.php">Task List</a></li>
+
+                                        </ul>
+                                    </li>
+                                    <li class="dropdown-submenu"><a tabindex="-1" href="#">Add Section</a>
+                                        <ul class="dropdown-menu">
+                                            <li><a tabindex="-1" href="view/BasicEntry/ProjectTracking/AddSection/Create.php">Create
+                                                    Section</a></li>
+                                            <li><a tabindex="-1" href="view/BasicEntry/ProjectTracking/AddSection/index.php">Section List</a></li>
+
+                                        </ul>
+                                    </li>
+                                    <li><a href="view/BasicEntry/Project/ExecuteProject.php">Execute Task</a></li>
+                                    <li><a href="view/BasicEntry/Project/ProjectReport.php">Task Report</a></li>
 
                                 </ul>
                             </li>
@@ -98,11 +142,10 @@
                                 <ul class="dropdown-menu">
                                     <li><a tabindex="-1" href="view/BasicEntry/Employee/ManageEmployee/create.php">Create
                                             Employee</a></li>
-                                    <li><a href="view/BasicEntry/Employee/ManageEmployee/index.php">Employee List</a></li>
+                                    <li><a href="view/BasicEntry/Employee/ManageEmployee/index.php">Employee List</a>
+                                    </li>
                                 </ul>
                             </li>
-
-                            <li><a href="#">Create/Edit Employee</a></li>
                             <li><a href="#">Create/Edit Supplier</a></li>
                             <li><a href="#">Expense Type</a></li>
                             <li><a href="#">Create Negotiator</a></li>
@@ -110,7 +153,11 @@
                             <li><a href="#">Add Cheque Book</a></li>
                         </ul>
                     </li>
+                    <?php }  ?>
+                    <?php
 
+                    if (strstr($oneUser['permitted_actions'],'Operation') || $oneUser['is_admin']==1) {
+                    ?>
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
                            aria-expanded="false">Operation <span class="caret"></span></a>
@@ -127,7 +174,11 @@
                             <li><a href="#">Loan Payment</a></li>
                         </ul>
                     </li>
+                    <?php }  ?>
+                    <?php
 
+                    if (strstr($oneUser['permitted_actions'],'Call Management') || $oneUser['is_admin']==1) {
+                    ?>
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
                            aria-expanded="false">Call Management <span class="caret"></span></a>
@@ -146,7 +197,11 @@
                             <li><a href="#">Approve Budget</a></li>
                         </ul>
                     </li>
+                    <?php }  ?>
+                    <?php
 
+                    if (strstr($oneUser['permitted_actions'],'Inventory') || $oneUser['is_admin']==1) {
+                    ?>
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
                            aria-expanded="false">Inventory<span class="caret"></span></a>
@@ -156,7 +211,11 @@
                             <li><a href="#">Material Issue</a></li>
                         </ul>
                     </li>
+                    <?php }  ?>
+                    <?php
 
+                    if (strstr($oneUser['permitted_actions'],'Marketing') || $oneUser['is_admin']==1) {
+                    ?>
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
                            aria-expanded="false">Marketing<span class="caret"></span></a>
@@ -166,7 +225,10 @@
                             <li><a href="#">Enter Offers</a></li>
                         </ul>
                     </li>
-
+                    <?php }  ?>
+                    <?php
+                    if (strstr($oneUser['permitted_actions'],'Service Report') || $oneUser['is_admin']==1) {
+                    ?>
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
                            aria-expanded="false">Service <span class="caret"></span></a>
@@ -175,19 +237,39 @@
                             <li><a href="#">Service Approval</a></li>
                         </ul>
                     </li>
+                    <?php }  ?>
+                    <?php
 
+                    if (strstr($oneUser['permitted_actions'],'Operation') || $oneUser['is_admin']==1) {
+                    ?>
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
                            aria-expanded="false">Operation Reports <span class="caret"></span></a>
                         <ul class="dropdown-menu">
+                            <?php
+
+                            if (strstr($oneUser['permitted_actions'],'Inventory Report') || $oneUser['is_admin']==1) {
+                            ?>
                             <li><a href="#">Inventory Report</a></li>
+                            <?php }  ?>
                             <li><a href="#">Offer Report</a></li>
                             <li><a href="#">Promotion Report</a></li>
+                            <?php
+
+                            if (strstr($oneUser['permitted_actions'],'Service Report')) {
+                            ?>
                             <li><a href="#">Service Report</a></li>
+                            <?php }  ?>
+
+                            <?php
+
+                            if (strstr($oneUser['permitted_actions'],'Call Report')) {
+                            ?>
                             <li><a href="#">Call Report</a></li>
+                            <?php }  ?>
                         </ul>
                     </li>
-
+                    <?php }  ?>
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
                            aria-expanded="false">Reports <span class="caret"></span></a>
@@ -218,7 +300,7 @@
 
     <div style="width: 200px">
         <?php
-        //    session_start();
+//            session_start();
         if (isset($_SESSION['successMessage'])) {
             echo '<h2 style="color: green;>' . $_SESSION['successMessage'] . '</h2><br>';
             unset($_SESSION['successMessage']);
@@ -238,9 +320,9 @@
     </body>
     </html>
 
-<!--    --><?php
-//} else{
-//    header('Location:view/User/ManageUser/Login/login.php');
-//
-//}
-//?>
+    <?php
+} else {
+    header('Location:view/User/ManageUser/Login/login.php');
+
+}
+?>

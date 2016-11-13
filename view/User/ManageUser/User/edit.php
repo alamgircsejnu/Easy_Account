@@ -1,16 +1,24 @@
 <?php
+session_start();
 include_once '../../../../vendor/autoload.php';
 
 use App\Users\ManageUser\User;
 use App\Users\Role\Role;
+
+if (isset($_SESSION['id']) && !empty($_SESSION['id'])) {
 $role = new Role();
 $allRoles = $role->index();
 
 //session_start();
 $id = $_GET['id'];
 
+//    echo $id;
+//    die();
+
 $user = new User();
 $oneUser = $user->show($id);
+//    print_r($oneUser);
+//    die();
 //$roles = explode(',',$oneUser['permitted_actions']);
 ?>
 
@@ -61,9 +69,9 @@ include_once '../../../../view/Navigation/Nav/Navbar/navigation.php';
             <div class="panel-heading">Edit User</div>
             <br>
             <form role="form" action="update.php" method="post">
-                <input type="hidden" name="id" value="<?php echo $id ?>">
+                <input type="hidden" name="id" value="<?php echo $oneUser['id'] ?>">
 
-                <div class="col-sm-6">
+                <div class="col-sm-6" style="min-height: 180px">
                     <br>
                     <label for="userName" style="margin-top: 4px">Employee ID</label>
                     <input type="text" id="userName" name="userName" class="form-control custom-input"
@@ -122,8 +130,8 @@ include_once '../../../../view/Navigation/Nav/Navbar/navigation.php';
                                     for="ckbCheckAll">&nbsp Select All</label>
                             </div>
 
-                            <div class="col-md-4 pull-right" style="float: left;width: 4%;margin-top: 11px">
-                                <button type="submit" class="btn btn-info pull-right">Submit</button>
+                            <div class="col-md-4 pull-right" style="float: left;width: 7%;margin-top: 11px;margin-right: 13px">
+                                <button type="submit" class="btn btn-info pull-right">Update</button>
                             </div>
                         </div>
                     </div>
@@ -159,3 +167,11 @@ include_once '../../../../view/Navigation/Nav/Navbar/navigation.php';
 </script>
 </body>
 </html>
+
+
+    <?php
+} else{
+    header('Location:../Login/login.php');
+
+}
+?>
