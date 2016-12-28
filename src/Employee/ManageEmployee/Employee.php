@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Employee\ManageEmployee;
-
+use App\dbConnection;
 //session_start();
 
 /**
@@ -14,6 +14,7 @@ class Employee
 {
 
     public $id = '';
+    public $companyId = '';
     public $employeeId = '';
     public $department = '';
     public $firstName = '';
@@ -33,14 +34,17 @@ class Employee
 
     public function __construct()
     {
-        $conn = mysql_connect('localhost', 'root', 'acs_bl2016') or die("Server Not Found");
-        mysql_select_db('easy_accounts') or die("Database Not Found");
+        $conn = new dbConnection();
+        $connection = $conn->connect();
     }
 
     public function prepare($data = '')
     {
         if (array_key_exists('id', $data)) {
             $this->id = $data['id'];
+        }
+        if (array_key_exists('companyId', $data)) {
+            $this->companyId = $data['companyId'];
         }
         if (array_key_exists('employeeId', $data)) {
             $this->employeeId = $data['employeeId'];
@@ -106,14 +110,12 @@ class Employee
 
     public function store(){
         if(isset($this->employeeId) && !empty($this->employeeId)){
-            $query="INSERT INTO `tbl_employee` (`id`, `employee_id`,`first_name`,`last_name`,`card_id`,`department`,`designation`,`date_of_birth`,`joining_date`,`shift`,`contact_no`,`present_address`,
-`permanent_address`,`status`,`blood_group`,`remarks`,`created_at`) VALUES ('', '".$this->employeeId."','". $this->firstName."','". $this->lastName."','". $this->cardId."','". $this->department."','". $this->designation."','". $this->dateOfBirth."','". $this->joiningDate."','". $this->shift."','". $this->contactNo."','". $this->presentAddress."','". $this->permanentAddress."','". $this->status."','". $this->bloodGroup."','". $this->remarks."','". date('Y-m-d')."')";
+            $query="INSERT INTO `tbl_employee` (`id`,`company_id`, `employee_id`,`first_name`,`last_name`,`card_id`,`department`,`designation`,`date_of_birth`,`joining_date`,`shift`,`contact_no`,`present_address`,
+`permanent_address`,`status`,`blood_group`,`remarks`,`created_at`) VALUES ('','".$this->companyId."', '".$this->employeeId."','". $this->firstName."','". $this->lastName."','". $this->cardId."','". $this->department."','". $this->designation."','". $this->dateOfBirth."','". $this->joiningDate."','". $this->shift."','". $this->contactNo."','". $this->presentAddress."','". $this->permanentAddress."','". $this->status."','". $this->bloodGroup."','". $this->remarks."','". date('Y-m-d')."')";
 //            echo $query;
 //            die();
             if(mysql_query($query)){
                 $_SESSION['successMessage']="Successfully Added";
-            }  else {
-                $_SESSION['errorMessage']="Failed to add the Employee";
             }
         }  else {
             $_SESSION['errorMessage']="Fill All the Field";
@@ -124,7 +126,7 @@ class Employee
 
     public function index(){
         $mydata=array();
-        $query="SELECT * FROM `tbl_employee` where deleted_at IS NULL";
+        $query="SELECT * FROM `tbl_employee` WHERE `tbl_employee`.`company_id`='".$this->companyId."' AND deleted_at IS NULL";
 //        echo $query;
 //        die();
         $result=  mysql_query($query);
@@ -137,7 +139,7 @@ class Employee
 
     public function show($id=''){
         $this->id=$id;
-        $query="SELECT * FROM `tbl_employee` where id=".$this->id;
+        $query="SELECT * FROM `tbl_employee` where `tbl_employee`.`id`=".$this->id;
 //        echo $query;
 //        die();
         $result=  mysql_query($query);
@@ -150,7 +152,7 @@ class Employee
 //        echo $query;
 //        die();
         mysql_query($query);
-        $_SESSION['successMessage']="<h2>"."Data Updated Successfully"."</h2>";
+        $_SESSION['successMessage']="Data Updated Successfully";
         header('location:index.php');
     }
 
@@ -161,13 +163,20 @@ class Employee
 //        echo $query;
 //        die();
         if (mysql_query($query)) {
-            $_SESSION['successMessage'] = "<h2>" . "Deleted Successfully" . "</h2>";
+            $_SESSION['successMessage'] = "Deleted Successfully";
         } else {
-            $_SESSION['errorMessage'] = "<h2>Oops! Something wrong to delete data!</h2>";
+            $_SESSION['errorMessage'] = "Oops! Something wrong to delete data!";
         }
 
         header('location:index.php');
     }
-
+    public function lastEntry(){
+        $query="SELECT * FROM `tbl_employee` WHERE `tbl_employee`.`company_id` = '".$this->companyId."' ORDER BY id DESC LIMIT 1";
+//        echo $query;
+//        die();
+        $result=  mysql_query($query);
+        $row=  mysql_fetch_assoc($result);
+        return $row;
+    }
 
 }

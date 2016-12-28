@@ -74,7 +74,7 @@ include_once '../../../../view/Navigation/Nav/Navbar/navigation.php';
                     <tr style="background-color: #9acfea">
                         <td colspan="2">
                             <div align="center">
-                                <p><b>Section Details</b></p>
+                                <p><b>Task Details</b></p>
                             </div>
                         </td>
 
@@ -82,7 +82,7 @@ include_once '../../../../view/Navigation/Nav/Navbar/navigation.php';
                     <tr>
                         <td>
                             <div>
-                                <p>Task ID :</p>
+                                <p>Project ID :</p>
                             </div>
                         </td>
                         <td>
@@ -94,7 +94,7 @@ include_once '../../../../view/Navigation/Nav/Navbar/navigation.php';
                     <tr>
                         <td>
                             <div>
-                                <p>Section ID :</p>
+                                <p>Task ID :</p>
                             </div>
                         </td>
                         <td>
@@ -106,7 +106,7 @@ include_once '../../../../view/Navigation/Nav/Navbar/navigation.php';
                     <tr>
                         <td>
                             <div>
-                                <p>Section Description :</p>
+                                <p>Task Description :</p>
                             </div>
                         </td>
                         <td>

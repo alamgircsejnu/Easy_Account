@@ -1,19 +1,27 @@
 <?php
 session_start();
+include_once '../../../../vendor/autoload.php';
 use App\Users\Role\Role;
+use App\Users\Company\Company;
 use App\Employee\ManageEmployee\Employee;
 //echo $_SESSION['id'];
 //die();
 if (isset($_SESSION['id']) && !empty($_SESSION['id'])) {
 
-include_once '../../../../vendor/autoload.php';
 
 
+$_POST['companyId'] = $_SESSION['companyId'];
 
 $role = new Role();
+ $role->prepare($_POST);
 $allRoles = $role->index();
 
+$company = new Company();
+ $company->prepare($_POST);
+$allCompanies = $company->index();
+
 $employee = new Employee();
+$employee->prepare($_POST);
 $allEmployees = $employee->index();
 
 //print_r($allUsers);
@@ -58,25 +66,28 @@ include_once '../../../../view/Navigation/Nav/Navbar/navigation.php';
 ?>
 
 <br><br>
-
 <div class="row">
-    <div style="width: 200px">
+    <div class="col-md-3"></div>
+    <div class="col-md-6">
         <?php
 
         if (isset($_SESSION['successMessage'])) {
-            echo '<h2 style="color: green;>' . $_SESSION['successMessage'] . '</h2><br>';
+            echo '<h5 style="color: green;background-color: ghostwhite;text-align: center">' . $_SESSION['successMessage'] . '</h5><br>';
             unset($_SESSION['successMessage']);
         } else if (isset($_SESSION['errorMessage'])) {
-            echo '<h2 style="color: red;>' . $_SESSION['errorMessage'] . '</h2><br>';
+            echo '<h5 style="color: red;background-color: ghostwhite;text-align: center">' . $_SESSION['errorMessage'] . '</h5><br>';
             unset($_SESSION['errorMessage']);
         }
 
         ?>
     </div>
     <div class="col-md-3"></div>
+</div>
+<div class="row">
 
-    <div class="col-md-5">
+    <div class="col-md-3"></div>
 
+    <div class="col-md-6">
 
         <div class="panel panel-primary custom-panel">
 
@@ -114,9 +125,9 @@ include_once '../../../../view/Navigation/Nav/Navbar/navigation.php';
 
                 </div>
                 <div class="form-group">
-                    <label for="permittedActions" class="col-md-6" style="margin-top: 4px">Roles</label><br><br>
-                    <div class="form-group pre-scrollable scrollable-checkbox col-md-5" style="float: right;width: 47%">
 
+                    <div class="form-group pre-scrollable scrollable-checkbox col-md-5" style="float: right;width: 47%">
+                        <label for="permittedActions" class="col-md-6" style="margin-top: 4px">Roles</label><br><br>
 
                         <div class="col-md-12" style="height: 201px">
 
@@ -148,21 +159,66 @@ include_once '../../../../view/Navigation/Nav/Navbar/navigation.php';
                     <div class="form-group">
                         <div>
                             <div class="col-md-4" style="margin-left: 31px;margin-top: 17px">
-                                <input class="check-all" type="checkbox" name="" id="ckbCheckAll"><label
-                                    for="ckbCheckAll">&nbsp Select All</label>
+                                <input class="check-all" type="checkbox" name="" id="ckbCheckAll">
+                                <label for="ckbCheckAll">&nbsp Select All</label>
                             </div>
 
-                            <div class="col-md-4" style="float: left;width: 4%;margin-top: 11px">
-                                <button type="submit" class="btn btn-info pull-right">Create</button>
+                        </div>
+                    </div>
+                </div>
+
+<!--                ...........................................-->
+                <div class="form-group">
+
+                    <div class="form-group pre-scrollable scrollable-checkbox col-md-6" style="float: left;width: 100%">
+                        <label for="permittedCompanies" class="col-md-6" style="margin-top: 4px">Companies</label><br><br>
+
+                        <div class="col-md-12" style="height: 101px;">
+
+                            <?php
+                            if (isset($allCompanies) && !empty($allCompanies)) {
+
+                                foreach ($allCompanies as $oneCompany) {
+
+                                    ?>
+
+                                    <input type="checkbox" class="checkBoxCompanyClass" name="permittedCompanies[]"
+                                           value="<?php echo $oneCompany['company_id']?>" id="<?php echo $oneCompany['company_name']?>">
+                                    <label for="<?php echo $oneCompany['company_id']?>">&nbsp <?php echo $oneCompany['company_name']?></label><br>
+
+
+
+                                    <?php
+                                }
+                            }
+                            ?>
+
+
+                        </div>
+                    </div>
+
+                </div>
+                <br><br><br>
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <div>
+                            <div class="col-md-4" style="margin-left: 31px;margin-top: 17px">
+                                <input class="check-all-company" type="checkbox" name="" id="ckbCheckAllCompany">
+                                <label for="ckbCheckAllCompany">&nbsp Select All</label>
+                            </div>
+
+                            <div class="col-md-4" style="float: right;width: 4%;margin-top: 22px;margin-right: 50px">
+                                <button type="submit" class="btn btn-info pull-right">Create User</button>
                             </div>
                         </div>
                     </div>
                 </div>
 
+
             </form>
         </div>
     </div>
-
+</div>
 
     <div class="col-md-3"></div>
 </div>
@@ -184,6 +240,16 @@ include_once '../../../../view/Navigation/Nav/Navbar/navigation.php';
                 $(".checkBoxClass").prop('checked', "checked");
             else
                 $(".checkBoxClass").removeProp('checked');
+        });
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        $("#ckbCheckAllCompany").click(function () {
+            if (this.checked)
+                $(".checkBoxCompanyClass").prop('checked', "checked");
+            else
+                $(".checkBoxCompanyClass").removeProp('checked');
         });
     });
 </script>

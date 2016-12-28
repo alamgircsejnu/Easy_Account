@@ -1,14 +1,16 @@
 <?php
-include_once '../../../../vendor/autoload.php';
 session_start();
+include_once '../../../../vendor/autoload.php';
 use App\Users\ManageUser\User;
+$_POST['companyId'] = $_SESSION['companyId'];
 $employeeId = $_POST['employeeId'];
 $user = new User();
+$user->prepare($_POST);
 $oneUser = $user->findUser($employeeId);
 
-if(password_verify($_POST['currentPassword'],$oneUser['password']) && $_POST['newPassword']==$_POST['retypeNewPassword']){
+if(md5($_POST['currentPassword'])==$oneUser['password'] && $_POST['newPassword']==$_POST['retypeNewPassword']){
     $password = $_POST['newPassword'];
-    $hash = password_hash($password, PASSWORD_DEFAULT);
+    $hash = md5($password);
 
     $_POST['newPassword'] = $hash;
     $user->prepare($_POST);

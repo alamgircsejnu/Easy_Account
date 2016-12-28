@@ -4,10 +4,17 @@ include_once '../../../../vendor/autoload.php';
 
 use App\Users\ManageUser\User;
 use App\Users\Role\Role;
+use App\Users\Company\Company;
 
+$_POST['companyId'] = $_SESSION['companyId'];
 if (isset($_SESSION['id']) && !empty($_SESSION['id'])) {
 $role = new Role();
+$role->prepare($_POST);
 $allRoles = $role->index();
+
+$company = new Company();
+$company->prepare($_POST);
+$allCompanies = $company->index();
 
 //session_start();
 $id = $_GET['id'];
@@ -16,6 +23,7 @@ $id = $_GET['id'];
 //    die();
 
 $user = new User();
+$user->prepare($_POST);
 $oneUser = $user->show($id);
 //    print_r($oneUser);
 //    die();
@@ -60,9 +68,9 @@ include_once '../../../../view/Navigation/Nav/Navbar/navigation.php';
 <br><br>
 
 <div class="row">
-    <div class="col-md-4"></div>
+    <div class="col-md-3"></div>
 
-    <div class="col-md-5">
+    <div class="col-md-6">
 
         <div class="panel panel-primary custom-panel">
 
@@ -129,20 +137,63 @@ include_once '../../../../view/Navigation/Nav/Navbar/navigation.php';
                                 <input class="check-all" type="checkbox" name="" id="ckbCheckAll"><label
                                     for="ckbCheckAll">&nbsp Select All</label>
                             </div>
-
-                            <div class="col-md-4 pull-right" style="float: left;width: 7%;margin-top: 11px;margin-right: 13px">
-                                <button type="submit" class="btn btn-info pull-right">Update</button>
-                            </div>
                         </div>
                     </div>
                 </div>
 
+<!--                ................................................-->
+                <div class="form-group">
+                    <label for="permittedActions" class="col-md-6" style="margin-top: 4px">Roles</label><br><br>
+                    <div class="form-group pre-scrollable scrollable-checkbox col-md-12" style="float: right;width: 100%;height: 111px">
+
+                        <div class="col-md-12" style="height: 155px">
+                            <?php
+                            if (isset($allCompanies) && !empty($allCompanies)) {
+
+                                foreach ($allCompanies as $oneCompany) {
+
+//
+                                    ?>
+                                    <input type="checkbox" class="checkBoxCompanyClass" name="permittedCompanies[]"
+                                           value="<?php echo $oneCompany['company_id']; ?>" id="<?php echo $oneCompany['company_name']; ?>"
+                                        <?php if (strstr($oneUser['permitted_companies'],$oneCompany['company_id'])) {
+                                            echo 'checked';
+                                        } else {
+                                            echo '';
+                                        } ?>/>
+
+
+                                    <label for="<?php echo $oneCompany['company_name'] ?>">&nbsp <?php echo $oneCompany['company_name'] ?></label><br>
+
+                                    <?php
+                                }
+                            }
+                            ?>
+                        </div>
+                    </div>
+
+                </div>
+                <br><br><br>
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <div>
+                            <div class="col-md-4" style="margin-left: 31px;margin-top: 17px">
+                                <input class="check-all-company" type="checkbox" name="" id="ckbCheckAllCompany">
+                                <label for="ckbCheckAllCompany">&nbsp Select All</label>
+                            </div>
+
+                            <div class="col-md-4" style="float: right;width: 4%;margin-top: 22px;margin-right: 50px">
+                                <button type="submit" class="btn btn-info pull-right">Update User</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </form>
         </div>
     </div>
 
 
-    <div class="col-md-4"></div>
+    <div class="col-md-3"></div>
 </div>
 
 
@@ -162,6 +213,16 @@ include_once '../../../../view/Navigation/Nav/Navbar/navigation.php';
                 $(".checkBoxClass").prop('checked', "checked");
             else
                 $(".checkBoxClass").removeProp('checked');
+        });
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        $("#ckbCheckAllCompany").click(function () {
+            if (this.checked)
+                $(".checkBoxCompanyClass").prop('checked', "checked");
+            else
+                $(".checkBoxCompanyClass").removeProp('checked');
         });
     });
 </script>

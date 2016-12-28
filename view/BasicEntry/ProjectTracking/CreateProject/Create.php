@@ -3,29 +3,33 @@ session_start();
 include_once '../../../../vendor/autoload.php';
 use App\ProjectTracking\CreateProject\ProjectTracking;
 if (isset($_SESSION['id']) && !empty($_SESSION['id'])){
-
+$_POST['companyId'] = $_SESSION['companyId'];
 $task = new ProjectTracking();
+$task->prepare($_POST);
 $lastTask = $task->lastEntry();
+$customers = $task->customers();
 if (isset($lastTask) && !empty($lastTask)){
 $lastTaskId = $lastTask['project_id'];
-$taskYear = substr($lastTaskId,1,4);
+$taskYear = substr($lastTaskId,2,4);
+//    echo $taskYear;
+//    die();
 $currentYear =  date('Y');
 if ($taskYear==$currentYear){
 
-$taskNumber = substr($lastTaskId,5);
-$newTaskNumber = (int)$taskNumber +1;
-$newTaskId = 'T'.$taskYear.$newTaskNumber;
+$taskNumber = substr($lastTaskId,6);
+$newTaskNumber = $taskNumber +1;
+$newTaskId = 'PR'.$taskYear.$newTaskNumber;
 //echo $first;
 //echo '<br>';
 //echo $newTaskId;
 //die();
 } else{
-    $newTaskNumber = 1000;
-    $newTaskId = 'T'.date('Y').$newTaskNumber;
+    $newTaskNumber = '1001';
+    $newTaskId = 'PR'.date('Y').$newTaskNumber;
 }
 } else{
-    $newTaskNumber = 1000;
-    $newTaskId = 'T'.date('Y').$newTaskNumber;
+    $newTaskNumber = '1001';
+    $newTaskId = 'PR'.date('Y').$newTaskNumber;
 }
 ?>
 
@@ -67,21 +71,25 @@ include_once '../../../../view/Navigation/Nav/Navbar/navigation.php';
 ?>
 
 <br><br>
-
 <div class="row">
-    <div style="width: 200px">
+    <div class="col-md-3"></div>
+    <div class="col-md-6">
         <?php
 
         if (isset($_SESSION['successMessage'])) {
-            echo '<h2 style="color: green;>' . $_SESSION['successMessage'] . '</h2><br>';
+            echo '<h5 style="color: green;background-color: ghostwhite;text-align: center">' . $_SESSION['successMessage'] . '</h5><br>';
             unset($_SESSION['successMessage']);
         } else if (isset($_SESSION['errorMessage'])) {
-            echo '<h2 style="color: red;>' . $_SESSION['errorMessage'] . '</h2><br>';
+            echo '<h5 style="color: red;background-color: ghostwhite;text-align: center">' . $_SESSION['errorMessage'] . '</h5><br>';
             unset($_SESSION['errorMessage']);
         }
 
         ?>
     </div>
+    <div class="col-md-3"></div>
+</div>
+<div class="row">
+
     <div class="col-md-3"></div>
 
     <div class="col-md-6">
@@ -89,37 +97,63 @@ include_once '../../../../view/Navigation/Nav/Navbar/navigation.php';
 
         <div class="panel panel-primary custom-panel">
 
-            <div class="panel-heading">Create New Task</div>
+            <div class="panel-heading">Create New Project</div>
             <br>
             <form role="form" action="store.php" method="post">
 
                 <div>
                     <div class="col-md-6">
-                        <label for="projectId" style="margin-top: 5px">Task ID</label>
+                        <label for="projectId" style="margin-top: 5px">Project ID</label>
                         <input type="text" id="projectId" name="projectId" class="form-control custom-input"
                              value="<?php echo $newTaskId ?>"  placeholder="Project ID" required>
                     </div>
                     <div class="col-md-6">
-                        <label for="customerName" style="margin-top: 5px">Customer Name</label>
-                        <input type="text" id="customerName" name="customerName" class="form-control custom-input"
-                               placeholder="Customer Name" required>
+                        <label for="customerId" style="margin-top: 5px">Customer Name</label>
+                        <select name="customerId" class="form-control col-sm-6 custom-input" id="customerId">
+                            <?php
+                            for ($i=0;$i<count($customers);$i++){
+                            ?>
+                            <option value="<?php echo $customers[$i]['customer_id']?>"><?php echo $customers[$i]['customer_name']?></option>
+                                <?php
+                                    }
+                                ?>
+                        </select>
                     </div>
                     <br><br><br>
-                    <div class="col-md-12">
-                        <label for="projectName" style="margin-top: 5px">Task Name</label>
+                    <div class="col-md-6">
+                        <label for="projectName" style="margin-top: 5px">Project Name</label>
                         <input type="text" id="projectName" name="projectName" class="form-control custom-input"
                                placeholder="Project Name" required>
                     </div>
-
-                    <br><br>
+                    <div class="col-md-6">
+                        <label for="POAmount" style="margin-top: 5px">PO Amount</label>
+                        <input type="text" id="POAmount" name="POAmount" class="form-control custom-input"
+                               placeholder="PO Amount" required>
+                    </div>
                 </div>
-
+                <br><br><br>
+                <div class="col-md-6">
+                    <label for="PODate" style="margin-top: 5px">PO Date</label>
+                    <input type="text" id="PODate" name="PODate" class="form-control custom-input"
+                           placeholder="PO Date" required>
+                </div>
+                <div class="col-md-6">
+                    <label for="deliveryDate" style="margin-top: 5px">Delivery Date</label>
+                    <input type="text" id="deliveryDate" name="deliveryDate" class="form-control custom-input"
+                           placeholder="Delivery Date" required>
+                </div>
+                <br><br><br>
+                <div class="col-md-12">
+                    <label for="description" style="margin-top: 5px">Description</label>
+                    <input type="text" id="description" name="description" class="form-control custom-input"
+                           placeholder="Description">
+                </div>
                 <br><br><br>
                 <div class="form-horizontal">
                     <div class="form-group">
                         <div>
                             <div class="col-md-4" style="float: right;width: 4%;margin-top: 11px;margin-right: 17px">
-                                <button type="submit" class="btn btn-info pull-right">Create Task</button>
+                                <button type="submit" class="btn btn-info pull-right">Create Project</button>
                             </div>
                         </div>
                     </div>
@@ -158,7 +192,7 @@ include_once '../../../../view/Navigation/Nav/Navbar/navigation.php';
 
 <script type="text/javascript">
     $(function () {
-        $("#dateOfBirth").datepicker({
+        $("#PODate").datepicker({
             dateFormat: 'yy-mm-dd',
             changeMonth: true,
             changeYear: true,
@@ -174,7 +208,7 @@ include_once '../../../../view/Navigation/Nav/Navbar/navigation.php';
 
 <script type="text/javascript">
     $(function () {
-        $("#joiningDate").datepicker({
+        $("#deliveryDate").datepicker({
             dateFormat: 'yy-mm-dd',
             changeMonth: true,
             changeYear: true,
@@ -195,6 +229,7 @@ include_once '../../../../view/Navigation/Nav/Navbar/navigation.php';
     }
 
 </style>
+<br><br><br><br><br><br>
 </body>
 </html>
 

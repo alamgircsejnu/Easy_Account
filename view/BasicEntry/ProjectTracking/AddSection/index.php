@@ -3,7 +3,9 @@ session_start();
 include_once '../../../../vendor/autoload.php';
 use App\ProjectTracking\AddSection\AddSection;
 
+$_POST['companyId'] = $_SESSION['companyId'];
 $section = new AddSection();
+$section->prepare($_POST);
 $allSections = $section->index();
 ?>
 
@@ -34,6 +36,9 @@ $allSections = $section->index();
         .custom-input {
             height: 29px;
         }
+        td{
+            text-align: center;
+        }
     </style>
 </head>
 
@@ -45,21 +50,25 @@ include_once '../../../../view/Navigation/Nav/Navbar/navigation.php';
 
 
 <br><br>
-
 <div class="row">
-    <div style="width: 500px;margin-left: 20%">
+    <div class="col-md-3"></div>
+    <div class="col-md-6">
         <?php
 
         if (isset($_SESSION['successMessage'])) {
-            echo '<h3 style="color: green;background-color: ghostwhite">' . $_SESSION['successMessage'] . '</h3><br>';
+            echo '<h5 style="color: green;background-color: ghostwhite;text-align: center">' . $_SESSION['successMessage'] . '</h5><br>';
             unset($_SESSION['successMessage']);
         } else if (isset($_SESSION['errorMessage'])) {
-            echo '<h3 style="color: red;background-color: ghostwhite">' . $_SESSION['errorMessage'] . '</h3><br>';
+            echo '<h5 style="color: red;background-color: ghostwhite;text-align: center">' . $_SESSION['errorMessage'] . '</h5><br>';
             unset($_SESSION['errorMessage']);
         }
 
         ?>
     </div>
+    <div class="col-md-3"></div>
+</div>
+<div class="row">
+
     <div class="col-md-1"></div>
     <div id="custom-table" class="col-md-10" style="background-color: #9acfea;padding: 1px">
 
@@ -69,14 +78,15 @@ include_once '../../../../view/Navigation/Nav/Navbar/navigation.php';
                 <thead>
                 <tr>
                     <th align="center">SL#</th>
+                    <th align="center">Project ID</th>
                     <th align="center">Task ID</th>
-                    <th align="center">Section ID</th>
-                    <th align="center">Section Description</th>
                     <th align="center">Assigned To</th>
-                    <th align="center">Primary Estimated Date</th>
-                    <th align="center">Latest Estimated Date</th>
+                    <th align="center">Assigned Date</th>
                     <th align="center">Estimated Days</th>
                     <th align="center">Latest Estimated Days</th>
+                    <th align="center">Assigned By</th>
+                    <th align="center">Actions</th>
+                    <th align="center">If Finished</th>
                 </tr>
                 </thead>
                 <?php
@@ -90,13 +100,12 @@ include_once '../../../../view/Navigation/Nav/Navbar/navigation.php';
                     <td><?php echo $serial ?></td>
                     <td><?php echo $oneSections['project_id'] ?></td>
                     <td><?php echo $oneSections['section_id']; ?></td>
-                    <td><?php echo $oneSections['section_description']; ?></td>
                     <td><?php echo $oneSections['assigned_to']; ?></td>
-                    <td><?php echo $oneSections['primary_est_date']; ?></td>
-                    <td><?php echo $oneSections['est_date']; ?></td>
+                    <td><?php echo $oneSections['assigned_date']; ?></td>
                     <td><?php echo $oneSections['est_days']; ?></td>
                     <td><?php echo $oneSections['latest_est_days']; ?></td>
-                    <td style="width: 120px">
+                    <td><?php echo $oneSections['assigned_by']; ?></td>
+                    <td style="width: 130px">
                         <a href="show.php?id=<?php echo $oneSections['id'] ?>"> <img style="margin: 3%" border="0"
                                                                                     title="See Details" alt="Details"
                                                                                     src="../../../../asset/images/showDetails.png"
@@ -106,8 +115,12 @@ include_once '../../../../view/Navigation/Nav/Navbar/navigation.php';
                                                                                     src="../../../../asset/images/edit.png"
                                                                                     width="25" height="20"></a>
                         <a href="trash.php?id=<?php echo $oneSections['id'] ?>" onclick="return confirm('Are you sure?')">
-                            <img style="margin: 3%" border="0" title="Delete This User" alt="Delete"
+                            <img style="margin: 3%" border="0" title="Delete This Task" alt="Delete"
                                  src="../../../../asset/images/delete.png" width="25" height="20"></a>
+                    </td>
+                    <td style="width: 100px">
+                        <a class="btn btn-primary" href="finish.php?id=<?php echo $oneSections['id'] ?>" onclick="return confirm('Are you sure? You want to finish the job?')">
+                            Finished</a>
                     </td>
                 </tr>
                 <?php

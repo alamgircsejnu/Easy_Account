@@ -5,8 +5,9 @@ use App\ProjectTracking\CreateProject\ProjectTracking;
 
 $projectId = $_GET['projectId'];
 //echo $projectId;
-
+$_POST['companyId'] = $_SESSION['companyId'];
 $project = new ProjectTracking();
+$project->prepare($_POST);
 $allSections = $project->sections($projectId);
 
 //print_r($allSections);
@@ -52,21 +53,25 @@ include_once '../../../../view/Navigation/Nav/Navbar/navigation.php';
 
 
 <br><br>
-
 <div class="row">
-    <div style="width: 500px;margin-left: 20%">
+    <div class="col-md-3"></div>
+    <div class="col-md-6">
         <?php
 
         if (isset($_SESSION['successMessage'])) {
-            echo '<h3 style="color: green;background-color: ghostwhite">' . $_SESSION['successMessage'] . '</h3><br>';
+            echo '<h5 style="color: green;background-color: ghostwhite;text-align: center">' . $_SESSION['successMessage'] . '</h5><br>';
             unset($_SESSION['successMessage']);
         } else if (isset($_SESSION['errorMessage'])) {
-            echo '<h3 style="color: red;background-color: ghostwhite">' . $_SESSION['errorMessage'] . '</h3><br>';
+            echo '<h5 style="color: red;background-color: ghostwhite;text-align: center">' . $_SESSION['errorMessage'] . '</h5><br>';
             unset($_SESSION['errorMessage']);
         }
 
         ?>
     </div>
+    <div class="col-md-3"></div>
+</div>
+<div class="row">
+
     <div class="col-md-1"></div>
     <div id="custom-table" class="col-md-10" style="background-color: #9acfea;padding: 1px">
 
@@ -76,7 +81,7 @@ include_once '../../../../view/Navigation/Nav/Navbar/navigation.php';
                 <thead>
                 <tr>
                     <th align="center">Section</th>
-                    <th align="center">Task ID</th>
+                    <th align="center">Project ID</th>
                     <th align="center">Section ID</th>
                     <th align="center">Section Description</th>
                     <th align="center">Assigned To</th>
@@ -109,11 +114,11 @@ include_once '../../../../view/Navigation/Nav/Navbar/navigation.php';
                                                                                      src="../../../../asset/images/showDetails.png"
                                                                                      width="25" height="20"></a>
                         <a href="../AddSection/edit.php?id=<?php echo $oneSections['id'] ?>"> <img style="margin: 3%" border="0"
-                                                                                     title="Edit User Info" alt="Edit"
+                                                                                     title="Edit" alt="Edit"
                                                                                      src="../../../../asset/images/edit.png"
                                                                                      width="25" height="20"></a>
                         <a href="trash.php?id=<?php echo $oneSections['id'] ?>" onclick="return confirm('Are you sure?')">
-                            <img style="margin: 3%" border="0" title="Delete This User" alt="Delete"
+                            <img style="margin: 3%" border="0" title="Delete" alt="Delete"
                                  src="../../../../asset/images/delete.png" width="25" height="20"></a>
                     </td>
                 </tr>

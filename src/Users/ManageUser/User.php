@@ -1,5 +1,6 @@
 <?php
 namespace App\Users\ManageUser;
+use App\dbConnection;
 
 //session_start();
 /**
@@ -11,21 +12,27 @@ namespace App\Users\ManageUser;
 class User
 {
     public $id='';
+    public $companyId='';
     public $userName='';
     public $userType='';
     public $password='';
     public $permittedActions='';
+    public $permittedCompanies='';
     public $employeeId='';
     public $newPassword='';
 
-    public function __construct() {
-        $conn=  mysql_connect('localhost','root','acs_bl2016')or die("Server Not Found");
-        mysql_select_db('easy_accounts') or die("Database Not Found");
+    public function __construct()
+    {
+        $conn = new dbConnection();
+        $connection = $conn->connect();
     }
 
     public function prepare($data=''){
         if(array_key_exists('id', $data)){
             $this->id=$data['id'];
+        }
+        if(array_key_exists('companyId', $data)){
+            $this->companyId=$data['companyId'];
         }
         if(array_key_exists('userName', $data)){
             $this->userName=$data['userName'];
@@ -39,8 +46,14 @@ class User
         if(array_key_exists('permittedActions', $data)){
             $this->permittedActions=$data['permittedActions'];
         }
+        if(array_key_exists('permittedCompanies', $data)){
+            $this->permittedCompanies=$data['permittedCompanies'];
+        }
         if(array_key_exists('newPassword', $data)){
             $this->newPassword=$data['newPassword'];
+        }
+        if(array_key_exists('employeeId', $data)){
+            $this->employeeId=$data['employeeId'];
         }
 
 //        print_r($this);
@@ -52,13 +65,13 @@ class User
     }
     public function store(){
         if(isset($this->userName) && !empty($this->userName) && isset($this->userType) && !empty($this->userType) && isset($this->password) && !empty($this->password)){
-            $query="INSERT INTO `tbl_user` (`id`,`user_name`,`user_type`,`password`,`permitted_actions`,`created_at`) VALUES ('','". $this->userName."','". $this->userType."','". $this->password."','". $this->permittedActions."','". date('Y-m-d')."')";
+            $query="INSERT INTO `tbl_user` (`id`,`company_id`,`user_name`,`user_type`,`password`,`permitted_actions`,`permitted_companies`,`created_at`) VALUES ('','". $this->companyId."','". $this->userName."','". $this->userType."','". $this->password."','". $this->permittedActions."','". $this->permittedCompanies."','". date('Y-m-d')."')";
 //            echo $query;
 //            die();
             if(mysql_query($query)){
                 $_SESSION['successMessage']="Successfully Added";
             }  else {
-                $_SESSION['errorMessage']="Failed to add the user";
+                $_SESSION['errorMessage']="This user already exists.";
             }
         }  else {
             $_SESSION['errorMessage']="Fill All the Field";
@@ -70,7 +83,7 @@ class User
 
     public function index(){
         $mydata=array();
-        $query="SELECT * FROM `tbl_user` where deleted_at IS NULL";
+        $query="SELECT * FROM `tbl_user` where `tbl_user`.`company_id`='".$this->companyId."' AND deleted_at IS NULL";
 //        echo $query;
 //        die();
         $result=  mysql_query($query);
@@ -95,7 +108,7 @@ class User
      *
      */
     public function update(){
-        $query="UPDATE `tbl_user` SET `user_name`='".$this->userName."',`user_type`='".$this->userType."',`permitted_actions`='".$this->permittedActions."' WHERE `tbl_user`.`id` =". $this->id;
+        $query="UPDATE `tbl_user` SET `user_name`='".$this->userName."',`user_type`='".$this->userType."',`permitted_actions`='".$this->permittedActions."',`permitted_companies`='".$this->permittedCompanies."' WHERE `tbl_user`.`id` =". $this->id;
 //        echo $query;
 //        die();
         mysql_query($query);
@@ -110,16 +123,16 @@ class User
 //        echo $query;
 //        die();
         if (mysql_query($query)) {
-            $_SESSION['successMessage'] = "<h2>" . "Deleted Successfully" . "</h2>";
+            $_SESSION['successMessage'] = "Deleted Successfully";
         } else {
-            $_SESSION['errorMessage'] = "<h2>Oops! Something wrong to delete data!</h2>";
+            $_SESSION['errorMessage'] = "Oops! Something wrong to delete data!";
         }
 
         header('location:index.php');
     }
         public function trashed(){
             $mydata=array();
-            $query="SELECT * FROM `tbl_user` WHERE deleted_at IS NOT NULL";
+            $query="SELECT * FROM `tbl_user` WHERE `tbl_user`.`company_id`='".$this->companyId."' AND deleted_at IS NOT NULL";
 //        echo $query;
 //        die();
             $result=  mysql_query($query);
@@ -137,9 +150,9 @@ class User
 //        echo $query;
 //        die();
         if (mysql_query($query)) {
-            $_SESSION['successMessage'] = "<h2>" . "Restored Successfully" . "</h2>";
+            $_SESSION['successMessage'] = "Restored Successfully";
         } else {
-            $_SESSION['errorMessage'] = "<h2>Oops! Something Wrong to Restore Data!</h2>";
+            $_SESSION['errorMessage'] = "Oops! Something Wrong to Restore Data!";
         }
 
         header('location:trashed.php');
@@ -149,9 +162,9 @@ class User
 
         $query="DELETE FROM `tbl_user` WHERE `tbl_user`.`id` =".$this->id;
         if(mysql_query($query)){
-            $_SESSION['successMessage']="<h2>"."This user has permanently deleted"."</h2>";
+            $_SESSION['successMessage']="This user has permanently deleted";
         }  else {
-            $_SESSION['errorMessage']="<h2>"."Something Wrong to delete data"."</h2>";
+            $_SESSION['errorMessage']="Something Wrong to delete data";
         }
         header('location:trashed.php');
     }
@@ -194,6 +207,27 @@ class User
 //        die();
         $result = mysql_query($query);
         $row = mysql_fetch_assoc($result);
+        return $row;
+    }
+
+    public function allEmployee(){
+        $mydata=array();
+        $query="SELECT * FROM `tbl_employee` WHERE deleted_at IS NULL";
+//        echo $query;
+//        die();
+        $result=  mysql_query($query);
+        while ($row=  mysql_fetch_assoc($result)){
+            $mydata[]=$row;
+        }
+        return $mydata;
+    }
+
+    public function employeeCompany(){
+        $query="SELECT * FROM `tbl_user` where `tbl_user`.`user_name`='".$this->employeeId."'";
+//        echo $query;
+//        die();
+        $result=  mysql_query($query);
+        $row=  mysql_fetch_assoc($result);
         return $row;
     }
 

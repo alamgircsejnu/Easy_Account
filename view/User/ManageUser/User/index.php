@@ -3,9 +3,10 @@ session_start();
 include_once '../../../../vendor/autoload.php';
 
 use App\Users\ManageUser\User;
-
+$_POST['companyId'] = $_SESSION['companyId'];
 if (isset($_SESSION['id']) && !empty($_SESSION['id'])) {
 $user = new User();
+$user->prepare($_POST);
 $allUsers = $user->index();
 ?>
 
@@ -47,21 +48,25 @@ include_once '../../../../view/Navigation/Nav/Navbar/navigation.php';
 
 
 <br><br>
-
 <div class="row">
-    <div style="width: 500px;margin-left: 20%">
+    <div class="col-md-3"></div>
+    <div class="col-md-6">
         <?php
 
         if (isset($_SESSION['successMessage'])) {
-            echo '<h3 style="color: green;background-color: ghostwhite">' . $_SESSION['successMessage'] . '</h3><br>';
+            echo '<h5 style="color: green;background-color: ghostwhite;text-align: center">' . $_SESSION['successMessage'] . '</h5><br>';
             unset($_SESSION['successMessage']);
         } else if (isset($_SESSION['errorMessage'])) {
-            echo '<h3 style="color: red;background-color: ghostwhite">' . $_SESSION['errorMessage'] . '</h3><br>';
+            echo '<h5 style="color: red;background-color: ghostwhite;text-align: center">' . $_SESSION['errorMessage'] . '</h5><br>';
             unset($_SESSION['errorMessage']);
         }
 
         ?>
     </div>
+    <div class="col-md-3"></div>
+</div>
+<div class="row">
+
     <div class="col-md-1"></div>
     <div id="custom-table" class="col-md-10" style="background-color: #9acfea;padding: 1px">
 
@@ -74,6 +79,7 @@ include_once '../../../../view/Navigation/Nav/Navbar/navigation.php';
                     <th align="center">Employee ID</th>
                     <th align="center">User Type</th>
                     <th align="center">Roles</th>
+                    <th align="center">Permitted Companies</th>
                     <th align="center">Action</th>
                 </tr>
                 </thead>
@@ -89,7 +95,8 @@ include_once '../../../../view/Navigation/Nav/Navbar/navigation.php';
                     <td><?php echo $oneUser['user_name'] ?></td>
                     <td><?php echo $oneUser['user_type']; ?></td>
                     <td style="max-width: 550px"><?php echo $oneUser['permitted_actions']; ?></td>
-                    <td>
+                    <td style="max-width: 550px"><?php echo $oneUser['permitted_companies']; ?></td>
+                    <td width="130px">
                         <a href="show.php?id=<?php echo $oneUser['id'] ?>"> <img style="margin: 3%" border="0"
                                                                                  title="See Details" alt="Details"
                                                                                  src="../../../../asset/images/showDetails.png"

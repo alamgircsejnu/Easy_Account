@@ -2,8 +2,9 @@
 session_start();
 include_once '../../../../vendor/autoload.php';
 use App\ProjectTracking\CreateProject\ProjectTracking;
-
+$_POST['companyId'] = $_SESSION['companyId'];
 $project = new ProjectTracking();
+$project->prepare($_POST);
 $allprojects = $project->index();
 ?>
 
@@ -45,21 +46,25 @@ include_once '../../../../view/Navigation/Nav/Navbar/navigation.php';
 
 
 <br><br>
-
 <div class="row">
-    <div style="width: 500px;margin-left: 20%">
+    <div class="col-md-3"></div>
+    <div class="col-md-6">
         <?php
 
         if (isset($_SESSION['successMessage'])) {
-            echo '<h3 style="color: green;background-color: ghostwhite">' . $_SESSION['successMessage'] . '</h3><br>';
+            echo '<h5 style="color: green;background-color: ghostwhite;text-align: center">' . $_SESSION['successMessage'] . '</h5><br>';
             unset($_SESSION['successMessage']);
         } else if (isset($_SESSION['errorMessage'])) {
-            echo '<h3 style="color: red;background-color: ghostwhite">' . $_SESSION['errorMessage'] . '</h3><br>';
+            echo '<h5 style="color: red;background-color: ghostwhite;text-align: center">' . $_SESSION['errorMessage'] . '</h5><br>';
             unset($_SESSION['errorMessage']);
         }
 
         ?>
     </div>
+    <div class="col-md-3"></div>
+</div>
+<div class="row">
+
     <div class="col-md-1"></div>
     <div id="custom-table" class="col-md-10" style="background-color: #9acfea;padding: 1px">
 
@@ -69,12 +74,19 @@ include_once '../../../../view/Navigation/Nav/Navbar/navigation.php';
                 <thead>
                 <tr>
                     <th align="center">SL#</th>
-                    <th align="center">Task ID</th>
-                    <th align="center">Task Name</th>
+                    <th align="center">Project ID</th>
+                    <th align="center">Project Name</th>
+                    <th align="center">Customer ID</th>
                     <th align="center">Customer Name</th>
-                    <th align="center">Created By</th>
-                    <th align="center">Creation Date</th>
+                    <th align="center">Project Description</th>
+                    <th align="center">Project Status</th>
+                    <th align="center">Project Price</th>
+                    <th align="center">PO Date</th>
+                    <th align="center">Delivery Date</th>
+                    <th align="center">Entry Date</th>
+                    <th align="center">Entry By</th>
                     <th align="center">Action</th>
+                    <th align="center">If Finished</th>
                 </tr>
                 </thead>
                 <?php
@@ -88,21 +100,31 @@ include_once '../../../../view/Navigation/Nav/Navbar/navigation.php';
                     <td><?php echo $serial ?></td>
                     <td><?php echo $oneproject['project_id'] ?></td>
                     <td><?php echo $oneproject['project_name']; ?></td>
+                    <td><?php echo $oneproject['customer_id']; ?></td>
                     <td><?php echo $oneproject['customer_name']; ?></td>
-                    <td><?php echo $oneproject['created_by']; ?></td>
+                    <td><?php echo $oneproject['project_description']; ?></td>
+                    <td><?php echo $oneproject['project_status']; ?></td>
+                    <td><?php echo $oneproject['project_price']; ?></td>
+                    <td><?php echo $oneproject['po_date']; ?></td>
+                    <td><?php echo $oneproject['delivery_date']; ?></td>
                     <td><?php echo $oneproject['created_at']; ?></td>
-                    <td>
+                    <td><?php echo $oneproject['created_by']; ?></td>
+                    <td width="130px">
                         <a href="show.php?id=<?php echo $oneproject['id'] ?>"> <img style="margin: 3%" border="0"
                                                                                      title="See Details" alt="Details"
                                                                                      src="../../../../asset/images/showDetails.png"
                                                                                      width="25" height="20"></a>
                         <a href="edit.php?id=<?php echo $oneproject['id'] ?>"> <img style="margin: 3%" border="0"
-                                                                                     title="Edit User Info" alt="Edit"
+                                                                                     title="Edit" alt="Edit"
                                                                                      src="../../../../asset/images/edit.png"
                                                                                      width="25" height="20"></a>
                         <a href="trash.php?id=<?php echo $oneproject['id'] ?>" onclick="return confirm('Are you sure?')">
-                            <img style="margin: 3%" border="0" title="Delete This User" alt="Delete"
+                            <img style="margin: 3%" border="0" title="Delete" alt="Delete"
                                  src="../../../../asset/images/delete.png" width="25" height="20"></a>
+                    </td>
+                    <td style="width: 100px">
+                        <a class="btn btn-primary" href="finish.php?id=<?php echo $oneproject['id'] ?>" onclick="return confirm('Are you sure? You want to finish the job?')">
+                            Finished</a>
                     </td>
                 </tr>
                 <?php
@@ -110,7 +132,7 @@ include_once '../../../../view/Navigation/Nav/Navbar/navigation.php';
                 } else {
                     ?>
                     <tr>
-                        <td colspan="5" align="center">
+                        <td colspan="8" align="center">
                             <?php echo "No Data Available " ?>
 
                         </td>

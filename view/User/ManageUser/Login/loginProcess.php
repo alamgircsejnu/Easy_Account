@@ -1,24 +1,30 @@
 <?php
-//include './navigation.php';
+session_start();
 include_once '../../../../vendor/autoload.php';
 use App\Users\ManageUser\User;
-session_start();
 //print_r($_POST);
 //die();
+$_SESSION['companyId']  = $_POST['companyId'];
+use App\Users\Company\Company;
+$company = new Company();
+$oneCompany = $company->show($_POST['companyId']);
+
+$_SESSION['companyName']=$oneCompany['company_name'];
+
 $username = $_POST['userName'];
 $password = $_POST['password'];
 //echo $_SESSION['username'].$_SESSION['password'];
 $user = new User();
 $user->prepare($_POST);
 $oneData = $user->login();
-
-//print_r($_POST);
-//die();
 $oneEmployee = $user->employeeInfo();
 
 
+$hash = md5($_POST['password']);
 
-if($username == $oneData['user_name'] && password_verify($_POST['password'], $oneData['password'])){
+
+
+if($username == $oneData['user_name'] && $hash == $oneData['password']){
     $_SESSION['id'] = $oneData['id'];
     $_SESSION['username'] = $oneData['user_name'];
     $_SESSION['admin'] = $oneData['is_admin'];
@@ -28,8 +34,8 @@ if($username == $oneData['user_name'] && password_verify($_POST['password'], $on
     $_SESSION['successMessage'] = 'Welcome, <b>'.$_SESSION['employeeName'].' </b>. You are successfully logged in.';
 
 //    print_r($_SESSION);
-    header('Location:../../../../index.php');
-
+//    header('Location:../ChangeCompany/changeCompany.php');
+    header('location:../../../../index.php');
 }
 else {
     $_SESSION['errorMessage'] = 'Invalid username or password';

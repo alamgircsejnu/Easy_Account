@@ -3,10 +3,12 @@ session_start();
 include_once '../../../../vendor/autoload.php';
 use App\Employee\ManageEmployee\Employee;
 
-//session_start();
+$_POST['companyId'] = $_SESSION['companyId'];
+
 $id = $_GET['id'];
 
 $employee = new Employee();
+$employee->prepare($_POST);
 $oneEmployee = $employee->show($id);
 ?>
 
@@ -48,21 +50,25 @@ include_once '../../../../view/Navigation/Nav/Navbar/navigation.php';
 ?>
 
 <br><br>
-
 <div class="row">
-    <div style="width: 200px">
+    <div class="col-md-3"></div>
+    <div class="col-md-6">
         <?php
 
         if (isset($_SESSION['successMessage'])) {
-            echo '<h2 style="color: green;>' . $_SESSION['successMessage'] . '</h2><br>';
+            echo '<h5 style="color: green;background-color: ghostwhite;text-align: center">' . $_SESSION['successMessage'] . '</h5><br>';
             unset($_SESSION['successMessage']);
         } else if (isset($_SESSION['errorMessage'])) {
-            echo '<h2 style="color: red;>' . $_SESSION['errorMessage'] . '</h2><br>';
+            echo '<h5 style="color: red;background-color: ghostwhite;text-align: center">' . $_SESSION['errorMessage'] . '</h5><br>';
             unset($_SESSION['errorMessage']);
         }
 
         ?>
     </div>
+    <div class="col-md-3"></div>
+</div>
+<div class="row">
+
     <div class="col-md-3"></div>
 
     <div class="col-md-6">

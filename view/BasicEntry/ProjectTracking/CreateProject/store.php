@@ -3,13 +3,13 @@ session_start();
 include_once '../../../../vendor/autoload.php';
 use App\ProjectTracking\CreateProject\ProjectTracking;
 
-//print_r($_POST);
-//die();
-
-//echo $_SESSION['employeeName'];
-//die();
+$_POST['companyId'] = $_SESSION['companyId'];
 
 $_POST['createdBy'] = $_SESSION['employeeName'];
-$user = new ProjectTracking();
-$user->prepare($_POST);
-$user->store();
+$project = new ProjectTracking();
+$project->prepare($_POST);
+$customer = $project->singleEntry($_POST['customerId']);
+$_POST['customerName'] = $customer['customer_name'];
+
+$project->prepare($_POST);
+$project->store();

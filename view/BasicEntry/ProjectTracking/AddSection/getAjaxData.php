@@ -4,22 +4,24 @@ session_start();
 include_once '../../../../vendor/autoload.php';
 use App\ProjectTracking\AddSection\AddSection;
 
-$taskId = $_POST['selectLoco'];
-//$query = "SELECT * FROM misc_location WHERE id = '$selectLoco' ";
-//
-//$result = mysql_query($query);
-//$row = mysql_fetch_assoc($result);
-
-//console.log($taskId);
-
+$taskId = $_POST['taskId'];
 
 $section = new AddSection();
-$oneSection = $section->lastEntry(20161000);
-print_r($oneSection);
-//
-//$sectionId = $oneSection['section_id'];
-//return $sectionId;
+$oneSection = $section->lastEntry($taskId);
 
-//return json_encode($_POST['project_id']);
+if (isset($oneSection) && !empty($oneSection)){
+    $section = $oneSection['section_id'];
+    $exploded = explode('-',$section);
+    $exploded[1] = (int)$exploded[1]+1;
+    if ($exploded[1]<10){
+    $exploded[1] = '0'.$exploded[1];
+    }
+    $sectionId = implode('-',$exploded);
 
-//echo json_encode($oneSection['section_id']);
+
+} else {
+    $projectId = $oneSection['project_id'];
+    $sectionId = $taskId.'-01';
+}
+
+echo json_encode($sectionId);

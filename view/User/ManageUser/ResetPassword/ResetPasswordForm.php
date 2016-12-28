@@ -9,11 +9,13 @@ if (isset($_SESSION['id']) && !empty($_SESSION['id'])) {
     include_once '../../../../vendor/autoload.php';
 
 
-
+    $_POST['companyId'] = $_SESSION['companyId'];
     $role = new Role();
+    $role->prepare($_POST);
     $allRoles = $role->index();
 
     $employee = new Employee();
+    $employee->prepare($_POST);
     $allEmployees = $employee->index();
 
 ?>

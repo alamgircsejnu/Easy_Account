@@ -49,7 +49,7 @@ include_once '../../../../view/Navigation/Nav/Navbar/navigation.php';
 
 <br><br>
 
-<div style="width: 100px;background-color:#2b669a;margin-left: 348px;height: 30px ">
+<div style="width: 110px;background-color:#2b669a;margin-left: 351px;height: 30px ">
     <a style="margin: 5%;padding: 5%" href="edit.php?id=<?php echo $oneProject['id'] ?>"> <img style="margin: 3%"
                                                                                                 border="0"
                                                                                                 title="Edit User Info"
@@ -60,8 +60,8 @@ include_once '../../../../view/Navigation/Nav/Navbar/navigation.php';
        onclick="return confirm('Are you sure?')"> <img style="margin: 3%" border="0" title="Delete This User"
                                                        alt="Delete" src="../../../../asset/images/delete.png" width="25"
                                                        height="20"></a>
-    <div class="pull-right" style=" margin-right: 100px;margin-right: -568px;height: 27px;width: 73px;">
-        <a class="btn btn-primary" role="button" style="margin: 5%;padding: 5%" href="sections.php?projectId=<?php echo $oneProject['project_id'] ?>"> Sections </a>
+    <div class="pull-right" style=" margin-right: -513px;height: 27px;width: 110px;">
+        <a class="btn btn-primary" role="button" style="padding: 5%" href="sections.php?projectId=<?php echo $oneProject['project_id'] ?>"> Tasks of this project </a>
     </div>
 
 </div>
@@ -77,7 +77,7 @@ include_once '../../../../view/Navigation/Nav/Navbar/navigation.php';
                     <tr style="background-color: #9acfea">
                         <td colspan="2">
                             <div align="center">
-                                <p><b>Task Details</b></p>
+                                <p><b>Project Details</b></p>
                             </div>
                         </td>
 
@@ -85,7 +85,7 @@ include_once '../../../../view/Navigation/Nav/Navbar/navigation.php';
                     <tr>
                         <td>
                             <div>
-                                <p>Task ID :</p>
+                                <p>Project ID :</p>
                             </div>
                         </td>
                         <td>
@@ -97,12 +97,24 @@ include_once '../../../../view/Navigation/Nav/Navbar/navigation.php';
                     <tr>
                         <td>
                             <div>
-                                <p>Task Name :</p>
+                                <p>Project Name :</p>
                             </div>
                         </td>
                         <td>
                             <div>
                                 <p><?php echo $oneProject['project_name'] ?></p>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div>
+                                <p>Customer ID :</p>
+                            </div>
+                        </td>
+                        <td>
+                            <div>
+                                <p><?php echo $oneProject['customer_id']; ?></p>
                             </div>
                         </td>
                     </tr>
@@ -121,7 +133,79 @@ include_once '../../../../view/Navigation/Nav/Navbar/navigation.php';
                     <tr>
                         <td>
                             <div>
-                                <p>Created By :</p>
+                                <p>Project Description :</p>
+                            </div>
+                        </td>
+                        <td>
+                            <div>
+                                <p><?php echo $oneProject['project_description']; ?></p>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div>
+                                <p>Project Status :</p>
+                            </div>
+                        </td>
+                        <td>
+                            <div>
+                                <p><?php echo $oneProject['project_status']; ?></p>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div>
+                                <p>Project Price :</p>
+                            </div>
+                        </td>
+                        <td>
+                            <div>
+                                <p><?php echo $oneProject['project_price']; ?></p>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div>
+                                <p>PO Date :</p>
+                            </div>
+                        </td>
+                        <td>
+                            <div>
+                                <p><?php echo $oneProject['po_date']; ?></p>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div>
+                                <p>Delivery Date :</p>
+                            </div>
+                        </td>
+                        <td>
+                            <div>
+                                <p><?php echo $oneProject['delivery_date']; ?></p>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div>
+                                <p>Entry Date :</p>
+                            </div>
+                        </td>
+                        <td>
+                            <div>
+                                <p><?php echo $oneProject['created_at']; ?></p>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div>
+                                <p>Entry By :</p>
                             </div>
                         </td>
                         <td>
@@ -133,12 +217,24 @@ include_once '../../../../view/Navigation/Nav/Navbar/navigation.php';
                     <tr>
                         <td>
                             <div>
-                                <p>Created At :</p>
+                                <p>Closing Date :</p>
                             </div>
                         </td>
                         <td>
                             <div>
-                                <p><?php echo $oneProject['created_at']; ?></p>
+                                <p><?php echo $oneProject['finished_at']; ?></p>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div>
+                                <p>Project Payment :</p>
+                            </div>
+                        </td>
+                        <td>
+                            <div>
+                                <p><?php echo $oneProject['project_payment']; ?></p>
                             </div>
                         </td>
                     </tr>

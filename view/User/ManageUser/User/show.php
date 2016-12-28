@@ -128,6 +128,18 @@ include_once '../../../../view/Navigation/Nav/Navbar/navigation.php';
                             </div>
                         </td>
                     </tr>
+                    <tr>
+                        <td>
+                            <div>
+                                <p>Permitted Companies:</p>
+                            </div>
+                        </td>
+                        <td>
+                            <div>
+                                <p><?php echo $oneUser['permitted_companies']; ?></p>
+                            </div>
+                        </td>
+                    </tr>
                     </tbody>
                 </table>
             </div>
@@ -160,7 +172,7 @@ include_once '../../../../view/Navigation/Nav/Navbar/navigation.php';
 </body>
 </html>
 
-    <?php
+<?php
 } else{
     header('Location:../Login/login.php');
 

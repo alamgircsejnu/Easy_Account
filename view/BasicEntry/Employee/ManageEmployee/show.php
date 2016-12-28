@@ -3,10 +3,12 @@ session_start();
 include_once '../../../../vendor/autoload.php';
 use App\Employee\ManageEmployee\Employee;
 
+$_POST['companyId'] = $_SESSION['companyId'];
 //session_start();
 $id = $_GET['id'];
 
 $employee = new Employee();
+$employee->prepare($_POST);
 $oneEmployee = $employee->show($id);
 ?>
 
@@ -49,18 +51,6 @@ include_once '../../../../view/Navigation/Nav/Navbar/navigation.php';
 
 <br><br>
 
-<div style="width: 100px;background-color:#2b669a;margin-left: 348px;height: 30px ">
-    <a style="margin: 5%;padding: 5%" href="edit.php?id=<?php echo $oneEmployee['id'] ?>"> <img style="margin: 3%"
-                                                                                            border="0"
-                                                                                            title="Edit User Info"
-                                                                                            alt="Edit"
-                                                                                            src="../../../../asset/images/edit.png"
-                                                                                            width="25" height="20"></a>
-    <a style="margin: 5%;padding: 5%" href="trash.php?id=<?php echo $oneEmployee['id'] ?>"
-       onclick="return confirm('Are you sure?')"> <img style="margin: 3%" border="0" title="Delete This User"
-                                                       alt="Delete" src="../../../../asset/images/delete.png" width="25"
-                                                       height="20"></a>
-</div>
 
 <div class="row" style="margin-left: 21%;width: 800px">
     <div class="col-md-1"></div>

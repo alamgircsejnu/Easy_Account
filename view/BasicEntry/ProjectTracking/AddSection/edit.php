@@ -57,21 +57,25 @@ $id = $_GET['id'];
     ?>
 
     <br><br>
-
     <div class="row">
-        <div style="width: 200px">
+        <div class="col-md-3"></div>
+        <div class="col-md-6">
             <?php
 
             if (isset($_SESSION['successMessage'])) {
-                echo '<h2 style="color: green;>' . $_SESSION['successMessage'] . '</h2><br>';
+                echo '<h5 style="color: green;background-color: ghostwhite;text-align: center">' . $_SESSION['successMessage'] . '</h5><br>';
                 unset($_SESSION['successMessage']);
             } else if (isset($_SESSION['errorMessage'])) {
-                echo '<h2 style="color: red;>' . $_SESSION['errorMessage'] . '</h2><br>';
+                echo '<h5 style="color: red;background-color: ghostwhite;text-align: center">' . $_SESSION['errorMessage'] . '</h5><br>';
                 unset($_SESSION['errorMessage']);
             }
 
             ?>
         </div>
+        <div class="col-md-3"></div>
+    </div>
+    <div class="row">
+
         <div class="col-md-3"></div>
 
         <div class="col-md-6">
@@ -79,13 +83,13 @@ $id = $_GET['id'];
 
             <div class="panel panel-primary custom-panel">
 
-                <div class="panel-heading">Edit Section</div>
+                <div class="panel-heading">Edit Task</div>
                 <br>
                 <form role="form" action="update.php" method="post">
                     <input type="hidden" name="id" value="<?php echo $id ?>">
                     <div>
                         <div class="col-md-6">
-                            <label for="projectId" style="margin-top: 5px">Task ID</label>
+                            <label for="projectId" style="margin-top: 5px">Project ID</label>
                             <select required name="projectId" class="form-control col-sm-6 custom-input" id="userType">
                                 <?php
                                 if (isset($allProjects) && !empty($allProjects)) {
@@ -100,9 +104,9 @@ $id = $_GET['id'];
                         </div>
 
                         <div class="col-md-6">
-                            <label for="sectionId" style="margin-top: 5px">Section ID</label>
+                            <label for="sectionId" style="margin-top: 5px">Task ID</label>
                             <input type="text" id="sectionId" name="sectionId" class="form-control custom-input"
-                                   value="<?php echo $oneSection['section_id'] ?>"  placeholder="Secion ID" required>
+                                   value="<?php echo $oneSection['section_id'] ?>"  placeholder="Task ID" required>
                         </div>
 
                         <div class="col-md-6">
@@ -127,13 +131,13 @@ $id = $_GET['id'];
                         </div>
                         <br><br><br>
                         <div class="col-md-6">
-                            <label for="primaryEstimatedDate" style="margin-top: 5px">Estimated Date</label>
+                            <label for="primaryEstimatedDate" style="margin-top: 5px">Estimated Completion Date</label>
                             <input type="text" id="primaryEstimatedDate" name="primaryEstimatedDate" class="form-control custom-input"
                                    value="<?php echo $oneSection['primary_est_date'] ?>"  placeholder="Estimated Date">
                         </div>
 
                         <div class="col-md-6">
-                            <label for="estimatedDays" style="margin-top: 5px">Estimated Days</label>
+                            <label for="estimatedDays" style="margin-top: 5px">Estimated Completion Days</label>
                             <input type="text" id="estimatedDays" name="estimatedDays" class="form-control custom-input"
                                    value="<?php echo $oneSection['est_days'] ?>" placeholder="Estimated Days" required>
                         </div>
@@ -141,7 +145,7 @@ $id = $_GET['id'];
                     </div>
 
                     <div class="col-md-12">
-                        <label for="sectionDescription" style="margin-top: 5px">Section Description</label>
+                        <label for="sectionDescription" style="margin-top: 5px">Task Description</label>
                         <textarea class="form-control custom-input" style="resize: none" name="sectionDescription" id="sectionDescription"><?php echo $oneSection['section_description'] ?></textarea>
                     </div>
                     <br><br><br>
@@ -151,7 +155,7 @@ $id = $_GET['id'];
                         <div class="form-group">
                             <div>
                                 <div class="col-md-4" style="float: right;width: 4%;margin-top: 11px;margin-right: 17px">
-                                    <button type="submit" class="btn btn-info pull-right">Update Section</button>
+                                    <button type="submit" class="btn btn-info pull-right">Update Task</button>
                                 </div>
                             </div>
                         </div>

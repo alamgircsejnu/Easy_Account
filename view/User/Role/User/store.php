@@ -3,8 +3,7 @@ session_start();
 include_once '../../../../vendor/autoload.php';
 use App\Users\Role\Role;
 
-//print_r($_POST);
-//die();
+$_POST['companyId'] = $_SESSION['companyId'];
 
 $user = new Role();
 $user->prepare($_POST);
