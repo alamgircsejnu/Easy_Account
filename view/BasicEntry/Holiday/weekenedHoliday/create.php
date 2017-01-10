@@ -2,8 +2,7 @@
 session_start();
 use App\Users\Role\Role;
 use App\Employee\ManageEmployee\Employee;
-//echo $_SESSION['id'];
-//die();
+date_default_timezone_set("Asia/Dhaka");
 if (isset($_SESSION['id']) && !empty($_SESSION['id'])) {
 
     include_once '../../../../vendor/autoload.php';
@@ -77,14 +76,14 @@ if (isset($_SESSION['id']) && !empty($_SESSION['id'])) {
     </div>
     <div class="row">
 
-        <div class="col-md-3"></div>
+        <div class="col-md-4"></div>
 
-        <div class="col-md-5">
+        <div class="col-md-4">
 
 
             <div class="panel panel-primary custom-panel" style="height: 376px;">
 
-                <div class="panel-heading">Insert Weekened Holiday</div>
+                <div class="panel-heading">Insert Weekend Holiday</div>
                 <br>
                 <form role="form" action="store.php" method="post">
 

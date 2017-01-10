@@ -68,7 +68,7 @@ include_once '../../../../view/Navigation/Nav/Navbar/navigation.php';
 <div class="row">
 
     <div class="col-md-1"></div>
-    <div id="custom-table" class="col-md-10" style="background-color: #9acfea;padding: 1px">
+    <div id="custom-table" class="col-md-10" style="background-color: #9acfea;padding: 1px;margin-left: 210px">
 
 
         <div class="table-responsive" id="custom-table">
@@ -77,7 +77,6 @@ include_once '../../../../view/Navigation/Nav/Navbar/navigation.php';
                 <tr>
                     <th align="center">SL#</th>
                     <th align="center">Employee ID</th>
-                    <th align="center">User Type</th>
                     <th align="center">Roles</th>
                     <th align="center">Permitted Companies</th>
                     <th align="center">Action</th>
@@ -93,7 +92,6 @@ include_once '../../../../view/Navigation/Nav/Navbar/navigation.php';
                 <tr>
                     <td><?php echo $serial ?></td>
                     <td><?php echo $oneUser['user_name'] ?></td>
-                    <td><?php echo $oneUser['user_type']; ?></td>
                     <td style="max-width: 550px"><?php echo $oneUser['permitted_actions']; ?></td>
                     <td style="max-width: 550px"><?php echo $oneUser['permitted_companies']; ?></td>
                     <td width="130px">

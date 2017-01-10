@@ -1,10 +1,16 @@
 <?php
+session_start();
 include_once '../../../../vendor/autoload.php';
 use App\Holiday\WeekenedHoliday\WeekenedHoliday;
 
-
+$_POST['companyId'] = $_SESSION['companyId'];
 $from = $_POST['from'];
-$to = $_POST['to'];
+if (array_key_exists('toDate', $_POST)){
+    $to = $_POST['to'];
+} else {
+    $to = $_POST['from'];
+    $_POST['to'] = $_POST['from'];
+}
 
 $holiday = new WeekenedHoliday();
 $dates = $holiday->createDateRangeArray($from,$to);

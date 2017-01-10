@@ -71,9 +71,8 @@ include_once '../../../../view/Navigation/Nav/Navbar/navigation.php';
     <div class="col-md-3"></div>
 </div>
 <div class="row">
-<!--    <div class="col-md-1">-->
-    </div>
-    <div class="col-md-11" style="margin-left: 4%">
+
+    <div class="col-md-10" style="margin-left: 200px">
         <div id="custom-table" style="background-color: #9acfea;padding: 1px">
 
 
@@ -84,14 +83,13 @@ include_once '../../../../view/Navigation/Nav/Navbar/navigation.php';
                         <th align="center">SL#</th>
                         <th align="center">Employee Id</th>
                         <th align="center">Employee Name</th>
-                        <th align="center">From</th>
-                        <th align="center">To</th>
-                        <th align="center">Total Days</th>
+                        <th align="center">Date</th>
                         <th align="center">Half/Full</th>
                         <th align="center">Leave Type</th>
                         <th align="center">Emergency Contact</th>
+                        <th align="center">Remarks</th>
                         <th align="center">Applied At</th>
-                        <th align="center">Approve</th>
+                        <th align="center">Status</th>
                     </tr>
                     </thead>
                     <?php
@@ -105,12 +103,11 @@ include_once '../../../../view/Navigation/Nav/Navbar/navigation.php';
                         <td><?php echo $serial ?></td>
                         <td><?php echo $oneLeave['employee_id'] ?></td>
                         <td><?php echo $oneLeave['employee_name']; ?></td>
-                        <td><?php echo $oneLeave['from_date']; ?></td>
-                        <td><?php echo $oneLeave['to_date']; ?></td>
-                        <td><?php echo $oneLeave['total_days']; ?></td>
+                        <td><?php echo $oneLeave['date']; ?></td>
                         <td><?php echo $oneLeave['h_f']; ?></td>
                         <td><?php echo $oneLeave['purpose']; ?></td>
                         <td><?php echo $oneLeave['econtact']; ?></td>
+                        <td><?php echo $oneLeave['remarks']; ?></td>
                         <td><?php echo $oneLeave['created_at']; ?></td>
                         <td style="width: 130px">
                             <?php
@@ -122,7 +119,7 @@ include_once '../../../../view/Navigation/Nav/Navbar/navigation.php';
                             } else {
 
                                 ?>
-                                Already Approved
+                                Approved
                                 <?php
                             }
                             ?>

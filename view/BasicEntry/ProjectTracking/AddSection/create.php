@@ -112,7 +112,7 @@ include_once '../../../../view/Navigation/Nav/Navbar/navigation.php';
 
 <div class="row">
 
-    <div class="col-md-2"></div>
+    <div class="col-md-3"></div>
 
     <div class="col-md-8">
 
@@ -127,6 +127,7 @@ include_once '../../../../view/Navigation/Nav/Navbar/navigation.php';
                     <div class="col-md-6">
                         <label for="projectId" style="margin-top: 5px">Project ID</label>
                         <select required name="projectId" class="form-control col-sm-6 custom-input" id="projectId">
+                            <option></option>
                             <?php
                             if (isset($allProjects) && !empty($allProjects)) {
                                 foreach ($allProjects as $oneProject) {
@@ -146,6 +147,7 @@ include_once '../../../../view/Navigation/Nav/Navbar/navigation.php';
                     <div class="col-md-6">
                         <label for="assignedTo" style="margin-top: 5px">Assigned To</label>
                         <select required name="assignedTo" class="form-control col-sm-6 custom-input" id="assignedTo">
+                            <option></option>
                             <?php
                             if (isset($allEmployees) && !empty($allEmployees)) {
                                 foreach ($allEmployees as $oneEmployee) {
@@ -181,6 +183,7 @@ include_once '../../../../view/Navigation/Nav/Navbar/navigation.php';
                     <div class="col-md-2">
                         <label for="assignedTo" style="margin-top: 21px">Priority</label>
                         <select required name="priorityOfNewSection" class="form-control col-sm-6 custom-input" id="assignedTo">
+                            <option></option>
                             <option value="1">1</option>
                             <option value="2">2</option>
                             <option value="3">3</option>

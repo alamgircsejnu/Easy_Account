@@ -179,4 +179,29 @@ class Employee
         return $row;
     }
 
+    public function shift(){
+        $mydata=array();
+        $query="SELECT * FROM `tbl_shift` WHERE `tbl_shift`.`company_id`='".$this->companyId."' AND deleted_at IS NULL";
+//        echo $query;
+//        die();
+        $result=  mysql_query($query);
+        while ($row=  mysql_fetch_assoc($result)){
+            $mydata[]=$row;
+        }
+        return $mydata;
+    }
+
+    public function employee(){
+        $mydata=array();
+        $query="SELECT * FROM `tbl_employee` WHERE `tbl_employee`.`company_id`='".$this->companyId."' AND `tbl_employee`.`is_user`='0' AND deleted_at IS NULL";
+//        echo $query;
+//        die();
+        $result=  mysql_query($query);
+        while ($row=  mysql_fetch_assoc($result)){
+            $mydata[]=$row;
+        }
+        return $mydata;
+        header('location:index.php');
+    }
+
 }

@@ -158,6 +158,7 @@ class Income
 
         $old = $row['income_amount'] + $row['vat'] + $row['ait'];
         $diff = ($this->incomeAmount + $this->vat + $this->ait)-$old;
+        $DiffForAccount = $this->incomeAmount-$row['income_amount'];
 
         $query2="UPDATE `tbl_income` SET `income_id` = '".$this->incomeId."',`project_id`='".$this->projectId."',`project_name`='".$this->projectName."',`description`='".$this->description."',`pay_type`='".$this->payType."',`cheque_no`='".$this->chequeNo."',`cheque_bank`='".$this->bankName."',`deposit_bank`='".$this->depositAC."',`income_amount`='".$this->incomeAmount."',`income_date`='".$this->incomeDate."',`vat`='".$this->vat."',`ait`='".$this->ait."',`updated_at`='".date('Y-m-d H:i:s')."' WHERE `tbl_income`.`id` =". $this->id;
         $result2=  mysql_query($query2);
@@ -165,7 +166,7 @@ class Income
         $query3="SELECT `account_balance` FROM `tbl_account` where `tbl_account`.`company_id`='".$this->companyId."' AND `tbl_account`.`account_number`='".$this->depositAC."'";
        $result3=  mysql_query($query3);
         $row3=  mysql_fetch_assoc($result3);
-        $updatedBalance = $diff + $row3['account_balance'];
+        $updatedBalance = $DiffForAccount + $row3['account_balance'];
         $query4="UPDATE `tbl_account` SET `account_balance` = '".$updatedBalance."' WHERE `tbl_account`.`company_id`='".$this->companyId."' AND `tbl_account`.`account_number` ='".$this->depositAC."'";
         $result4=  mysql_query($query4);
 

@@ -67,11 +67,11 @@ include_once '../../../../view/Navigation/Nav/Navbar/navigation.php';
     <div class="col-md-3"></div>
 </div>
 <div class="row">
-    <div class="col-md-1">
+    <div class="col-md-2">
     </div>
     <div class="col-md-10">
         <a href="deleteAll.php" class="btn btn-primary" onclick="return confirm('Are you sure? You want to delete all data?')">Delete All Data</a>
-        <div id="custom-table" style="background-color: #9acfea;padding: 1px">
+        <div id="custom-table" style="background-color: #9acfea;padding: 1px;max-height: 450px;overflow: scroll">
 
 
             <div class="table-responsive" id="custom-table">

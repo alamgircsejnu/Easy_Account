@@ -14,6 +14,7 @@ class ManageLeave
     public $leaveType = '';
     public $h_f = '';
     public $eContact = '';
+    public $remarks = '';
     public $referenceNo = '';
     public $employeeId = '';
     public $employeeName = '';
@@ -62,6 +63,9 @@ class ManageLeave
         if (array_key_exists('eContact', $data)) {
             $this->eContact = $data['eContact'];
         }
+        if (array_key_exists('remarks', $data)) {
+            $this->remarks = $data['remarks'];
+        }
         if (array_key_exists('referenceNo', $data)) {
             $this->referenceNo = $data['referenceNo'];
         }
@@ -82,14 +86,18 @@ class ManageLeave
 
     public function store()
     {
-        if (isset($this->employeeId) && !empty($this->employeeId)) {
+        if (isset($this->dates) && !empty($this->dates)) {
+            $query = "INSERT INTO `tbl_leave` (`id`,`company_id`,`employee_id`,`employee_name`, `date`,`h_f`,`purpose`,`ref`,`econtact`,`remarks`,`is_approved`,`created_at`) VALUES ";
 
-            $query="INSERT INTO `tbl_leave` (`id`,`company_id`, `employee_id`,`employee_name`,`from_date`,`to_date`,`total_days`,`h_f`,`purpose`,`ref`,`econtact`,`is_approved`,`created_at`) VALUES ('','" . $this->companyId . "', '" . $this->employeeId . "','" . $this->employeeName . "','" . $this->from . "','" . $this->to . "','" . $this->totalDays . "','" . $this->h_f . "','" . $this->leaveType . "','" . $this->referenceNo . "','" . $this->eContact . "','0','" . date('Y-m-d') . "')";
+            for ($i = 0; $i < count($this->dates); $i++) {
+                $query = $query . "('','" . $this->companyId . "','" . $this->employeeId . "','" . $this->employeeName . "', '" . $this->dates[$i] . "','" . $this->h_f . "','" . $this->leaveType . "','" . $this->referenceNo . "','" . $this->eContact . "','" . $this->remarks . "','0','" . date('Y-m-d') . "'),";
+            }
+            $query2 = rtrim($query, ",");
 
-            if (mysql_query($query)) {
-                $_SESSION['successMessage'] = "Successfully Applied for Leave";
+            if (mysql_query($query2)) {
+                $_SESSION['successMessage'] = "Successfully Added";
             } else {
-                $_SESSION['errorMessage'] = "Oops!!! Something wrong!";
+                $_SESSION['errorMessage'] = "There is no holiday in this date range!";
             }
 
         }
@@ -98,7 +106,7 @@ class ManageLeave
 
     public function index(){
         $mydata=array();
-        $query="SELECT * FROM `tbl_leave` WHERE `tbl_leave`.`company_id`='".$this->companyId."' AND `tbl_leave`.`employee_id`='".$this->employeeId."' ORDER BY id DESC";
+        $query="SELECT * FROM `tbl_leave` WHERE `tbl_leave`.`company_id`='".$this->companyId."' AND `tbl_leave`.`employee_id`='".$this->employeeId."' AND `tbl_leave`.`is_approved`='0' ORDER BY id DESC";
 //        echo $query;
 //        die();
         $result=  mysql_query($query);
@@ -142,6 +150,20 @@ class ManageLeave
         }
 
         header('location:pendingLeave.php');
+    }
+
+    public function delete()
+    {
+
+        $query = "DELETE FROM `tbl_leave` WHERE `tbl_leave`.`id` =" . $this->id;
+
+        if (mysql_query($query)) {
+            $_SESSION['successMessage'] = "Deleted Successfully";
+        } else {
+            $_SESSION['errorMessage'] = "Oops! Something wrong to delete data!";
+        }
+
+        header('location:index.php');
     }
 
     function createDateRangeArray($strDateFrom,$strDateTo)

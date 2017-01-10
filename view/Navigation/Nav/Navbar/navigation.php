@@ -23,11 +23,16 @@ $oneUserInfo = $userInfo->show($currentId);
         min-height: 650px;
     }
     #custom-table td{
+        font-family: "Times New Roman";
         text-align: center;
         min-width: 130px;
     }
     #custom-table th{
+        font-family: "Times New Roman";
         text-align: center;
+    }
+    .custom-panel{
+        font-family: "Times New Roman";
     }
     form input{
         height:29px!important;
@@ -53,13 +58,25 @@ $oneUserInfo = $userInfo->show($currentId);
     }
 
 </style>
+<link href="../../../../asset/css/simple-sidebar.css" rel="stylesheet">
+<?php
+if (isset($_SESSION['id']) && !empty($_SESSION['id'])) {
+?>
+    <div>
+        <p class="pull-right" style="margin: 40px 20px 0 0;font: italic bold 15px/30px Georgia, serif;;color: #010047;">
+            Logged in as:<span style="color: #0000CC"><b> <?php echo $_SESSION['employeeName'] ?></b></span></p>
+    </div>
+<?php
+}
+?>
 <div class="page-header" style="margin-left: 18px">
     <h2 style="font: italic bold 25px/30px Georgia, serif;;color: #010047;"><b>Easy Accounts</b>
         <small style="font-family:Courier New;color: #010047;">2RA Technology Limited</small>
     </h2>
 </div>
 
-<nav class="navbar navbar-inverse" style="background-color: #010047;>
+
+<nav class="navbar navbar-inverse" style="background-color: #010047;width: 100%!important;>
     <div class="container-fluid">
         <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header">
@@ -69,13 +86,14 @@ $oneUserInfo = $userInfo->show($currentId);
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="../../../../index.php">2RA</a>
+            <?php if (isset($_SESSION['id']) && !empty($_SESSION['id']))  {?>
+            <a class="navbar-brand" href="../../../../index.php">Home</a>
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
-                <?php if (isset($_SESSION['id']) && !empty($_SESSION['id']))  {?>
+
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">User <span class="caret"></span></a>
                     <ul class="dropdown-menu dropdown-menu multi-level" role="menu" aria-labelledby="dropdownMenu">
@@ -102,7 +120,7 @@ $oneUserInfo = $userInfo->show($currentId);
                             </li>
 
                         <?php }  ?>
-                        <li><a href="../../../User/ManageUser/ResetPassword/ResetPasswordForm.php">Reset Password</a></li>
+                        <li><a href="../../../User/ManageUser/ResetPassword/ResetPasswordForm.php">Change Password</a></li>
                         <li><a href="../../../User/ManageUser/Logout/logout.php">Log Out</a></li>
 
                     </ul>
@@ -115,6 +133,17 @@ $oneUserInfo = $userInfo->show($currentId);
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Basic Entry <span class="caret"></span></a>
                     <ul class="dropdown-menu dropdown-menu multi-level" role="menu" aria-labelledby="dropdownMenu">
+                        <?php
+                        if (strstr($oneUserInfo['permitted_actions'],'Operation') || $oneUserInfo['is_admin']==1) {
+                            ?>
+                            <li class="dropdown-submenu"><a tabindex="-1" href="#">Office Schedule Entry</a>
+                                <ul class="dropdown-menu">
+                                    <li><a tabindex="-1" href="../../../BasicEntry/Shift/ShiftEntry/create.php">Add New Shift</a></li>
+                                    <li><a href="../../../BasicEntry/Shift/ShiftEntry/index.php">Shift List</a></li>
+
+                                </ul>
+                            </li>
+                        <?php }  ?>
                         <?php
                         if (strstr($oneUserInfo['permitted_actions'],'Job Assign') || strstr($oneUserInfo['permitted_actions'],'Job Execute') || $oneUserInfo['is_admin']==1) {
                         ?>
@@ -149,6 +178,9 @@ $oneUserInfo = $userInfo->show($currentId);
                             </ul>
                         </li>
                         <?php }  ?>
+                    <?php
+                    if (strstr($oneUserInfo['permitted_actions'],'Operation') || $oneUserInfo['is_admin']==1) {
+                    ?>
                         <li class="dropdown-submenu"><a tabindex="-1" href="#">Employee</a>
                             <ul class="dropdown-menu">
                                 <li><a tabindex="-1" href="../../../BasicEntry/Employee/ManageEmployee/create.php">Create Employee</a></li>
@@ -164,20 +196,25 @@ $oneUserInfo = $userInfo->show($currentId);
                                 </li>
                             </ul>
                         </li>
+                    <?php }  ?>
                         <li class="dropdown-submenu"><a tabindex="-1" href="#">Employee Leave</a>
                             <ul class="dropdown-menu">
                                 <li><a tabindex="-1" href="../../../BasicEntry/EmployeeLeave/LeaveEntry/create.php">Apply for Leave</a></li>
                                 <li><a href="../../../BasicEntry/EmployeeLeave/LeaveEntry/index.php">Your Leave Requests</a></li>
+                                <li><a href="../../../BasicEntry/EmployeeLeave/LeaveEntry/approvedRequests.php">Your Approved Leave</a></li>
 
                             </ul>
                         </li>
-                        <li class="dropdown-submenu"><a tabindex="-1" href="#">Manual Attendense</a>
+                        <li class="dropdown-submenu"><a tabindex="-1" href="#">Manual Attendance</a>
                             <ul class="dropdown-menu">
-                                <li><a tabindex="-1" href="../../../BasicEntry/Attendense/AttendenseEntry/create.php">Attendense Entry</a></li>
-                                <li><a href="../../../BasicEntry/Attendense/AttendenseEntry/index.php">Your Attendense</a></li>
+                                <li><a tabindex="-1" href="../../../BasicEntry/Attendense/AttendenseEntry/create.php">Attendance Entry</a></li>
+                                <li><a href="../../../BasicEntry/Attendense/AttendenseEntry/index.php">Your Attendance</a></li>
 
                             </ul>
                         </li>
+                    <?php
+                    if (strstr($oneUserInfo['permitted_actions'],'Operation') || $oneUserInfo['is_admin']==1) {
+                     ?>
                         <li class="dropdown-submenu"><a tabindex="-1" href="#">Supplier</a>
                             <ul class="dropdown-menu">
                                 <li><a tabindex="-1" href="../../../BasicEntry/Supplier/SupplierEntry/create.php">Create Supplier</a></li>
@@ -192,6 +229,7 @@ $oneUserInfo = $userInfo->show($currentId);
 
                             </ul>
                         </li>
+                    <?php }  ?>
                         <li class="dropdown-submenu"><a tabindex="-1" href="#">Voucher</a>
                             <ul class="dropdown-menu">
                                 <li><a tabindex="-1" href="../../../BasicEntry/Voucher/VoucherEntry/create.php">Bill Entry</a></li>
@@ -200,6 +238,9 @@ $oneUserInfo = $userInfo->show($currentId);
                             </ul>
                         </li>
                         <li><a href="#">Create Negotiator</a></li>
+                    <?php
+                    if (strstr($oneUserInfo['permitted_actions'],'Basic Account') || $oneUserInfo['is_admin']==1) {
+                        ?>
                         <li class="dropdown-submenu"><a tabindex="-1" href="#">Account Information</a>
                             <ul class="dropdown-menu">
                                 <li><a tabindex="-1" href="../../../BasicEntry/AccountInfo/Account/create.php">Add Account</a></li>
@@ -214,7 +255,13 @@ $oneUserInfo = $userInfo->show($currentId);
 
                             </ul>
                         </li>
-                    </ul>
+                    <?php }  ?>
+                    <?php
+                    if (strstr($oneUserInfo['permitted_actions'],'Operation') || $oneUserInfo['is_admin']==1) {
+                    ?>
+                        <li><a href="../../../BasicEntry/Attendense/AttendenseEntry/processAttendenseForm.php">Process Attendance Data</a></li>
+                    <?php }  ?>
+                        </ul>
                 </li>
                 <?php }  ?>
 
@@ -228,6 +275,9 @@ $oneUserInfo = $userInfo->show($currentId);
                     <ul class="dropdown-menu">
                         <li><a href="#">Adjust Salary</a></li>
                         <li><a href="#">Create Budget</a></li>
+                        <?php
+                        if (strstr($oneUserInfo['permitted_actions'],'Cash Entry') || $oneUserInfo['is_admin']==1) {
+                            ?>
                         <li class="dropdown-submenu"><a tabindex="-1" href="#">Expense</a>
                             <ul class="dropdown-menu">
                                 <li><a tabindex="-1" href="../../../Operation/Expense/EnterExpense/create.php">Enter Expense</a></li>
@@ -242,6 +292,7 @@ $oneUserInfo = $userInfo->show($currentId);
 
                             </ul>
                         </li>
+                        <?php }  ?>
                         <li><a href="#">Enter Payment</a></li>
                         <li><a href="#">Account Transfer</a></li>
                         <li><a href="#">Enter LC</a></li>
@@ -271,8 +322,9 @@ $oneUserInfo = $userInfo->show($currentId);
                     <ul class="dropdown-menu">
                         <li><a href="#">Create Salary Detail</a></li>
                         <li><a href="#">Disburse Salary</a></li>
-                        <li><a href="../../../BasicEntry/Attendense/AttendenseEntry/pendingAttendense.php">Approve Outstation</a></li>
+                        <li><a href="../../../BasicEntry/Attendense/AttendenseEntry/pendingAttendense.php">Approve Attendance</a></li>
                         <li><a href="../../../BasicEntry/EmployeeLeave/LeaveEntry/pendingLeave.php">Approve Leave</a></li>
+                        <li><a href="../../../BasicEntry/Attendense/AttendenseEntry/pendingAttendense.php">Approve Outstation</a></li>
                         <li><a href="../../../BasicEntry/Voucher/VoucherEntry/pendingVoucher.php">Approve Voucher</a></li>
                         <li><a href="../../../Operation/Expense/EnterExpense/pendingExpense.php">Approve Expenses</a></li>
                         <li><a href="#">Approve Budget</a></li>
@@ -373,6 +425,8 @@ $oneUserInfo = $userInfo->show($currentId);
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Reports <span class="caret"></span></a>
                     <ul class="dropdown-menu">
+                        <li><a href="../../../Reports/AllReports/AttendanceReport/attendanceReportForm.php">Attendance Report</a></li>
+                        <li><a href="../../../Reports/AllReports/SummaryReport/summaryReportForm.php">Summary Report</a></li>
                         <li><a href="#">Customer Report</a></li>
                         <li><a href="#">Employee Report</a></li>
                         <li><a href="#">Supplier Report</a></li>
@@ -397,5 +451,43 @@ $oneUserInfo = $userInfo->show($currentId);
         </div><!-- /.navbar-collapse -->
     </div><!-- /.container-fluid -->
 </nav>
+<div class="row">
+<div class="col-md-12">
+<div id="wrapper">
+<!-- Sidebar -->
+<div id="sidebar-wrapper" style="background-color: #010047;z-index: 13;width: 200px;height:850px;position: absolute">
+    <ul class="sidebar-nav">
+        <li class="sidebar-brand">
+            <a style="color: #5E740B">
+                Shortcuts
+            </a>
+        </li>
+        <?php if (isset($_SESSION['id']) && !empty($_SESSION['id']))  {?>
 
+        <li>
+            <a href="../../../../index.php">Pending Task</a>
+        </li>
+        <li>
+            <a href="../../../BasicEntry/EmployeeLeave/LeaveEntry/create.php">Apply For Leave</a>
+        </li>
+        <li>
+            <a href="../../../BasicEntry/Voucher/VoucherEntry/create.php">Voucher Entry</a>
+        </li>
+        <li>
+            <a href="../../../BasicEntry/Attendense/AttendenseEntry/create.php">Manual Attendance</a>
+        </li>
+        <?php
+            if (strstr($oneUserInfo['permitted_actions'],'Cash Entry') || $oneUserInfo['is_admin']==1) {
+        ?>
+        <li>
+            <a href="../../../Operation/Expense/EnterExpense/create.php">Enter Expense</a>
+        </li>
+        <li>
+            <a href="../../../Operation/Income/IncomeEntry/create.php">Enter Income</a>
+        </li>
+        <?php } }  ?>
+    </ul>
+</div>
+</div>
+<!-- /#sidebar-wrapper -->
 

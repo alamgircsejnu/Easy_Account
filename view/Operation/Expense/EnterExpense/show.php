@@ -52,7 +52,7 @@ include_once '../../../../view/Navigation/Nav/Navbar/navigation.php';
 <br><br>
 
 <div class="row" style="margin-left: 21%;width: 800px">
-    <div class="col-md-1"></div>
+    <div class="col-md-2"></div>
     <div id="custom-table" class="col-md-10" style="background-color: #9acfea;">
         <div class="row">
             <div class="table-responsive" id="custom-table">

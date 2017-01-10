@@ -68,7 +68,7 @@ include_once '../../../../view/Navigation/Nav/Navbar/navigation.php';
 <br><br>
 
 <div class="row">
-    <div class="col-md-3"></div>
+    <div class="col-md-4"></div>
 
     <div class="col-md-6">
 

@@ -30,6 +30,8 @@ if (isset($_SESSION['id']) && !empty($_SESSION['id'])) {
         $newTaskNumber = '1001';
         $newTaskId = 'EM' . date('Y') . $newTaskNumber;
     }
+
+    $allShift = $task->shift();
     ?>
 
     <!DOCTYPE html>
@@ -104,7 +106,7 @@ if (isset($_SESSION['id']) && !empty($_SESSION['id'])) {
                         <div class="col-md-6">
                             <label for="employeeId" style="margin-top: 5px">Employee ID</label>
                             <input type="text" id="employeeId" name="employeeId" class="form-control custom-input"
-                                   value="<?php echo $newTaskId ?>" placeholder="Employee ID" required readonly>
+                                    placeholder="Employee ID" required>
                         </div>
                         <div class="col-md-6">
                             <label for="department" style="margin-top: 5px">Department</label>
@@ -137,8 +139,14 @@ if (isset($_SESSION['id']) && !empty($_SESSION['id'])) {
                         <div class="col-md-6">
                             <label for="shift" style="margin-top: 5px">Shift</label>
                             <select name="shift" class="form-control col-sm-6 custom-input" id="shift">
-                                <option selected>Day</option>
-                                <option>Night</option>
+                                <option></option>
+                                <?php
+                                if (isset($allShift) && !empty($allShift)) {
+                                    foreach ($allShift as $oneShift) {
+                                        ?>
+                                        <option><?php echo $oneShift['shift_name']?></option>
+
+                                    <?php }}  ?>
                             </select>
                         </div>
 
@@ -161,8 +169,17 @@ if (isset($_SESSION['id']) && !empty($_SESSION['id'])) {
                         <br><br><br>
                         <div class="col-md-6">
                             <label for="bloodGroup" style="margin-top: 5px">Blood Group</label>
-                            <input type="text" id="bloodGroup" name="bloodGroup" class="form-control custom-input"
-                                   placeholder="Blood Group">
+                            <select name="bloodGroup" class="form-control col-sm-6 custom-input" id="bloodGroup">
+                                <option></option>
+                                <option>A+</option>
+                                <option>A-</option>
+                                <option>B+</option>
+                                <option>B-</option>
+                                <option>O+</option>
+                                <option>O-</option>
+                                <option>AB+</option>
+                                <option>AB-</option>
+                            </select>
                         </div>
                         <div class="col-md-6">
                             <label for="status" style="margin-top: 5px">Status</label>
@@ -283,6 +300,8 @@ if (isset($_SESSION['id']) && !empty($_SESSION['id'])) {
     </body>
     </html>
 
-    <?php
-    }
-    ?>
+<?php
+} else{
+    header('Location:../../../User/ManageUser/Login/login.php');
+}
+?>

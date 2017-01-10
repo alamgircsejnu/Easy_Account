@@ -3,7 +3,7 @@ session_start();
 include_once '../../../../vendor/autoload.php';
 use App\Users\ManageUser\User;
 $_POST['companyId'] = $_SESSION['companyId'];
-$employeeId = $_POST['employeeId'];
+$employeeId = $_SESSION['username'];
 $user = new User();
 $user->prepare($_POST);
 $oneUser = $user->findUser($employeeId);

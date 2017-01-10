@@ -66,8 +66,8 @@ include_once '../../../../view/Navigation/Nav/Navbar/navigation.php';
 </div>
 <div class="row">
 
-    <div class="col-md-4"></div>
-    <div id="custom-table" class="col-md-4" style="background-color: #9acfea;padding: 1px">
+    <div class="col-md-3"></div>
+    <div id="custom-table" class="col-md-6" style="background-color: #9acfea;padding: 1px">
 
 
         <div class="table-responsive" id="custom-table">

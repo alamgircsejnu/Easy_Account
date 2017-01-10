@@ -66,9 +66,9 @@ class User
     public function store(){
         if(isset($this->userName) && !empty($this->userName) && isset($this->userType) && !empty($this->userType) && isset($this->password) && !empty($this->password)){
             $query="INSERT INTO `tbl_user` (`id`,`company_id`,`user_name`,`user_type`,`password`,`permitted_actions`,`permitted_companies`,`created_at`) VALUES ('','". $this->companyId."','". $this->userName."','". $this->userType."','". $this->password."','". $this->permittedActions."','". $this->permittedCompanies."','". date('Y-m-d')."')";
-//            echo $query;
-//            die();
-            if(mysql_query($query)){
+            mysql_query($query);
+            $query1="UPDATE `tbl_employee` SET `tbl_employee`.`is_user`='1' WHERE `tbl_employee`.`company_id` ='".$this->companyId."' AND `tbl_employee`.`employee_id` ='".$this->userName."'";
+            if(mysql_query($query1)){
                 $_SESSION['successMessage']="Successfully Added";
             }  else {
                 $_SESSION['errorMessage']="This user already exists.";
@@ -196,7 +196,7 @@ class User
 //        echo $query;
 //        die();
         mysql_query($query);
-        $_SESSION['successMessage']="Password Reset Successfull";
+        $_SESSION['successMessage']="Password Changed Successfully";
         header('location:../../../../index.php');
 
     }

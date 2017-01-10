@@ -58,34 +58,34 @@ include_once '../../../../view/Navigation/Nav/Navbar/navigation.php';
 ?>
 
 <br><br>
-
 <div class="row">
-    <div class="col-md-4"></div>
+    <div class="col-md-3"></div>
+    <div class="col-md-6">
+        <?php
+
+        if (isset($_SESSION['successMessage'])) {
+            echo '<h5 style="color: green;background-color: ghostwhite;text-align: center">' . $_SESSION['successMessage'] . '</h5><br>';
+            unset($_SESSION['successMessage']);
+        } else if (isset($_SESSION['errorMessage'])) {
+            echo '<h5 style="color: red;background-color: ghostwhite;text-align: center">' . $_SESSION['errorMessage'] . '</h5><br>';
+            unset($_SESSION['errorMessage']);
+        }
+
+        ?>
+    </div>
+    <div class="col-md-3"></div>
+</div>
+<div class="row">
+    <div class="col-md-5"></div>
 
     <div class="col-md-4">
 
 
         <div class="panel panel-primary custom-panel" style="391px">
 
-            <div class="panel-heading">Reset Your Password</div>
+            <div class="panel-heading">Change Your Password</div>
             <br>
             <form role="form" action="ResetPassword.php" method="post">
-                <div class="col-sm-12">
-                    <label for="employeeId" style="margin-top: 4px">Employee ID</label>
-                    <?php if($_SESSION['admin'] == 1){?>
-                    <select required name="employeeId" class="form-control col-sm-6 custom-input" id="userType">
-                        <?php
-                        if (isset($allEmployees) && !empty($allEmployees)) {
-                            foreach ($allEmployees as $oneEmployee) {
-                                ?>
-                                <option><?php echo $oneEmployee['employee_id']?></option>
-
-                            <?php }}  ?>
-                    </select>
-        <?php } else { ?>
-                        <input type="text" id="employeeId" name="employeeId" class="form-control custom-input" value="<?php echo $_SESSION['username'];?>" readonly>
-                    <?php }?>
-                </div>
                 <div class="col-sm-12">
                     <label for="currentPassword" style="margin-top: 10px">Current Password</label>
                     <input type="password" id="currentPassword" name="currentPassword" class="form-control custom-input"
@@ -109,7 +109,7 @@ include_once '../../../../view/Navigation/Nav/Navbar/navigation.php';
                     <div class="form-group">
                         <div>
                             <div class="col-md-4" style="float: right;width: 27%;margin-top: 11px;margin-right: 14px;">
-                                <button type="submit" class="btn btn-info pull-right">Reset Password</button>
+                                <button type="submit" class="btn btn-info pull-right">Change Password</button>
                             </div>
                         </div>
                     </div>

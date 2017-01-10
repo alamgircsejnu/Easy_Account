@@ -2,8 +2,7 @@
 session_start();
 use App\Users\Role\Role;
 use App\Employee\ManageEmployee\Employee;
-//echo $_SESSION['id'];
-//die();
+date_default_timezone_set("Asia/Dhaka");
 if (isset($_SESSION['id']) && !empty($_SESSION['id'])) {
 
     include_once '../../../../vendor/autoload.php';
@@ -42,7 +41,7 @@ if (isset($_SESSION['id']) && !empty($_SESSION['id'])) {
         <style>
             body {
                 background-image: url("../../../../asset/images/bg13.jpg");
-
+                font-family: "Georgia"!important;
             }
 
             .custom-input {
@@ -78,7 +77,7 @@ if (isset($_SESSION['id']) && !empty($_SESSION['id'])) {
     </div>
     <div class="row">
 
-        <div class="col-md-3"></div>
+        <div class="col-md-4"></div>
 
         <div class="col-md-5">
 
@@ -89,41 +88,55 @@ if (isset($_SESSION['id']) && !empty($_SESSION['id'])) {
                 <br>
                 <form role="form" action="store.php" method="post">
 
-                    <div class="col-sm-12" style="margin-top: 21px;">
-                        <div class="col-md-6">
-                            <label for="from" style="margin-top: 4px">From</label>
+                    <div  style="margin-top: 21px;">
+                        <div>
+                            <label for="from" style="margin-top: 4px;margin-right: 8px;float: left;margin-left: 15px">Select Date</label>
+                        </div>
+                        <div>
                             <input type="text" id="from" name="from" value="<?php echo date('Y-m-d') ?>"
-                                   class="form-control custom-input" required><br>
+                                   required style="height: 23px!important;width: 140px;margin-top: 8px;float: left;font-size: 13px;margin-right: 8px">
                         </div>
-                        <div class="col-md-6">
-                            <label for="to" style="margin-top: 4px">To</label>
-                            <input type="text" id="to" name="to" value="<?php echo date('Y-m-d') ?>"
-                                   class="form-control custom-input" required><br>
+                        <div style="float: left">
+                            <input type="checkbox" id="toDate" name="toDate" value="checked" class="form-control custom-input" style="margin-top: 14px;width: 20px;margin-left: 10px">
                         </div>
+                        <div style="float: left">
+                            <label for="toDate" style="margin-top: 4px;margin-left:10px;margin-right: 8px; ">To Date</label>
+                        </div>
+
+                        <div style="float: left">
+                            <input type="hidden" id="to" name="to" value="<?php echo date('Y-m-d') ?>"
+                                   class="form-control custom-input" style="height: 23px!important;width: 140px;margin-top: 8px;float: left;font-size: 13px">
+                        </div>
+                        <br><br>
                         <div class="col-md-6">
                             <label for="leaveType" style="margin-top: 5px">Leave Type</label>
                             <select required name="leaveType" class="form-control col-sm-6 custom-input" id="leaveType">
-                                <option selected>Casual Leave</option>
-                                <option>Sick Leave</option>
-                                <option>Maternity Leave</option>
-                                <option>Earn Leave</option>
+                                <option value="CL">Casual Leave</option>
+                                <option value="SL">Sick Leave</option>
+                                <option value="ML">Maternity Leave</option>
+                                <option value="EL">Earn Leave</option>
                             </select>
                         </div>
                         <div class="col-md-6">
                             <label for="referenceNo" style="margin-top: 4px">Reference No</label>
                             <input type="text" id="referenceNo" name="referenceNo" class="form-control custom-input"><br>
                         </div>
-                        <div class="col-md-6 pull-right">
-                        <input type="radio" name="h_f" value="Half Day" id="halfDay"> <label for="halfDay">&nbsp; Half Day&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                        <div class="col-md-8 pull-right">
+                        <input type="radio" name="h_f" value="First Half" id="firstHalf"> <label for="firstHalf">&nbsp; First Half&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                        <input type="radio" name="h_f" value="Second Half" id="secondHalf"> <label for="secondHalf">&nbsp; Second Half&nbsp;&nbsp;&nbsp;&nbsp;</label>
                         <input type="radio" name="h_f" value="Full Day" id="fullDay"><label for="fullDay">&nbsp; Full Day&nbsp;</label><br>
                         </div>
-                        <div class="col-md-12">
+                        <div class="col-md-6">
                             <label for="eContact" style="margin-top: 4px">Emergency Contact</label>
                             <input type="text" id="eContact" name="eContact" class="form-control custom-input"><br>
                         </div>
+                        <div class="col-md-6">
+                            <label for="remarks" style="margin-top: 4px">Remarks</label>
+                            <input type="text" id="remarks" name="remarks" class="form-control custom-input"><br>
+                        </div>
                     </div>
 
-                    <br><br><br>
+                    <br><br>
                     <div class="form-horizontal">
                         <div class="form-group">
                             <div>
@@ -163,6 +176,17 @@ if (isset($_SESSION['id']) && !empty($_SESSION['id'])) {
                     $(".checkBoxClass").removeProp('checked');
             });
         });
+    </script>
+    <script type="text/javascript">
+        $('#toDate').on('change', function(){
+            if (this.checked) {
+                $("#to").prop("type", "text");
+            } else {
+                $("#to").prop("type", "hidden");
+            }
+
+        });
+
     </script>
     <script type="text/javascript">
         $(function () {
@@ -214,7 +238,7 @@ if (isset($_SESSION['id']) && !empty($_SESSION['id'])) {
 
     <?php
 } else{
-    header('Location:../Login/login.php');
+    header('Location:../../../User/ManageUser/Login/login.php');
 
 }
 ?>

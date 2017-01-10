@@ -63,3 +63,9 @@
     display: inline-block !important;
 }
 
+/*...............Left Menu.................*/
+
+.left-menu{
+    float: left!important;
+    background-color: white!important;
+}

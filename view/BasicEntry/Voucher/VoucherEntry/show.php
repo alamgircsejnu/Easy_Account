@@ -71,24 +71,24 @@ include_once '../../../../view/Navigation/Nav/Navbar/navigation.php';
         ?>
     </div>
     <div class="col-md-3">
-        <a href="print.php?voucherNo=<?php echo $_GET['voucherNo'] ?>" target="_blank" class="btn btn-primary" style="margin-left: 42px">Print</a>
+        <a href="print.php?voucherNo=<?php echo $_GET['voucherNo'] ?>" target="_blank" class="btn btn-primary" style="margin-left: 125px">Print</a>
     </div>
 </div>
 
-<div id="printReport" style="font-family: 'Palatino Linotype'">
+<div id="printReport" style="font-family: 'Palatino Linotype';width: 1300px;">
 <div id="table-caption" class="row">
-    <div class="col-md-2"></div>
+    <div class="col-md-3"></div>
     <div id="company-name" class="col-md-8" style="background-color: white;text-align: center">
        <h5><b>2RA TECHNOLOGY LIMITED</b></h5>
         <h6><b>3<sup>rd</sup> Floor, House# 294, Lane# 04, Mirpur DOHS, Dhaka</b></h6>
         <h4><b><u>BILL</u></b></h4><br>
     </div>
     <div class="col-md-2"></div>
-</div>
-<div class="row">
-    <div class="col-md-2"></div>
+
+<div class="row" style="margin-left: 106px;width: 100%">
+    <div class="col-md-1"></div>
     <div class="col-md-8"  style="background-color: white">
-<div class="row">
+    <div class="row">
     <div class="col-md-1"></div>
     <div class="col-md-3">
         <?php
@@ -128,16 +128,16 @@ include_once '../../../../view/Navigation/Nav/Navbar/navigation.php';
 <div class="row">
 
     <div id="custom-table row" style="background-color: white;padding: 1px">
-        <div class="col-md-1"></div>
+
         <?php
         if ($allVouchers[0]['expense_type'] == 'Transport'){
         ?>
-
+        <div class="col-md-1"></div>
         <div class="table-responsive" id="custom-table">
             <table class="col-md-10"  style="border: 1px solid black">
                 <thead>
                 <tr>
-                    <th align="center">SL No.</th>
+                    <th align="center" width="30">SL No.</th>
                     <th align="center" width="130">From</th>
                     <th align="center" width="130">To</th>
                     <th align="center" width="130">Vehicle</th>
@@ -194,10 +194,12 @@ include_once '../../../../view/Navigation/Nav/Navbar/navigation.php';
                 </tbody>
             </table>
         </div>
+    </div>
         <?php
         } else {
         ?>
             <div class="table-responsive" id="custom-table">
+                <div class="col-md-1"></div>
                 <table style="border: 1px solid black" class="col-md-10">
                     <thead>
                     <tr style="border: 1px solid black">

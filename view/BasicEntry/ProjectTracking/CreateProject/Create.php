@@ -69,7 +69,6 @@ $newTaskId = 'PR'.$taskYear.$newTaskNumber;
 <?php
 include_once '../../../../view/Navigation/Nav/Navbar/navigation.php';
 ?>
-
 <br><br>
 <div class="row">
     <div class="col-md-3"></div>
@@ -165,6 +164,10 @@ include_once '../../../../view/Navigation/Nav/Navbar/navigation.php';
 
 
     <div class="col-md-4"></div>
+</div>
+</div>
+</div>
+<!-- /#page-content-wrapper -->
 </div>
 
 

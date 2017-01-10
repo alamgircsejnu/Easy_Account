@@ -105,9 +105,9 @@ if (isset($_SESSION['id']) && !empty($_SESSION['id'])){
     </div>
     <div class="row">
 
-        <div class="col-md-3"></div>
+        <div class="col-md-4"></div>
 
-        <div class="col-md-7">
+        <div class="col-md-6">
 
 
             <div class="panel panel-primary custom-panel">
@@ -118,7 +118,7 @@ if (isset($_SESSION['id']) && !empty($_SESSION['id'])){
                     <div class="row">
                     <div class="form-group col-md-4">
                         <label class="control-label" for="voucherNo">Voucher No<sup style="color: red">*</sup></label>
-                        <input id="voucherNo" name="voucherNo" type="text" value="<?php echo $newTaskId ?>" placeholder="" class="form-control" required="" style="height: 30px">
+                        <input id="voucherNo" name="voucherNo" type="text" value="<?php echo $newTaskId ?>" placeholder="" class="form-control" required="" readonly style="height: 30px">
 
                     </div>
                         <div class="form-group col-md-4">
@@ -267,7 +267,7 @@ if (isset($_SESSION['id']) && !empty($_SESSION['id'])){
         </div>
 
 
-        <div class="col-md-4"></div>
+        <div class="col-md-2"></div>
     </div>
 
 

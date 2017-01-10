@@ -51,21 +51,8 @@ include_once '../../../../view/Navigation/Nav/Navbar/navigation.php';
 
 <br><br>
 
-<div style="width: 100px;background-color:#2b669a;margin-left: 348px;height: 30px ">
-    <a style="margin: 5%;padding: 5%" href="edit.php?id=<?php echo $oneSupplier['id'] ?>"> <img style="margin: 3%"
-                                                                                                border="0"
-                                                                                                title="Edit Supplier Info"
-                                                                                                alt="Edit"
-                                                                                                src="../../../../asset/images/edit.png"
-                                                                                                width="25" height="20"></a>
-    <a style="margin: 5%;padding: 5%" href="trash.php?id=<?php echo $oneSupplier['id'] ?>"
-       onclick="return confirm('Are you sure?')"> <img style="margin: 3%" border="0" title="Delete This Supplier"
-                                                       alt="Delete" src="../../../../asset/images/delete.png" width="25"
-                                                       height="20"></a>
-</div>
-
 <div class="row" style="margin-left: 21%;width: 800px">
-    <div class="col-md-1"></div>
+    <div class="col-md-2"></div>
     <div id="custom-table" class="col-md-10" style="background-color: #9acfea;">
         <div class="row">
             <div class="table-responsive" id="custom-table">

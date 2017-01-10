@@ -66,7 +66,7 @@ include_once '../../../../view/Navigation/Nav/Navbar/navigation.php';
 </div>
 <div class="row">
 
-    <div class="col-md-4"></div>
+    <div class="col-md-5"></div>
 
     <div class="col-md-4">
 
@@ -120,7 +120,7 @@ include_once '../../../../view/Navigation/Nav/Navbar/navigation.php';
 
     <div class="col-md-4"></div>
 </div>
-
+</div>
 
 <br><br><br><br>
 <script src="../../../../asset/js/bootstrap.min.js" type="text/javascript"></script>

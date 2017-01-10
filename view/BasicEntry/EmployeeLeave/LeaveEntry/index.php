@@ -71,7 +71,7 @@ include_once '../../../../view/Navigation/Nav/Navbar/navigation.php';
     <div class="col-md-3"></div>
 </div>
 <div class="row">
-    <div class="col-md-1">
+    <div class="col-md-2">
     </div>
     <div class="col-md-10">
         <div id="custom-table" style="background-color: #9acfea;padding: 1px">
@@ -84,13 +84,13 @@ include_once '../../../../view/Navigation/Nav/Navbar/navigation.php';
                         <th align="center">SL#</th>
                         <th align="center">Employee Id</th>
                         <th align="center">Employee Name</th>
-                        <th align="center">From</th>
-                        <th align="center">To</th>
-                        <th align="center">Total Days</th>
+                        <th align="center">Date</th>
                         <th align="center">Half/Full</th>
                         <th align="center">Leave Type</th>
                         <th align="center">Emergency Contact</th>
+                        <th align="center">Remarks</th>
                         <th align="center">Status</th>
+                        <th align="center">Delete</th>
                     </tr>
                     </thead>
                     <?php
@@ -101,15 +101,14 @@ include_once '../../../../view/Navigation/Nav/Navbar/navigation.php';
                     ?>
                     <tbody>
                     <tr>
-                        <td><?php echo $serial ?></td>
+                        <td style="width: 30px!important;"><?php echo $serial ?></td>
                         <td><?php echo $oneLeave['employee_id'] ?></td>
                         <td><?php echo $oneLeave['employee_name']; ?></td>
-                        <td><?php echo $oneLeave['from_date']; ?></td>
-                        <td><?php echo $oneLeave['to_date']; ?></td>
-                        <td><?php echo $oneLeave['total_days']; ?></td>
+                        <td><?php echo $oneLeave['date']; ?></td>
                         <td><?php echo $oneLeave['h_f']; ?></td>
                         <td><?php echo $oneLeave['purpose']; ?></td>
                         <td><?php echo $oneLeave['econtact']; ?></td>
+                        <td><?php echo $oneLeave['remarks']; ?></td>
                         <td style="width: 130px">
                             <?php
                             if ($oneLeave['is_approved'] == 0) {
@@ -124,13 +123,18 @@ include_once '../../../../view/Navigation/Nav/Navbar/navigation.php';
                             }
                             ?>
                         </td>
+                        <td style="width: 130px">
+                            <a href="delete.php?id=<?php echo $oneLeave['id'] ?>" onclick="return confirm('Are you sure?')">
+                                <img style="margin: 3%" border="0" title="Delete" alt="Delete"
+                                     src="../../../../asset/images/delete.png" width="25" height="20"></a>
+                        </td>
                     </tr>
                     <?php
                     }
                     } else {
                         ?>
                         <tr>
-                            <td colspan="5" align="center">
+                            <td colspan="9" align="center">
                                 <?php echo "No Data Available " ?>
 
                             </td>

@@ -130,13 +130,12 @@ $color = array('ganttGreen','ganttRed','ganttBlue','ganttOrange',);
     <?php
     include_once '../../../../view/Navigation/Nav/Navbar/navigation.php';
     ?>
-        <div class="container row">
-
+        <div class="container row" style="margin-left: 200px">
             <h2 id="example" style="font: italic bold 25px/30px Georgia, serif;;color: #010047;">
                 Employee Engagement Report
             </h2>
 
-            <div class="gantt"></div>
+            <div class="gantt" style="width: 850px"></div>
             <div id="setPriority">
                 <div>
                     <div class="col-md-2" id="priorityBox">

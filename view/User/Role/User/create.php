@@ -59,7 +59,7 @@ include_once '../../../../view/Navigation/Nav/Navbar/navigation.php';
 </div>
 <div class="row">
 
-    <div class="col-md-4"></div>
+    <div class="col-md-5"></div>
 
     <div class="col-md-4">
 

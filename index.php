@@ -31,7 +31,7 @@ if (isset($_SESSION['id']) && !empty($_SESSION['id'])) {
         <link rel="stylesheet" href="asset/css/bootstrap.min.css" type="text/css">
         <link rel="stylesheet" href="asset/css/main.css" type="text/css">
         <link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
-
+        <link href="asset/css/simple-sidebar.css" rel="stylesheet">
         <script type="text/javascript">
             $(document).ready(function () {
                 $('dropdown-toggle').dropdown()
@@ -60,14 +60,16 @@ if (isset($_SESSION['id']) && !empty($_SESSION['id'])) {
     </head>
 
     <body>
-
+    <div>
+        <p class="pull-right" style="margin: 40px 20px 0 0;font: italic bold 15px/30px Georgia, serif;;color: #010047;">Logged in as:<span style="color: #0000CC"><b> <?php echo $_SESSION['employeeName']?></b></span></p>
+    </div>
     <div class="page-header" style="margin-left: 18px">
         <h2 style="font: italic bold 25px/30px Georgia, serif;;color: #010047;"><b>Easy Accounts</b>
             <small style="font-family:Courier New;color: #010047;">2RA Technology Limited</small>
         </h2>
     </div>
 
-    <nav class="navbar navbar-inverse" style="background-color: #010047;">
+    <nav class="navbar navbar-inverse" style="background-color: #010047;position: relative;z-index: 14">
         <div class="container-fluid">
             <!-- Brand and toggle get grouped for better mobile display -->
             <div class="navbar-header">
@@ -78,13 +80,14 @@ if (isset($_SESSION['id']) && !empty($_SESSION['id'])) {
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="index.php">2RA</a>
+                <?php if (isset($_SESSION['id']) && !empty($_SESSION['id'])) { ?>
+                <a class="navbar-brand" href="index.php">Home</a>
             </div>
 
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
-                    <?php if (isset($_SESSION['id']) && !empty($_SESSION['id'])) { ?>
+
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
                                aria-haspopup="true"
@@ -116,7 +119,7 @@ if (isset($_SESSION['id']) && !empty($_SESSION['id'])) {
                                     </ul>
                                 </li>
                                 <?php }  ?>
-                                <li><a href="view/User/ManageUser/ResetPassword/ResetPasswordForm.php">Reset
+                                <li><a href="view/User/ManageUser/ResetPassword/ResetPasswordForm.php">Change
                                         Password</a>
                                 </li>
                                 <li><a href="view/User/ManageUser/Logout/logout.php">Log Out</a></li>
@@ -133,6 +136,17 @@ if (isset($_SESSION['id']) && !empty($_SESSION['id'])) {
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
                            aria-expanded="false">Basic Entry <span class="caret"></span></a>
                         <ul class="dropdown-menu dropdown-menu multi-level" role="menu" aria-labelledby="dropdownMenu">
+                            <?php
+                            if (strstr($oneUser['permitted_actions'],'Operation') || $oneUser['is_admin']==1) {
+                                ?>
+                                <li class="dropdown-submenu"><a tabindex="-1" href="#">Office Schedule Entry</a>
+                                    <ul class="dropdown-menu">
+                                        <li><a tabindex="-1" href="view/BasicEntry/Shift/ShiftEntry/create.php">Add New Shift</a></li>
+                                        <li><a href="view/BasicEntry/Shift/ShiftEntry/index.php">Shift List</a></li>
+
+                                    </ul>
+                                </li>
+                            <?php }  ?>
                             <?php
 
                             if (strstr($oneUser['permitted_actions'],'Job Assign') || strstr($oneUser['permitted_actions'],'Job Execute') || $oneUser['is_admin']==1) {
@@ -167,6 +181,9 @@ if (isset($_SESSION['id']) && !empty($_SESSION['id'])) {
                                 </ul>
                             </li>
                             <?php }  ?>
+                            <?php
+                            if (strstr($oneUser['permitted_actions'],'Operation') || $oneUser['is_admin']==1) {
+                            ?>
                             <li class="dropdown-submenu"><a tabindex="-1" href="#">Employee</a>
                                 <ul class="dropdown-menu">
                                     <li><a tabindex="-1" href="view/BasicEntry/Employee/ManageEmployee/create.php">Create
@@ -182,21 +199,25 @@ if (isset($_SESSION['id']) && !empty($_SESSION['id'])) {
                                     <li><a href="view/BasicEntry/Holiday/weekenedHoliday/index.php">List of Holidays</a></li>
                                 </ul>
                             </li>
+                            <?php }  ?>
                             <li class="dropdown-submenu"><a tabindex="-1" href="#">Employee Leave</a>
                                 <ul class="dropdown-menu">
                                     <li><a tabindex="-1" href="view/BasicEntry/EmployeeLeave/LeaveEntry/create.php">Apply for Leave</a></li>
                                     <li><a href="view/BasicEntry/EmployeeLeave/LeaveEntry/index.php">Your Leave Requests</a></li>
+                                    <li><a href="view/BasicEntry/EmployeeLeave/LeaveEntry/approvedRequests.php">Your Approved Leave</a></li>
                                 </ul>
                             </li>
 
-                            <li class="dropdown-submenu"><a tabindex="-1" href="#">Manual Attendense</a>
+                            <li class="dropdown-submenu"><a tabindex="-1" href="#">Manual Attendance</a>
                                 <ul class="dropdown-menu">
-                                    <li><a tabindex="-1" href="view/BasicEntry/Attendense/AttendenseEntry/create.php">Attendense Entry</a></li>
-                                    <li><a href="view/BasicEntry/Attendense/AttendenseEntry/index.php">Your Attendense</a></li>
+                                    <li><a tabindex="-1" href="view/BasicEntry/Attendense/AttendenseEntry/create.php">Attendance Entry</a></li>
+                                    <li><a href="view/BasicEntry/Attendense/AttendenseEntry/index.php">Your Attendance</a></li>
 
                                 </ul>
                             </li>
-
+                            <?php
+                            if (strstr($oneUser['permitted_actions'],'Operation') || $oneUser['is_admin']==1) {
+                            ?>
                             <li class="dropdown-submenu"><a tabindex="-1" href="#">Supplier</a>
                                 <ul class="dropdown-menu">
                                     <li><a tabindex="-1" href="view/BasicEntry/Supplier/SupplierEntry/create.php">Create Supplier</a></li>
@@ -211,6 +232,7 @@ if (isset($_SESSION['id']) && !empty($_SESSION['id'])) {
 
                                 </ul>
                             </li>
+                            <?php }  ?>
                             <li class="dropdown-submenu"><a tabindex="-1" href="#">Voucher</a>
                                 <ul class="dropdown-menu">
                                     <li><a tabindex="-1" href="view/BasicEntry/Voucher/VoucherEntry/create.php">Bill Entry</a></li>
@@ -219,6 +241,9 @@ if (isset($_SESSION['id']) && !empty($_SESSION['id'])) {
                                 </ul>
                             </li>
                             <li><a href="#">Create Negotiator</a></li>
+                            <?php
+                            if (strstr($oneUser['permitted_actions'],'Basic Account') || $oneUser['is_admin']==1) {
+                            ?>
                             <li class="dropdown-submenu"><a tabindex="-1" href="#">Account Information</a>
                                 <ul class="dropdown-menu">
                                     <li><a tabindex="-1" href="view/BasicEntry/AccountInfo/Account/create.php">Add Account</a></li>
@@ -233,11 +258,16 @@ if (isset($_SESSION['id']) && !empty($_SESSION['id'])) {
 
                                 </ul>
                             </li>
+                            <?php }  ?>
+                            <?php
+                            if (strstr($oneUser['permitted_actions'],'Operation') || $oneUser['is_admin']==1) {
+                            ?>
+                            <li><a href="view/BasicEntry/Attendense/AttendenseEntry/processAttendenseForm.php">Process Attendance Data</a></li>
+                            <?php }  ?>
                         </ul>
                     </li>
                     <?php }  ?>
                     <?php
-
                     if (strstr($oneUser['permitted_actions'],'Operation') || $oneUser['is_admin']==1) {
                     ?>
                     <li class="dropdown">
@@ -246,6 +276,9 @@ if (isset($_SESSION['id']) && !empty($_SESSION['id'])) {
                         <ul class="dropdown-menu">
                             <li><a href="#">Adjust Salary</a></li>
                             <li><a href="#">Create Budget</a></li>
+                            <?php
+                            if (strstr($oneUser['permitted_actions'],'Cash Entry') || $oneUser['is_admin']==1) {
+                            ?>
                             <li class="dropdown-submenu"><a tabindex="-1" href="#">Expense</a>
                                 <ul class="dropdown-menu">
                                     <li><a tabindex="-1" href="view/Operation/Expense/EnterExpense/create.php">Enter Expense</a></li>
@@ -260,6 +293,7 @@ if (isset($_SESSION['id']) && !empty($_SESSION['id'])) {
 
                                 </ul>
                             </li>
+                            <?php }  ?>
                             <li><a href="#">Enter Payment</a></li>
                             <li><a href="#">Account Transfer</a></li>
                             <li><a href="#">Enter LC</a></li>
@@ -289,8 +323,9 @@ if (isset($_SESSION['id']) && !empty($_SESSION['id'])) {
                         <ul class="dropdown-menu">
                             <li><a href="#">Create Salary Detail</a></li>
                             <li><a href="#">Disburse Salary</a></li>
-                            <li><a href="view/BasicEntry/Attendense/AttendenseEntry/pendingAttendense.php">Approve Outstation</a></li>
+                            <li><a href="view/BasicEntry/Attendense/AttendenseEntry/pendingAttendense.php">Approve Attendance</a></li>
                             <li><a href="view/BasicEntry/EmployeeLeave/LeaveEntry/pendingLeave.php">Approve Leave</a></li>
+                            <li><a href="view/BasicEntry/Attendense/AttendenseEntry/pendingAttendense.php">Approve Outstation</a></li>
                             <li><a href="view/BasicEntry/Voucher/VoucherEntry/pendingVoucher.php">Approve Voucher</a></li>
                             <li><a href="view/Operation/Expense/EnterExpense/pendingExpense.php">Approve Expenses</a></li>
                             <li><a href="#">Approve Budget</a></li>
@@ -395,6 +430,8 @@ if (isset($_SESSION['id']) && !empty($_SESSION['id'])) {
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
                            aria-expanded="false">Reports <span class="caret"></span></a>
                         <ul class="dropdown-menu">
+                            <li><a href="view/Reports/AllReports/AttendanceReport/attendanceReportForm.php">Attendance Report</a></li>
+                            <li><a href="view/Reports/AllReports/SummaryReport/summaryReportForm.php">Summary Report</a></li>
                             <li><a href="#">Customer Report</a></li>
                             <li><a href="#">Employee Report</a></li>
                             <li><a href="#">Supplier Report</a></li>
@@ -420,98 +457,145 @@ if (isset($_SESSION['id']) && !empty($_SESSION['id'])) {
         </div><!-- /.container-fluid -->
     </nav>
 
-    <br><br>
-
 
     <div class="row">
-<div class="col-md-3"></div>
-        <div class="col-md-6">
-            <?php
+<div class="col-md-12">
+<div id="wrapper">
+<!-- Sidebar -->
+<div id="sidebar-wrapper" style="background-color: #010047;z-index: 13;width: 200px;height:850px;position: absolute">
+    <ul class="sidebar-nav">
+        <li class="sidebar-brand">
+            <a style="color: #5E740B">
+                Shortcuts
+            </a>
+        </li>
+        <?php if (isset($_SESSION['id']) && !empty($_SESSION['id']))  {?>
 
-            if (isset($_SESSION['successMessage'])) {
-                echo '<h5 style="color: green;background-color: ghostwhite;text-align: center">' . $_SESSION['successMessage'] . '</h5><br>';
-                unset($_SESSION['successMessage']);
-            } else if (isset($_SESSION['errorMessage'])) {
-                echo '<h5 style="color: red;background-color: ghostwhite;text-align: center">' . $_SESSION['errorMessage'] . '</h5><br>';
-                unset($_SESSION['errorMessage']);
-            }
+                <li>
+                    <a href="index.php">Pending Task</a>
+                </li>
+                <li>
+                    <a href="view/BasicEntry/EmployeeLeave/LeaveEntry/create.php">Apply For Leave</a>
+                </li>
 
+                <li>
+                    <a href="view/BasicEntry/Voucher/VoucherEntry/create.php">Voucher Entry</a>
+                </li>
+                <li>
+                    <a href="view/BasicEntry/Attendense/AttendenseEntry/create.php">Manual Attendance</a>
+                </li>
+        <?php
+        if (strstr($oneUser['permitted_actions'],'Cash Entry') || $oneUser['is_admin']==1) {
             ?>
-        </div>
-        <div class="col-md-3"></div>
-    </div>
+                <li>
+                    <a href="view/Operation/Expense/EnterExpense/create.php">Enter Expense</a>
+                </li>
+                <li>
+                    <a href="view/Operation/Income/IncomeEntry/create.php">Enter Income</a>
+                </li>
+        <?php }  ?>
+        <?php }  ?>
+    </ul>
+</div>
+</div>
+    <!-- /#sidebar-wrapper -->
 
-    <div class="row">
+        <!-- Page Content -->
+        <div id="page-content-wrapper">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="col-md-4"></div>
+                        <div class="col-md-6">
+                            <?php
+
+                            if (isset($_SESSION['successMessage'])) {
+                                echo '<h5 style="color: green;background-color: ghostwhite;text-align: center">' . $_SESSION['successMessage'] . '</h5><br>';
+                                unset($_SESSION['successMessage']);
+                            } else if (isset($_SESSION['errorMessage'])) {
+                                echo '<h5 style="color: red;background-color: ghostwhite;text-align: center">' . $_SESSION['errorMessage'] . '</h5><br>';
+                                unset($_SESSION['errorMessage']);
+                            }
+
+                            ?>
+                        </div>
+                        <div class="col-md-3"></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4"></div>
+                            <div class="col-md-6">
+                                <h4 style="color: yellow;background-color: black;text-align: center">Your Pending Tasks Here...</h4><br>
+                            </div>
+                            <div class="col-md-3"></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-2"></div>
+                            <div id="custom-table" class="col-md-10" style="background-color: #9acfea;padding: 1px">
 
 
-        <div class="row">
-            <div class="col-md-3"></div>
-            <div class="col-md-6">
-            <h4 style="color: yellow;background-color: black;text-align: center">Your Pending Tasks Here...</h4><br>
+                                <div class="table-responsive" id="custom-table">
+                                    <table class="table table-bordered">
+                                        <thead>
+                                        <tr>
+                                            <th align="center">SL#</th>
+                                            <th align="center">Project ID</th>
+                                            <th align="center">Section ID</th>
+                                            <th align="center">Assigned Date</th>
+                                            <th align="center">Primary Estimated Days</th>
+                                            <th align="center">Latest Estimated Days</th>
+                                            <th align="center">Priority</th>
+                                            <th align="center">Assigned By</th>
+                                        </tr>
+                                        </thead>
+                                        <?php
+                                        if (isset($pendingTasks) && !empty($pendingTasks)) {
+                                        $serial = 0;
+                                        foreach ($pendingTasks as $pendingTask) {
+                                        $serial++
+                                        ?>
+                                        <tbody>
+                                        <tr>
+                                            <td><?php echo $serial ?></td>
+                                            <td><?php echo $pendingTask['project_id'] ?></td>
+                                            <td><?php echo $pendingTask['section_id']; ?></td>
+                                            <td><?php echo $pendingTask['assigned_date']; ?></td>
+                                            <td><?php echo $pendingTask['est_days']; ?></td>
+                                            <td><?php echo $pendingTask['latest_est_days']; ?></td>
+                                            <td><?php echo $pendingTask['priority']; ?></td>
+                                            <td><?php echo $pendingTask['assigned_by']; ?></td>
+
+                                            <td>
+
+                                                <a href="view/BasicEntry/ProjectTracking/TaskExecution/create.php?id=<?php echo $pendingTask['id'] ?>"> <img style="margin: 3%" border="0"
+                                                                                                                                                             title="Update Task Info" alt="Edit"
+                                                                                                                                                             src="asset/images/edit.png"
+                                                                                                                                                             width="25" height="20"></a>
+
+                                            </td>
+                                        </tr>
+                                        <?php
+                                        }
+                                        } else {
+                                            ?>
+                                            <tr>
+                                                <td colspan="8" align="center">
+                                                    <?php echo "<h5><b>No Data Available</b></h5>" ?>
+
+                                                </td>
+                                            </tr>
+                                        <?php }
+                                        ?>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                         </div>
+                    </div>
+                </div>
             </div>
-            <div class="col-md-3"></div>
         </div>
-        <div class="col-md-1"></div>
-        <div id="custom-table" class="col-md-10" style="background-color: #9acfea;padding: 1px">
+        <!-- /#page-content-wrapper -->
 
-
-            <div class="table-responsive" id="custom-table">
-                <table class="table table-bordered">
-                    <thead>
-                    <tr>
-                        <th align="center">SL#</th>
-                        <th align="center">Project ID</th>
-                        <th align="center">Section ID</th>
-                        <th align="center">Assigned Date</th>
-                        <th align="center">Primary Estimated Days</th>
-                        <th align="center">Latest Estimated Days</th>
-                        <th align="center">Priority</th>
-                        <th align="center">Assigned By</th>
-                    </tr>
-                    </thead>
-                    <?php
-                    if (isset($pendingTasks) && !empty($pendingTasks)) {
-                    $serial = 0;
-                    foreach ($pendingTasks as $pendingTask) {
-                    $serial++
-                    ?>
-                    <tbody>
-                    <tr>
-                        <td><?php echo $serial ?></td>
-                        <td><?php echo $pendingTask['project_id'] ?></td>
-                        <td><?php echo $pendingTask['section_id']; ?></td>
-                        <td><?php echo $pendingTask['assigned_date']; ?></td>
-                        <td><?php echo $pendingTask['est_days']; ?></td>
-                        <td><?php echo $pendingTask['latest_est_days']; ?></td>
-                        <td><?php echo $pendingTask['priority']; ?></td>
-                        <td><?php echo $pendingTask['assigned_by']; ?></td>
-
-                        <td>
-
-                            <a href="view/BasicEntry/ProjectTracking/TaskExecution/create.php?id=<?php echo $pendingTask['id'] ?>"> <img style="margin: 3%" border="0"
-                                  title="Update Task Info" alt="Edit"
-                                  src="asset/images/edit.png"
-                                  width="25" height="20"></a>
-
-                        </td>
-                    </tr>
-                    <?php
-                    }
-                    } else {
-                        ?>
-                        <tr>
-                            <td colspan="8" align="center">
-                                <?php echo "<h5><b>No Data Available</b></h5>" ?>
-
-                            </td>
-                        </tr>
-                    <?php }
-                    ?>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-        <div class="col-md-1"></div>
     </div>
 
     <script src="asset/js/bootstrap.min.js" type="text/javascript"></script>

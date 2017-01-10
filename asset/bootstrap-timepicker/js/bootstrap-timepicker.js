@@ -120,7 +120,7 @@
     decrementHour: function() {
       if (this.showMeridian) {
         if (this.hour === 1) {
-          this.hour = 12;
+          this.hour = 24;
         } else if (this.hour === 12) {
           this.hour--;
 

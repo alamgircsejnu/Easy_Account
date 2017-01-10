@@ -22,7 +22,7 @@ $allCompanies = $company->index();
 
 $employee = new Employee();
 $employee->prepare($_POST);
-$allEmployees = $employee->index();
+$allEmployees = $employee->employee();
 
 //print_r($allUsers);
 
@@ -85,7 +85,7 @@ include_once '../../../../view/Navigation/Nav/Navbar/navigation.php';
 </div>
 <div class="row">
 
-    <div class="col-md-3"></div>
+    <div class="col-md-4"></div>
 
     <div class="col-md-6">
 
@@ -99,6 +99,7 @@ include_once '../../../../view/Navigation/Nav/Navbar/navigation.php';
 
                     <label for="userName" style="margin-top: 4px">Employee ID</label>
                         <select required name="userName" class="form-control col-sm-6 custom-input" id="userType">
+                            <option></option>
                             <?php
                             if (isset($allEmployees) && !empty($allEmployees)) {
                             foreach ($allEmployees as $oneEmployee) {
@@ -106,7 +107,8 @@ include_once '../../../../view/Navigation/Nav/Navbar/navigation.php';
                             <option><?php echo $oneEmployee['employee_id']?></option>
 
                             <?php }}  ?>
-                        </select><br><br><br>
+                        </select>
+                        <br><br><br>
 
                     <label for="userType" style="margin-top: 4px">User Type</label>
                         <select required name="userType" class="form-control col-sm-6 custom-input" id="userType">
@@ -184,7 +186,7 @@ include_once '../../../../view/Navigation/Nav/Navbar/navigation.php';
 
                                     <input type="checkbox" class="checkBoxCompanyClass" name="permittedCompanies[]"
                                            value="<?php echo $oneCompany['company_id']?>" id="<?php echo $oneCompany['company_name']?>">
-                                    <label for="<?php echo $oneCompany['company_id']?>">&nbsp <?php echo $oneCompany['company_name']?></label><br>
+                                    <label for="<?php echo $oneCompany['company_name']?>">&nbsp <?php echo $oneCompany['company_name']?></label><br>
 
 
 

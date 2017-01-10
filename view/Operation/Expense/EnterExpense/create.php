@@ -97,7 +97,7 @@ include_once '../../../../view/Navigation/Nav/Navbar/navigation.php';
 </div>
 <div class="row">
 
-    <div class="col-md-3"></div>
+    <div class="col-md-4"></div>
 
     <div class="col-md-6">
 
@@ -128,7 +128,7 @@ include_once '../../../../view/Navigation/Nav/Navbar/navigation.php';
                     <div class="col-md-6">
                         <label for="expenseId" style="margin-top: 5px">Expense Code</label>
                         <input type="text" id="expenseId" name="expenseId" class="form-control custom-input"
-                               value="<?php echo $newTaskId ?>" placeholder="Expense Code" required>
+                               value="<?php echo $newTaskId ?>" placeholder="Expense Code" required readonly>
                     </div>
                     <div class="col-md-6">
                         <label for="expenseType" style="margin-top: 5px">Expense Type</label>
@@ -269,6 +269,10 @@ include_once '../../../../view/Navigation/Nav/Navbar/navigation.php';
                         <div>
                             <div class="col-md-4" style="float: right;width: 4%;margin-top: 11px;margin-right: 17px">
                                 <button type="submit" class="btn btn-info pull-right">Add Expense</button>
+                            </div>
+
+                            <div class="col-md-4" style="float: right;width: 4%;margin-top: 11px;margin-right: 87px">
+                                <button type="reset" class="btn btn-info pull-right">Clear</button>
                             </div>
                         </div>
                     </div>

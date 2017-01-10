@@ -74,7 +74,7 @@ include_once '../../../../view/Navigation/Nav/Navbar/navigation.php';
 <div class="row">
 
     <div class="col-md-1"></div>
-    <div id="custom-table" class="col-md-10" style="background-color: #9acfea;padding: 1px">
+    <div id="custom-table" class="col-md-10" style="background-color: #9acfea;padding: 1px;margin-left: 210px">
 
 
         <div class="table-responsive" id="custom-table">
@@ -142,7 +142,7 @@ include_once '../../../../view/Navigation/Nav/Navbar/navigation.php';
                 } else {
                     ?>
                     <tr>
-                        <td colspan="9" align="center">
+                        <td colspan="10" align="center">
                             <?php echo "No Data Available " ?>
 
                         </td>

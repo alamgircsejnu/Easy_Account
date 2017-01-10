@@ -95,7 +95,7 @@ if (isset($_SESSION['id']) && !empty($_SESSION['id'])){
                         <div class="col-md-6">
                             <label for="latestEstDays" style="margin-top: 5px">Latest Estimated Days</label>
                             <input type="text" id="latestEstDays" name="latestEstDays" class="form-control custom-input"
-                                   value="<?php echo $oneTask['latest_est_days'] ?>"   placeholder="Latest Estimated Date" required readonly>
+                                   value="<?php echo $oneTask['latest_est_days'] ?>"   placeholder="Latest Estimated Date" required>
                         </div>
 
                         <br><br><br>

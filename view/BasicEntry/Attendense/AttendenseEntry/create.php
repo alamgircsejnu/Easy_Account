@@ -1,6 +1,7 @@
 <?php
 session_start();
-//?>
+if (isset($_SESSION['id']) && !empty($_SESSION['id'])) {
+?>
 
 <!DOCTYPE html>
 <html>
@@ -62,7 +63,7 @@ include_once '../../../../view/Navigation/Nav/Navbar/navigation.php';
 </div>
 <div class="row">
 
-    <div class="col-md-3"></div>
+    <div class="col-md-4"></div>
 
     <div class="col-md-5">
 
@@ -82,25 +83,36 @@ include_once '../../../../view/Navigation/Nav/Navbar/navigation.php';
                     <div class="col-md-6">
                         <label for="dutyLocation" style="margin-top: 5px">Duty Location</label>
                         <select name="dutyLocation" class="form-control col-sm-6 custom-input" id="dutyLocation">
-                            <option selected>In Office</option>
-                            <option>Out Station</option>
+                            <option>In Office</option>
+                            <option selected>Out Station</option>
                         </select>
                     </div>
 
-                    <br><br><br>
-
-                    <div class="col-md-6">
-                        <label for="inTime" style="margin-top: 5px">In Time</label>
-                        <input type="text" id="inTime" name="inTime" class="form-control custom-input"
-                               placeholder="In Time">
+                    <br><br><br><br>
+                    <div style="float: left">
+                        <input type="checkbox" id="inTimeCheck" name="inTimeCheck" value="checked" class="form-control custom-input" style="margin-top: 14px;width: 20px;margin-left: 10px">
                     </div>
 
-                    <div class="col-md-6">
-                        <label for="outTime" style="margin-top: 5px">Out Time</label>
-                        <input type="text" id="outTime" name="outTime" class="form-control custom-input"
-                               placeholder="Out Time">
+                    <div>
+                        <label for="inTimeCheck" style="margin-top: 4px;margin-left: 10px;float: left">In Time</label>
                     </div>
-                    <br><br><br>
+                    <div style="float: left">
+                        <input type="hidden" id="inTime" name="inTime" class="form-control custom-input"
+                               placeholder="In Time" style="margin-top: 4px;margin-left: 54px;float: left;width: 200px">
+                    </div>
+                    <br><br>
+                    <div style="float: left">
+                        <input type="checkbox" id="outTimeCheck" name="outTimeCheck" value="checked" class="form-control custom-input" style="margin-top: 14px;width: 20px;margin-left: 10px">
+                    </div>
+                    <div style="float: left">
+                        <label for="outTimeCheck" style="margin-top: 4px;margin-left:10px;margin-right: 8px;">Out Time</label>
+                    </div>
+
+                    <div style="float: left">
+                        <input type="hidden" id="outTime" name="outTime" class="form-control custom-input"
+                               placeholder="Out Time" style="margin-top: 4px;margin-left: 32px;float: left;width: 200px">
+                    </div>
+                    <br><br>
 
                     <div class="col-md-12">
                         <label for="remarks" style="margin-top: 5px">Remarks</label>
@@ -118,7 +130,7 @@ include_once '../../../../view/Navigation/Nav/Navbar/navigation.php';
                     <div class="form-group">
                         <div>
                             <div class="col-md-4" style="float: right;width: 4%;margin-top: 11px;margin-right: 17px">
-                                <button type="submit" class="btn btn-info pull-right">Add Employee</button>
+                                <button type="submit" class="btn btn-info pull-right">Insert Attendense</button>
                             </div>
                         </div>
                     </div>
@@ -158,6 +170,27 @@ include_once '../../../../view/Navigation/Nav/Navbar/navigation.php';
 </script>
 
 <script type="text/javascript">
+    $('#inTimeCheck').on('change', function(){
+        if (this.checked) {
+            $("#inTime").prop("type", "text");
+        } else {
+            $("#inTime").prop("type", "hidden");
+        }
+
+    });
+
+    $('#outTimeCheck').on('change', function(){
+        if (this.checked) {
+            $("#outTime").prop("type", "text");
+        } else {
+            $("#outTime").prop("type", "hidden");
+        }
+
+    });
+
+</script>
+
+<script type="text/javascript">
     $(function () {
         $("#date").datepicker({
             dateFormat: 'yy-mm-dd',
@@ -188,10 +221,22 @@ include_once '../../../../view/Navigation/Nav/Navbar/navigation.php';
 </style>
 
 <script type="text/javascript">
-    $('#inTime').timepicker();
+    $('#inTime').timepicker({
+        showMeridian: false,
+        showSeconds: true
+    });
 </script>
 <script type="text/javascript">
-    $('#outTime').timepicker('data-minute-step','1');
+    $('#outTime').timepicker({
+        showMeridian: false,
+        showSeconds: true
+    });
 </script>
 </body>
 </html>
+
+    <?php
+} else{
+    header('Location:../../../User/ManageUser/Login/login.php');
+}
+?>

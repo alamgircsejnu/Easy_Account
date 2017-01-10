@@ -55,6 +55,7 @@ class WeekenedHoliday
 
     public function store()
     {
+        date_default_timezone_set("Asia/Dhaka");
         if (isset($this->dates) && !empty($this->dates)) {
             $query = "INSERT INTO `tbl_holiday` (`id`,`company_id`, `date`,`description`,`day_name`,`created_at`) VALUES ";
 
@@ -75,6 +76,7 @@ class WeekenedHoliday
 
     public function storeGH()
     {
+        date_default_timezone_set("Asia/Dhaka");
         if (isset($this->dates) && !empty($this->dates)) {
             $query = "INSERT INTO `tbl_holiday` (`id`,`company_id`, `date`,`description`,`day_name`,`created_at`) VALUES ";
 
@@ -86,7 +88,7 @@ class WeekenedHoliday
             if (mysql_query($query2)) {
                 $_SESSION['successMessage'] = "Successfully Added";
             } else {
-                $_SESSION['errorMessage'] = "There is no holiday in this date range!";
+                $_SESSION['errorMessage'] = "Something wrong!";
             }
 
         }

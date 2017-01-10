@@ -2,7 +2,7 @@
 session_start();
 include_once '../../../../vendor/autoload.php';
 use App\Attendense\AttendenseEntry\AttendenseEntry;
-
+if (isset($_SESSION['id']) && !empty($_SESSION['id'])){
 $_POST['companyId'] = $_SESSION['companyId'];
 $_POST['employeeId'] = $_SESSION['username'];
 
@@ -71,9 +71,9 @@ include_once '../../../../view/Navigation/Nav/Navbar/navigation.php';
     <div class="col-md-3"></div>
 </div>
 <div class="row">
-    <div class="col-md-1">
-    </div>
-    <div class="col-md-10">
+
+    <div class="col-md-10" style="margin-left: 200px">
+        <div class="col-md-2"></div>
         <div id="custom-table" style="background-color: #9acfea;padding: 1px">
 
 
@@ -84,12 +84,10 @@ include_once '../../../../view/Navigation/Nav/Navbar/navigation.php';
                         <th align="center">SL#</th>
                         <th align="center">Employee Id</th>
                         <th align="center">Employee Name</th>
-                        <th align="center">Date</th>
-                        <th align="center">Duty Location</th>
-                        <th align="center">In Time</th>
-                        <th align="center">Out Time</th>
-                        <th align="center">Remarks</th>
-                        <th align="center">Status</th>
+                        <th align="center">Punch Time</th>
+                        <th align="center">Purpose</th>
+                        <th align="center">remarks</th>
+                        <th align="center">Entry Time</th>
                     </tr>
                     </thead>
                     <?php
@@ -103,11 +101,10 @@ include_once '../../../../view/Navigation/Nav/Navbar/navigation.php';
                         <td><?php echo $serial ?></td>
                         <td><?php echo $oneAttendense['employee_id'] ?></td>
                         <td><?php echo $oneAttendense['employee_name']; ?></td>
-                        <td><?php echo $oneAttendense['date']; ?></td>
-                        <td><?php echo $oneAttendense['duty_location']; ?></td>
-                        <td><?php echo $oneAttendense['in_time']; ?></td>
-                        <td><?php echo $oneAttendense['out_time']; ?></td>
+                        <td><?php echo $oneAttendense['ctime']; ?></td>
+                        <td><?php echo $oneAttendense['purpose']; ?></td>
                         <td><?php echo $oneAttendense['remarks']; ?></td>
+                        <td><?php echo $oneAttendense['entry_time']; ?></td>
                         <td style="width: 130px">
                             <?php
                             if ($oneAttendense['is_approved'] == 0) {
@@ -128,7 +125,7 @@ include_once '../../../../view/Navigation/Nav/Navbar/navigation.php';
                     } else {
                         ?>
                         <tr>
-                            <td colspan="5" align="center">
+                            <td colspan="9" align="center">
                                 <?php echo "No Data Available " ?>
 
                             </td>
@@ -165,3 +162,8 @@ include_once '../../../../view/Navigation/Nav/Navbar/navigation.php';
 </script>
 </body>
 </html>
+<?php
+} else{
+    header('Location:../../../User/ManageUser/Login/login.php');
+}
+?>

@@ -67,7 +67,7 @@ if (isset($_SESSION['id']) && !empty($_SESSION['id'])){
 
         <div class="col-md-4"></div>
 
-        <div class="col-md-5">
+        <div class="col-md-4">
 
 
             <div class="panel panel-primary custom-panel">

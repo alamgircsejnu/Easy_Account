@@ -2,7 +2,7 @@
 session_start();
 include_once '../../../../vendor/autoload.php';
 use App\Attendense\AttendenseEntry\AttendenseEntry;
-
+if (isset($_SESSION['id']) && !empty($_SESSION['id'])){
 $_POST['companyId'] = $_SESSION['companyId'];
 
 $attendense = new AttendenseEntry();
@@ -72,7 +72,8 @@ include_once '../../../../view/Navigation/Nav/Navbar/navigation.php';
 <div class="row">
     <!--    <div class="col-md-1">-->
 </div>
-<div class="col-md-11" style="margin-left: 4%">
+<div class="col-md-10" style="margin-left: 200px">
+    <div class="col-md-2"></div>
     <div id="custom-table" style="background-color: #9acfea;padding: 1px">
 
 
@@ -167,3 +168,9 @@ include_once '../../../../view/Navigation/Nav/Navbar/navigation.php';
 </script>
 </body>
 </html>
+
+<?php
+} else{
+    header('Location:../../../User/ManageUser/Login/login.php');
+}
+?>
