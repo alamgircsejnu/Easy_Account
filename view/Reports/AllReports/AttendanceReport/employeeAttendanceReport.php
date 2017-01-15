@@ -18,6 +18,7 @@ if (array_key_exists('toDate', $_POST)){
 
 $attendance = new AllReports();
 $attendance->prepare($_POST);
+$employee = $attendance->oneEmployee();
 $allAttendance = $attendance->employeeAttendanceReport();
 //print_r($allAttendance);
 //die();
@@ -28,7 +29,7 @@ class PDF extends FPDF
     function Header()
     {
         // Arial bold 15
-        $this->SetFont('Courier','B',14);
+        $this->SetFont('Courier','B',15);
         // Move to the right
         $this->Cell(80);
         // Title
@@ -102,7 +103,7 @@ class PDF extends FPDF
     }
 
 // Colored table
-    function FancyTable($header, $data)
+    function FancyTable($header,$employee,$data)
     {
 
         // Colors, line width and bold font
@@ -112,17 +113,19 @@ class PDF extends FPDF
         $this->SetLineWidth(.3);
         $this->SetFont('','B');
         // Header
-        $w = array(23, 23, 23, 23, 23, 23, 33, 23);
+        $w = array(23, 23, 23, 23, 23, 20, 32, 27);
 
         $this->Cell(35,5,'From : '.$_POST['from'],1,0,'L',false);
         $this->Cell(35,5,'',1,0,'C',false);
         $this->Cell(35,5,'',1,0,'C',false);
+        $this->Cell(20,5,'',1,0,'C',false);
         $this->Cell(35,5,'To : '.$_POST['to'],1,0,'L',false);
         $this->Ln(5);
         $this->Cell(40,5,'Employee ID : '.$_POST['employeeId'],1,0,'L',false);
         $this->Cell(32,5,'',1,0,'C',false);
         $this->Cell(33,5,'',1,0,'C',false);
-        $this->Cell(35,5,'Employee Name : '.$data[0]['employee_name'],1,0,'L',false);
+        $this->Cell(20,5,'',1,0,'C',false);
+        $this->Cell(35,5,'Employee Name : '.$employee['first_name'].' '.$employee['last_name'],1,0,'L',false);
         $this->Ln(8);
 
         for($i=0;$i<count($header);$i++)
@@ -142,6 +145,7 @@ class PDF extends FPDF
         $totalAbsent = 0;
         $totalLeave = 0;
         $holidayDuty = 0;
+        $dutyInLeave = 0;
         foreach($data as $row)
         {
 
@@ -149,12 +153,15 @@ class PDF extends FPDF
             $_POST['companyId'] = $_SESSION['companyId'];
             $attendance = new AllReports();
             $attendance->prepare($_POST);
-            $holiday = $attendance->holiday($row['date']);
-            if ($row['status']=='P' || $row['status']=='L' || $row['status']=='FH,P' || $row['status']=='FH,L' || $row['status']=='SH,P' || $row['status']=='SH,L' || $row['status']=='CL,P' || $row['status']=='CL,L' || $row['status']=='SL,P' || $row['status']=='SL,L' || $row['status']=='ML,P' || $row['status']=='ML,L' || $row['status']=='EL,P' || $row['status']=='EL,L'){
-                if ($row['status']=='P' || $row['status']=='L' || $row['status']=='CL,P' || $row['status']=='CL,L' || $row['status']=='SL,P' || $row['status']=='SL,L' || $row['status']=='ML,P' || $row['status']=='ML,L' || $row['status']=='EL,P' || $row['status']=='EL,L'){
+            $holiday = $attendance->oneHoliday($row['date']);
+            if ($row['status']=='P' || $row['status']=='L' || $row['status']=='H1,P' || $row['status']=='H1,L' || $row['status']=='H2,P' || $row['status']=='H2,L' || $row['status']=='CL,P' || $row['status']=='CL,L' || $row['status']=='SL,P' || $row['status']=='SL,L' || $row['status']=='ML,P' || $row['status']=='ML,L' || $row['status']=='EL,P' || $row['status']=='EL,L'){
+                if ($row['status']=='P' || $row['status']=='L' && !isset($holiday['date'])){
                     $totalPresent+=1;
-                } elseif ($row['status']=='FH,P' || $row['status']=='FH,L' || $row['status']=='SH,P' || $row['status']=='SH,L'){
+                } elseif ($row['status']=='H1,P' || $row['status']=='H1,L' || $row['status']=='H2,P' || $row['status']=='H2,L'){
                     $totalPresent+=0.5;
+                }
+                if ($row['status']=='CL,P' || $row['status']=='CL,L' || $row['status']=='SL,P' || $row['status']=='SL,L' || $row['status']=='ML,P' || $row['status']=='ML,L' || $row['status']=='EL,P' || $row['status']=='EL,L'){
+                    $dutyInLeave++;
                 }
             }
 
@@ -162,7 +169,7 @@ class PDF extends FPDF
                 $totalHoliday++;
             }
             if (isset($row['in_time']) && !empty($row['in_time'])) {
-                $holiday = $attendance->holiday($row['date']);
+                $holiday = $attendance->oneHoliday($row['date']);
                 if (isset($holiday['date']) && !empty($holiday['date'])) {
                     $holidayDuty++;
                 }
@@ -171,10 +178,10 @@ class PDF extends FPDF
             if ($row['status']=='A'){
                 $totalAbsent++;
             }
-            if ($row['status']=='CL' || $row['status']=='SL' || $row['status']=='ML' || $row['status']=='EL' || $row['status']=='FH,P' || $row['status']=='FH,L' || $row['status']=='SH,P' || $row['status']=='SH,L'){
-                if ($row['status']=='CL' || $row['status']=='SL' || $row['status']=='ML' || $row['status']=='EL'){
+            if ($row['status']=='CL' || $row['status']=='SL' || $row['status']=='ML' || $row['status']=='EL' || $row['status']=='H1,P' || $row['status']=='H1,L' || $row['status']=='H2,P' || $row['status']=='H2,L' || $row['status']=='CL,P' || $row['status']=='CL,L' || $row['status']=='SL,P' || $row['status']=='SL,L' || $row['status']=='ML,P' || $row['status']=='ML,L' || $row['status']=='EL,P' || $row['status']=='EL,L'){
+                if ($row['status']=='CL' || $row['status']=='SL' || $row['status']=='ML' || $row['status']=='EL' || $row['status']=='CL,P' || $row['status']=='CL,L' || $row['status']=='SL,P' || $row['status']=='SL,L' || $row['status']=='ML,P' || $row['status']=='ML,L' || $row['status']=='EL,P' || $row['status']=='EL,L'){
                 $totalLeave+=1;
-                } elseif ($row['status']=='FH,P' || $row['status']=='FH,L' || $row['status']=='SH,P' || $row['status']=='SH,L'){
+                } elseif ($row['status']=='H1,P' || $row['status']=='H1,L' || $row['status']=='H2,P' || $row['status']=='H2,L'){
                     $totalLeave+=0.5;
                 }
             }
@@ -199,7 +206,7 @@ class PDF extends FPDF
             $this->Cell($w[0],6,$row['date'],'LR',0,'C',$fill);
             $this->Cell($w[1],6,$row['day'],'LR',0,'C',$fill);
             $this->SetFont('Times','',10);
-            if ($row['status']=='L' || $row['status']=='FH,L' || $row['status']=='SH,L'){
+            if ($row['status']=='L' || $row['status']=='H1,L' || $row['status']=='H2,L'){
                 if (isset($row['holiday_name']) && !empty($row['holiday_name'])){
 
                 } else{
@@ -207,11 +214,11 @@ class PDF extends FPDF
                 }
 
             }
-            if ($row['status']=='L' || $row['status']=='FH,L' || $row['status']=='SH,L' || $row['status']=='CL,L' || $row['status']=='SL,L' || $row['status']=='ML,L' || $row['status']=='EL,L'){
+            if ($row['status']=='L' || $row['status']=='H1,L' || $row['status']=='H2,L' || $row['status']=='CL,L' || $row['status']=='SL,L' || $row['status']=='ML,L' || $row['status']=='EL,L'){
                 $this->SetTextColor(255,0,0);
             }
             $this->Cell($w[2],6,$row['in_time'],'LR',0,'C',$fill);
-            if ($row['status']=='L' || $row['status']=='FH,L' || $row['status']=='SH,L' || $row['status']=='CL,L' || $row['status']=='SL,L' || $row['status']=='ML,L' || $row['status']=='EL,L'){
+            if ($row['status']=='L' || $row['status']=='H1,L' || $row['status']=='H2,L' || $row['status']=='CL,L' || $row['status']=='SL,L' || $row['status']=='ML,L' || $row['status']=='EL,L'){
                 $this->SetTextColor(0);
             }
             $this->Cell($w[3],6,$row['out_time'],'LR',0,'C',$fill);
@@ -268,10 +275,9 @@ class PDF extends FPDF
         $this->Cell(35,5,'Holiday Duty',1,0,'L',false);
         $this->Cell(10,5,':',1,0,'L',false);
         $this->Cell(5,5,$holidayDuty,1,0,'C',false);$this->Ln();
-        $this->Cell(35,5,'Effeciency',1,0,'L',false);
+        $this->Cell(35,5,'Duty in Leave',1,0,'L',false);
         $this->Cell(10,5,':',1,0,'L',false);
-        $this->Cell(5,5,'',1,0,'C',false);
-
+        $this->Cell(5,5,$dutyInLeave,1,0,'C',false);$this->Ln();
     }
     function Footer()
     {
@@ -286,11 +292,11 @@ class PDF extends FPDF
 
 $pdf = new PDF();
 // Column headings
-$header = array('DATE','DAY', 'IN TIME', 'OUT TIME', 'DURATION', 'STATUS', 'HOLIDAY NAME', 'REMARKS');
+$header = array('DATE','DAY', 'IN TIME', 'OUT TIME', 'DURATION', 'STATUS', 'HOLIDAY TYPE', 'REMARKS');
 // Data loading
-$data = $pdf->LoadData('countries.txt');
+//$data = $pdf->LoadData('countries.txt');
 $pdf->SetFont('Times','',10);
 $pdf->AddPage();
-$pdf->FancyTable($header,$allAttendance);
+$pdf->FancyTable($header,$employee,$allAttendance);
 $pdf->Output();
 ?>

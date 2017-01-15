@@ -64,6 +64,7 @@ if (isset($_SESSION['id']) && !empty($_SESSION['id'])) {
         </div>
         <div class="col-md-3"></div>
     </div>
+    <br><br>
     <div class="row">
 
         <div class="col-md-4"></div>
@@ -73,25 +74,11 @@ if (isset($_SESSION['id']) && !empty($_SESSION['id'])) {
 
             <div class="panel panel-primary custom-panel">
 
-                <div class="panel-heading">Attendance Report</div>
+                <div class="panel-heading">Holiday Report</div>
                 <br>
-                <form role="form" action="employeeAttendanceReport.php" method="post" target="_blank">
+                <form role="form" action="holidayReport.php" method="post" target="_blank">
 
                     <div  style="margin-top: 21px;">
-                        <div class="col-md-10">
-                            <label for="employeeId" style="margin-top: 4px">Employee Id</label>
-                            <select name="employeeId" class="form-control col-sm-6 custom-input" id="employeeId">
-                                <option></option>
-                                <?php
-                                if (isset($allEmployees) && !empty($allEmployees)) {
-                                    foreach ($allEmployees as $oneEmployee) {
-                                        ?>
-                                        <option><?php echo $oneEmployee['employee_id']?></option>
-
-                                    <?php }}  ?>
-                            </select>
-                        </div>
-                        <br><br><br><br><br>
                         <div>
                             <label for="from" style="margin-top: 4px;margin-right: 8px;float: left;margin-left: 15px">Select Date</label>
                         </div>
@@ -110,11 +97,10 @@ if (isset($_SESSION['id']) && !empty($_SESSION['id'])) {
                             <input type="hidden" id="to" name="to" value="<?php echo date('Y-m-d') ?>"
                                    class="form-control custom-input" style="height: 23px!important;width: 100px;margin-top: 8px;float: left;font-size: 13px">
                         </div>
-                        <br><br>
 
                     </div>
 
-                    <br><br><br>
+                    <br><br><br><br>
                     <div class="form-horizontal">
                         <div class="form-group">
                             <div>

@@ -1,13 +1,13 @@
 <?php
 session_start();
 include_once '../../../../vendor/autoload.php';
-use App\Reports\AllReports\AllReports;
+use App\Employee\ManageEmployee\Employee;
 date_default_timezone_set("Asia/Dhaka");
 if (isset($_SESSION['id']) && !empty($_SESSION['id'])) {
     $_POST['companyId'] = $_SESSION['companyId'];
-    $report = new AllReports();
+    $report = new Employee();
     $report->prepare($_POST);
-    $allDepartment = $report->department();
+    $allEmployee = $report->index();
     ?>
 
     <!DOCTYPE html>
@@ -73,25 +73,25 @@ if (isset($_SESSION['id']) && !empty($_SESSION['id'])) {
 
             <div class="panel panel-primary custom-panel">
 
-                <div class="panel-heading">Summary Report</div>
+                <div class="panel-heading">Detail In Out Report</div>
                 <br>
-                <form role="form" action="summaryReport.php" method="post" target="_blank">
+                <form role="form" action="inOutReport.php" method="post" target="_blank">
 
                     <div  style="margin-top: 21px;">
                         <div>
-                            <label style="margin-right: 10px">Department :</label>
-                            <span id="allDeptDiv">
-                            <input type="checkbox" name="allDept" id="allDept" value="all" required>
-                            <label for="allDept" id="allDeptLabel"">All</label>
+                            <label style="margin-right: 10px">Employee :</label>
+                            <span id="allEmpDiv">
+                            <input type="checkbox" name="allEmp" id="allEmp" value="all" required>
+                            <label for="allEmp" id="allEmpLabel"">All</label>
                             </span>
-                            <label for="department" style="margin-right: 10px;margin-left: 20px">Select Dept.</label>
-                            <select name="department" id="department" style="height: 23px!important;width: 155px;margin-top: 8px;font-size: 13px;" required>
+                            <label for="employeeId" style="margin-right: 5px;margin-left: 15px">Select Employee</label>
+                            <select name="employeeId" id="employeeId" style="height: 23px!important;width: 155px;margin-top: 8px;font-size: 13px;" required>
                                 <option></option>
                                 <?php
-                                if (isset($allDepartment) && !empty($allDepartment)) {
-                                    foreach ($allDepartment as $oneDepartment) {
+                                if (isset($allEmployee) && !empty($allEmployee)) {
+                                    foreach ($allEmployee as $oneEmployee) {
                                         ?>
-                                        <option><?php echo $oneDepartment['department']?></option>
+                                        <option value="<?php echo $oneEmployee['employee_id']?>"><?php echo $oneEmployee['first_name'].' '.$oneEmployee['last_name']?></option>
 
                                     <?php }}  ?>
                             </select>
@@ -153,13 +153,13 @@ if (isset($_SESSION['id']) && !empty($_SESSION['id'])) {
 
     <script type="text/javascript">
 
-        $('#allDept').on('change', function(){
-            var inputVal = document.getElementById("department");
+        $('#allEmp').on('change', function(){
+            var inputVal = document.getElementById("employeeId");
             if (this.checked) {
-                $('#department').prop('disabled', true);
+                $('#employeeId').prop('disabled', true);
                 inputVal.style.backgroundColor = "#a8adb5";
             } else {
-                $('#department').prop('disabled', false);
+                $('#employeeId').prop('disabled', false);
                 inputVal.style.backgroundColor = "white";
             }
 
@@ -167,10 +167,10 @@ if (isset($_SESSION['id']) && !empty($_SESSION['id'])) {
 
     </script>
     <script type="text/javascript">
-        $('#department').on('change', function(){
-            var inputVal = document.getElementById("allDeptDiv");
-                $("#allDept").prop('disabled', true);
-                inputVal.style.backgroundColor = "#a8adb5";
+        $('#employeeId').on('change', function(){
+            var inputVal = document.getElementById("allEmpDiv");
+            $("#allEmp").prop('disabled', true);
+            inputVal.style.backgroundColor = "#a8adb5";
         });
 
     </script>

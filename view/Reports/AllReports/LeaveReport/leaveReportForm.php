@@ -1,13 +1,13 @@
 <?php
 session_start();
 include_once '../../../../vendor/autoload.php';
-use App\Reports\AllReports\AllReports;
+use App\Employee\ManageEmployee\Employee;
 date_default_timezone_set("Asia/Dhaka");
 if (isset($_SESSION['id']) && !empty($_SESSION['id'])) {
     $_POST['companyId'] = $_SESSION['companyId'];
-    $report = new AllReports();
-    $report->prepare($_POST);
-    $allDepartment = $report->department();
+    $employee = new Employee();
+    $employee->prepare($_POST);
+    $allEmployees = $employee->index();
     ?>
 
     <!DOCTYPE html>
@@ -73,30 +73,25 @@ if (isset($_SESSION['id']) && !empty($_SESSION['id'])) {
 
             <div class="panel panel-primary custom-panel">
 
-                <div class="panel-heading">Summary Report</div>
+                <div class="panel-heading">Leave Report</div>
                 <br>
-                <form role="form" action="summaryReport.php" method="post" target="_blank">
+                <form role="form" action="leaveReport.php" method="post" target="_blank">
 
                     <div  style="margin-top: 21px;">
-                        <div>
-                            <label style="margin-right: 10px">Department :</label>
-                            <span id="allDeptDiv">
-                            <input type="checkbox" name="allDept" id="allDept" value="all" required>
-                            <label for="allDept" id="allDeptLabel"">All</label>
-                            </span>
-                            <label for="department" style="margin-right: 10px;margin-left: 20px">Select Dept.</label>
-                            <select name="department" id="department" style="height: 23px!important;width: 155px;margin-top: 8px;font-size: 13px;" required>
+                        <div class="col-md-10">
+                            <label for="employeeId" style="margin-top: 4px">Employee Id</label>
+                            <select name="employeeId" class="form-control col-sm-6 custom-input" id="employeeId">
                                 <option></option>
                                 <?php
-                                if (isset($allDepartment) && !empty($allDepartment)) {
-                                    foreach ($allDepartment as $oneDepartment) {
+                                if (isset($allEmployees) && !empty($allEmployees)) {
+                                    foreach ($allEmployees as $oneEmployee) {
                                         ?>
-                                        <option><?php echo $oneDepartment['department']?></option>
+                                        <option><?php echo $oneEmployee['employee_id']?></option>
 
                                     <?php }}  ?>
                             </select>
                         </div>
-                        <br><br>
+                        <br><br><br><br><br>
                         <div>
                             <label for="from" style="margin-top: 4px;margin-right: 8px;float: left;margin-left: 15px">Select Date</label>
                         </div>
@@ -150,29 +145,15 @@ if (isset($_SESSION['id']) && !empty($_SESSION['id'])) {
     <script src="jquery.checkAll.js"></script>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
     <script type="text/javascript" src="../../../../asset/js/js/jquery-ui-1.10.4.custom.min.js"></script>
-
-    <script type="text/javascript">
-
-        $('#allDept').on('change', function(){
-            var inputVal = document.getElementById("department");
-            if (this.checked) {
-                $('#department').prop('disabled', true);
-                inputVal.style.backgroundColor = "#a8adb5";
-            } else {
-                $('#department').prop('disabled', false);
-                inputVal.style.backgroundColor = "white";
-            }
-
+    <script>
+        $(document).ready(function () {
+            $("#ckbCheckAll").click(function () {
+                if (this.checked)
+                    $(".checkBoxClass").prop('checked', "checked");
+                else
+                    $(".checkBoxClass").removeProp('checked');
+            });
         });
-
-    </script>
-    <script type="text/javascript">
-        $('#department').on('change', function(){
-            var inputVal = document.getElementById("allDeptDiv");
-                $("#allDept").prop('disabled', true);
-                inputVal.style.backgroundColor = "#a8adb5";
-        });
-
     </script>
     <script type="text/javascript">
         $('#toDate').on('change', function(){
@@ -235,7 +216,7 @@ if (isset($_SESSION['id']) && !empty($_SESSION['id'])) {
 
     <?php
 } else{
-    header('Location:../../../User/ManageUser/Login/login.php');
+    header('Location:../Login/login.php');
 
 }
 ?>

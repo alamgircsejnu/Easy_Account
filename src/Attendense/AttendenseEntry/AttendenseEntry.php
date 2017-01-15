@@ -231,20 +231,20 @@ class AttendenseEntry
         }
         foreach ($allEmployee as $oneEmployee){
             foreach ($this->dates as $oneDate) {
-                $query3 = "SELECT MIN(ctime) AS min FROM `tbl_card` where `tbl_card`.`company_id` = '" . $this->companyId . "' AND `tbl_card`.`cid` = '" . $oneEmployee['card_id'] . "' AND `tbl_card`.`ctime` BETWEEN '" . $oneDate . " 00:00:00' AND '" . $oneDate . " 23:59:59'";
+                $query3 = "SELECT MIN(ctime) AS min FROM `tbl_card` where `tbl_card`.`company_id` = '" . $this->companyId . "' AND `tbl_card`.`employee_id` = '" . $oneEmployee['employee_id'] . "' AND `tbl_card`.`ctime` BETWEEN '" . $oneDate . " 00:00:00' AND '" . $oneDate . " 23:59:59'";
                 $result3 = mysql_query($query3);
                 $row2 = mysql_fetch_assoc($result3);
                 $inTime = $row2['min'];
                 $time = new \DateTime($inTime);
                 $inTimeCheck = $time->format('H:i:s');
 
-                $query4 = "SELECT MAX(ctime) AS max FROM `tbl_card` where `tbl_card`.`company_id` = '" . $this->companyId . "' AND `tbl_card`.`cid` = '" . $oneEmployee['card_id'] . "' AND `tbl_card`.`ctime` BETWEEN '" . $oneDate . " 00:00:00' AND '" . $oneDate . " 23:59:59'";
+                $query4 = "SELECT MAX(ctime) AS max FROM `tbl_card` where `tbl_card`.`company_id` = '" . $this->companyId . "' AND `tbl_card`.`employee_id` = '" . $oneEmployee['employee_id'] . "' AND `tbl_card`.`ctime` BETWEEN '" . $oneDate . " 00:00:00' AND '" . $oneDate . " 23:59:59'";
                 $result4 = mysql_query($query4);
                 $row3 = mysql_fetch_assoc($result4);
                 $outTime = $row3['max'];
 
                 $cardData = array();
-                $query5 = "SELECT * FROM `tbl_card` where `tbl_card`.`company_id` = '" . $this->companyId . "' AND `tbl_card`.`cid` = '" . $oneEmployee['card_id'] . "' AND `tbl_card`.`ctime` BETWEEN '" . $oneDate . " 00:00:00' AND '" . $oneDate . " 23:59:59' ORDER BY ctime";
+                $query5 = "SELECT * FROM `tbl_card` where `tbl_card`.`company_id` = '" . $this->companyId . "' AND `tbl_card`.`employee_id` = '" . $oneEmployee['employee_id'] . "' AND `tbl_card`.`ctime` BETWEEN '" . $oneDate . " 00:00:00' AND '" . $oneDate . " 23:59:59' ORDER BY ctime";
                 $result5 = mysql_query($query5);
                 while ($row4=  mysql_fetch_assoc($result5)){
                     $cardData[]=$row4;
@@ -276,12 +276,12 @@ class AttendenseEntry
                 }
                 unset($remarks);
 
-                $query6 = "SELECT DISTINCT remarks,device_id FROM `tbl_card` where `tbl_card`.`company_id` = '" . $this->companyId . "' AND `tbl_card`.`cid` = '" . $oneEmployee['card_id'] . "' AND `tbl_card`.`ctime` BETWEEN '" . $oneDate . " 00:00:00' AND '" . $oneDate . " 23:59:59' AND remarks IS NOT NULL";
+                $query6 = "SELECT DISTINCT remarks,device_id FROM `tbl_card` where `tbl_card`.`company_id` = '" . $this->companyId . "' AND `tbl_card`.`employee_id` = '" . $oneEmployee['employee_id'] . "' AND `tbl_card`.`ctime` BETWEEN '" . $oneDate . " 00:00:00' AND '" . $oneDate . " 23:59:59' AND remarks IS NOT NULL";
                 $result6 = mysql_query($query6);
                 $row12 = mysql_fetch_assoc($result6);
                 if (!isset($remarks)){
                     if ($row12['device_id']==0){
-                        $remarks = $row12['remarks'].' (ME)';
+                        $remarks = $row12['remarks'].'  M';
                     }
                 }
                 $query8 = "SELECT * FROM `tbl_leave` where `tbl_leave`.`company_id` = '" . $this->companyId . "' AND `tbl_leave`.`employee_id` = '" . $oneEmployee['employee_id'] . "' AND `tbl_leave`.`date`= '" . $oneDate . "'";
@@ -296,24 +296,24 @@ class AttendenseEntry
                             $time3 = new \DateTime($inLate2);
                             $inLateCheck2 = $time3->format('H:i:s');
                             if ($inTimeCheck<$inLateCheck2){
-                                $status = 'FH,P';
+                                $status = 'H1,P';
                             } else{
-                                $status = 'FH,L';
+                                $status = 'H1,L';
                             }
                             if ($row12['device_id']==0){
-                                $remarks = $row7['remarks'].' (ME)';
+                                $remarks = $row7['remarks'].'  M';
                             }
                         } else if ($row7['h_f']=='Second Half'){
                             $inLate =  $row5['in_allow_time'];
                             $time2 = new \DateTime($inLate);
                             $inLateCheck = $time2->format('H:i:s');
                             if ($inTimeCheck<$inLateCheck){
-                                $status = 'SH,P';
+                                $status = 'H2,P';
                             } else{
-                                $status = 'SH,L';
+                                $status = 'H2,L';
                             }
                             if ($row12['device_id']==0){
-                                $remarks = $row7['remarks'].' (ME)';
+                                $remarks = $row7['remarks'].'  M';
                             }
                         } else if(isset($duration) && !empty($duration)){
                             $inLate =  $row5['in_allow_time'];
@@ -325,13 +325,13 @@ class AttendenseEntry
                                 $status = $row7['purpose'].',L';
                             }
                             if ($row12['device_id']==0){
-                                $remarks = $row7['remarks'].' (ME)';
+                                $remarks = $row7['remarks'].'  M';
                             }
-                            $query9="INSERT INTO `tbl_attendense_log` (`id`,`company_id`,`cid`, `employee_id`,`employee_name`,`date`,`in_time`,`out_time`,`duration`,`in_late`,`status`,`event_date`,`remarks`) VALUES ('', '" . $oneEmployee['company_id']. "','" . $oneEmployee['card_id'] . "','" . $oneEmployee['employee_id'] . "','" . $oneEmployee['first_name'] . " ".$oneEmployee['last_name']."','" . $oneDate."','" . $inTime."','" . $outTime."','" . $duration."','" . $inLate."','" . $status . "','" . date('Y-m-d H:i:s') . "','" . $remarks . "')";
+                            $query9="INSERT INTO `tbl_attendense_log` (`id`,`company_id`,`cid`, `employee_id`,`employee_name`,`department`,`date`,`in_time`,`out_time`,`duration`,`in_late`,`status`,`event_date`,`remarks`) VALUES ('', '" . $oneEmployee['company_id']. "','" . $oneEmployee['card_id'] . "','" . $oneEmployee['employee_id'] . "','" . $oneEmployee['first_name'] . " ".$oneEmployee['last_name']."','" . $oneEmployee['department'] . "','" . $oneDate."','" . $inTime."','" . $outTime."','" . $duration."','" . $inLate."','" . $status . "','" . date('Y-m-d H:i:s') . "','" . $remarks . "')";
                             $result9 = mysql_query($query9);
                             continue;
                         } else {
-                            $query13="INSERT INTO `tbl_attendense_log` (`id`,`company_id`,`cid`, `employee_id`,`employee_name`,`date`,`event_date`,`status`,`remarks`) VALUES ('', '" . $oneEmployee['company_id']. "','" . $oneEmployee['card_id'] . "','" . $oneEmployee['employee_id'] . "','" . $oneEmployee['first_name'] . " ".$oneEmployee['last_name']."','" . $oneDate."','" . date('Y-m-d H:i:s') . "','" . $status . "','" . $remarks . "')";
+                            $query13="INSERT INTO `tbl_attendense_log` (`id`,`company_id`,`cid`, `employee_id`,`employee_name`,`department`,`date`,`event_date`,`status`,`remarks`) VALUES ('', '" . $oneEmployee['company_id']. "','" . $oneEmployee['card_id'] . "','" . $oneEmployee['employee_id'] . "','" . $oneEmployee['first_name'] . " ".$oneEmployee['last_name']."','" . $oneEmployee['department'] . "','" . $oneDate."','" . date('Y-m-d H:i:s') . "','" . $status . "','" . $remarks . "')";
                             $result12 = mysql_query($query13);
                             continue;
                         }
@@ -342,16 +342,16 @@ class AttendenseEntry
                         $row9 = mysql_fetch_assoc($result10);
                         if (!empty($row9) && empty($inTime)){
                             $holidayName = $row9['description'];
-                            $query11="INSERT INTO `tbl_attendense_log` (`id`,`company_id`,`cid`, `employee_id`,`employee_name`,`date`,`event_date`,`holiday_name`) VALUES ('', '" . $oneEmployee['company_id']. "','" . $oneEmployee['card_id'] . "','" . $oneEmployee['employee_id'] . "','" . $oneEmployee['first_name'] . " ".$oneEmployee['last_name']."','" . $oneDate."','" . date('Y-m-d H:i:s') . "','" . $holidayName . "')";
+                            $query11="INSERT INTO `tbl_attendense_log` (`id`,`company_id`,`cid`, `employee_id`,`employee_name`,`department`,`date`,`event_date`,`holiday_name`) VALUES ('', '" . $oneEmployee['company_id']. "','" . $oneEmployee['card_id'] . "','" . $oneEmployee['employee_id'] . "','" . $oneEmployee['first_name'] . " ".$oneEmployee['last_name']."','" . $oneEmployee['department'] . "','" . $oneDate."','" . date('Y-m-d H:i:s') . "','" . $holidayName . "')";
                             $result11 = mysql_query($query11);
                             continue;
                         }elseif (!empty($row9) && !empty($inTime)){
                             $holidayName = $row9['description'];
-                            $query15="INSERT INTO `tbl_attendense_log` (`id`,`company_id`,`cid`, `employee_id`,`employee_name`,`date`,`in_time`,`out_time`,`duration`,`in_late`,`status`,`event_date`,`holiday_name`,`remarks`) VALUES ('', '" . $oneEmployee['company_id']. "','" . $oneEmployee['card_id'] . "','" . $oneEmployee['employee_id'] . "','" . $oneEmployee['first_name'] . " ".$oneEmployee['last_name']."','" . $oneDate."','" . $inTime."','" . $outTime."','" . $duration."','" . $inLate."','" . $status."','" . date('Y-m-d H:i:s') . "','" . $holidayName . "','" . $remarks . "')";
+                            $query15="INSERT INTO `tbl_attendense_log` (`id`,`company_id`,`cid`, `employee_id`,`employee_name`,`department`,`date`,`in_time`,`out_time`,`duration`,`in_late`,`status`,`event_date`,`holiday_name`,`remarks`) VALUES ('', '" . $oneEmployee['company_id']. "','" . $oneEmployee['card_id'] . "','" . $oneEmployee['employee_id'] . "','" . $oneEmployee['first_name'] . " ".$oneEmployee['last_name']."','" . $oneEmployee['department'] . "','" . $oneDate."','" . $inTime."','" . $outTime."','" . $duration."','" . $inLate."','" . $status."','" . date('Y-m-d H:i:s') . "','" . $holidayName . "','" . $remarks . "')";
                             $result15 = mysql_query($query15);
                             continue;
                         } else if (empty($inTime)) {
-                            $query12="INSERT INTO `tbl_attendense_log` (`id`,`company_id`,`cid`, `employee_id`,`employee_name`,`date`,`event_date`,`status`) VALUES ('', '" . $oneEmployee['company_id']. "','" . $oneEmployee['card_id'] . "','" . $oneEmployee['employee_id'] . "','" . $oneEmployee['first_name'] . " ".$oneEmployee['last_name']."','" . $oneDate."','" . date('Y-m-d H:i:s') . "','A')";
+                            $query12="INSERT INTO `tbl_attendense_log` (`id`,`company_id`,`cid`, `employee_id`,`employee_name`,`department`,`date`,`event_date`,`status`) VALUES ('', '" . $oneEmployee['company_id']. "','" . $oneEmployee['card_id'] . "','" . $oneEmployee['employee_id'] . "','" . $oneEmployee['first_name'] . " ".$oneEmployee['last_name']."','" . $oneEmployee['department'] . "','" . $oneDate."','" . date('Y-m-d H:i:s') . "','A')";
                             $result12 = mysql_query($query12);
                             continue;
                         }
@@ -359,7 +359,7 @@ class AttendenseEntry
                     }
 //                echo gmdate('H:i:s', $duration).'<br><br>';
 
-                $query7="INSERT INTO `tbl_attendense_log` (`id`,`company_id`,`cid`, `employee_id`,`employee_name`,`date`,`in_time`,`out_time`,`duration`,`in_late`,`event_date`,`status`,`remarks`) VALUES ('', '" . $oneEmployee['company_id']. "','" . $oneEmployee['card_id'] . "','" . $oneEmployee['employee_id'] . "','" . $oneEmployee['first_name'] . " ".$oneEmployee['last_name']."','" . $oneDate."','" . $inTime."', '".$outTime. "','".$duration. "','" . $inLate . "','" . date('Y-m-d H:i:s') . "','" . $status . "','" . $remarks . "')";
+                $query7="INSERT INTO `tbl_attendense_log` (`id`,`company_id`,`cid`, `employee_id`,`employee_name`,`department`,`date`,`in_time`,`out_time`,`duration`,`in_late`,`event_date`,`status`,`remarks`) VALUES ('', '" . $oneEmployee['company_id']. "','" . $oneEmployee['card_id'] . "','" . $oneEmployee['employee_id'] . "','" . $oneEmployee['first_name'] . " ".$oneEmployee['last_name']."','" . $oneEmployee['department']. "','" . $oneDate."','" . $inTime."', '".$outTime. "','".$duration. "','" . $inLate . "','" . date('Y-m-d H:i:s') . "','" . $status . "','" . $remarks . "')";
 
                 if (mysql_query($query7)) {
                     $_SESSION['successMessage'] = "All Data Processed.";

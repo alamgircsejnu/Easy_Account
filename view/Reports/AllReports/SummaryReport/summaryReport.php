@@ -114,7 +114,7 @@ class PDF extends FPDF
             $totalHoliday = 0;
             foreach ($allData as $Data) {
                     $totalWorkingDay++;
-                    $holiday = $summary->holiday($Data['date']);
+                    $holiday = $summary->oneHoliday($Data['date']);
                     if (isset($holiday['date']) && !empty($holiday['date'])) {
                         $totalHoliday++;
                     }
@@ -178,7 +178,7 @@ class PDF extends FPDF
             {
                 $totalDuration += $Data['duration'];
                 if (isset($Data['in_time']) && !empty($Data['in_time'])) {
-                    $holiday = $summary->holiday($Data['date']);
+                    $holiday = $summary->oneHoliday($Data['date']);
                     if (isset($holiday['date']) && !empty($holiday['date'])) {
                         $totalHolidayDuty++;
                     }
@@ -186,21 +186,21 @@ class PDF extends FPDF
                 if ($Data['status']=='A'){
                     $totalAbsent++;
                 }
-                if ($Data['status']=='CL' || $Data['status']=='SL' || $Data['status']=='ML' || $Data['status']=='EL' || $Data['status']=='FH,P' || $Data['status']=='FH,L' || $Data['status']=='SH,P' || $Data['status']=='SH,L'){
-                    if ($Data['status']=='CL' || $Data['status']=='SL' || $Data['status']=='ML' || $Data['status']=='EL'){
+                if ($Data['status']=='CL' || $Data['status']=='SL' || $Data['status']=='ML' || $Data['status']=='EL' || $Data['status']=='H1,P' || $Data['status']=='H1,L' || $Data['status']=='H2,P' || $Data['status']=='H2,L' || $Data['status']=='CL,P' || $Data['status']=='CL,L' || $Data['status']=='SL,P' || $Data['status']=='SL,L' || $Data['status']=='ML,P' || $Data['status']=='ML,L' || $Data['status']=='EL,P' || $Data['status']=='EL,L'){
+                    if ($Data['status']=='CL' || $Data['status']=='SL' || $Data['status']=='ML' || $Data['status']=='EL' || $Data['status']=='CL,P' || $Data['status']=='CL,L' || $Data['status']=='SL,P' || $Data['status']=='SL,L' || $Data['status']=='ML,P' || $Data['status']=='ML,L' || $Data['status']=='EL,P' || $Data['status']=='EL,L'){
                     $totalLeave+=1;
-                    }elseif ($Data['status']=='FH,P' || $Data['status']=='FH,L' || $Data['status']=='SH,P' || $Data['status']=='SH,L'){
+                    }elseif ($Data['status']=='H1,P' || $Data['status']=='H1,L' || $Data['status']=='H2,P' || $Data['status']=='H2,L'){
                         $totalLeave+=0.5;
                     }
                 }
-                if ($Data['status']=='P' || $Data['status']=='L' || $Data['status']=='FH,P' || $Data['status']=='FH,L' || $Data['status']=='SH,P' || $Data['status']=='SH,L' || $Data['status']=='CL,P' || $Data['status']=='CL,L' || $Data['status']=='SL,P' || $Data['status']=='SL,L' || $Data['status']=='ML,P' || $Data['status']=='ML,L' || $Data['status']=='EL,P' || $Data['status']=='EL,L'){
-                   if ($Data['status']=='P' || $Data['status']=='L' || $Data['status']=='CL,P' || $Data['status']=='CL,L' || $Data['status']=='SL,P' || $Data['status']=='SL,L' || $Data['status']=='ML,P' || $Data['status']=='ML,L' || $Data['status']=='EL,P' || $Data['status']=='EL,L'){
+                if ($Data['status']=='P' || $Data['status']=='L' || $Data['status']=='H1,P' || $Data['status']=='H1,L' || $Data['status']=='H2,P' || $Data['status']=='H2,L'){
+                   if ($Data['status']=='P' || $Data['status']=='L' && !isset($holiday['date'])){
                     $totalPresent+=1;
-                   } elseif ($Data['status']=='FH,P' || $Data['status']=='FH,L' || $Data['status']=='SH,P' || $Data['status']=='SH,L'){
+                   } elseif ($Data['status']=='H1,P' || $Data['status']=='H1,L' || $Data['status']=='H2,P' || $Data['status']=='H2,L'){
                        $totalPresent+=0.5;
                    }
                 }
-                if ($Data['status']=='L' || $Data['status']=='FH,L' || $Data['status']=='SH,L'){
+                if ($Data['status']=='L' || $Data['status']=='H1,L' || $Data['status']=='H2,L'){
 
                     if (isset($Data['holiday_name']) && !empty($Data['holiday_name'])){
 

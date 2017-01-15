@@ -427,6 +427,9 @@ if (isset($_SESSION['id']) && !empty($_SESSION['id'])) {
                     <ul class="dropdown-menu">
                         <li><a href="../../../Reports/AllReports/AttendanceReport/attendanceReportForm.php">Attendance Report</a></li>
                         <li><a href="../../../Reports/AllReports/SummaryReport/summaryReportForm.php">Summary Report</a></li>
+                        <li><a href="../../../Reports/AllReports/InOutReport/inOutReportForm.php">Detail In Out Report</a></li>
+                        <li><a href="../../../Reports/AllReports/HolidayReport/holidayReportForm.php">Holiday Report</a></li>
+                        <li><a href="../../../Reports/AllReports/LeaveReport/leaveReportForm.php">Leave Report</a></li>
                         <li><a href="#">Customer Report</a></li>
                         <li><a href="#">Employee Report</a></li>
                         <li><a href="#">Supplier Report</a></li>
