@@ -48,7 +48,7 @@ include_once '../../../../view/Navigation/Nav/Navbar/navigation.php';
 
 <br><br>
 <div class="row">
-    <div class="col-md-3"></div>
+    <div class="col-md-4"></div>
     <div class="col-md-6">
         <?php
 
@@ -97,7 +97,7 @@ include_once '../../../../view/Navigation/Nav/Navbar/navigation.php';
                 </div>
                 <div class="col-sm-12">
                     <label for="companyId" style="margin-top: 4px">Company Id</label>
-                    <select name="companyId" class="form-control col-sm-6 custom-input" id="companyId">
+                    <select name="companyId" class="form-control col-sm-6 custom-input" id="companyId" required>
 
                     </select>
 

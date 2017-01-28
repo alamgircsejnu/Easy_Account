@@ -17,18 +17,18 @@ if (isset($lastTask) && !empty($lastTask)){
 
         $taskNumber = substr($lastTaskId,6);
         $newTaskNumber = (int)$taskNumber +1;
-        $newTaskId = 'EX'.$taskYear.$newTaskNumber;
+        $newTaskId = 'VN'.$taskYear.$newTaskNumber;
 //echo $first;
 //echo '<br>';
 //echo $newTaskId;
 //die();
     } else{
         $newTaskNumber = '1001';
-        $newTaskId = 'EX'.date('Y').$newTaskNumber;
+        $newTaskId = 'VN'.date('Y').$newTaskNumber;
     }
 } else{
     $newTaskNumber = '1001';
-    $newTaskId = 'EX'.date('Y').$newTaskNumber;
+    $newTaskId = 'VN'.date('Y').$newTaskNumber;
 }
 
 $expenseTypes = $task->expenseTypes();
@@ -415,6 +415,7 @@ include_once '../../../../view/Navigation/Nav/Navbar/navigation.php';
             url : 'getAjaxVoucherData.php',
             success : function(result){
                 console.log(result);
+                $("#expenseId").val(result['expenseId']);
                 $("#amount").val(result['amount']);
                 $("#expenseType").val(result['expenseType']);
                 $("#expDate").val(result['expDate']);

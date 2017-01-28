@@ -233,11 +233,18 @@ if (isset($_SESSION['id']) && !empty($_SESSION['id'])) {
                         <li class="dropdown-submenu"><a tabindex="-1" href="#">Voucher</a>
                             <ul class="dropdown-menu">
                                 <li><a tabindex="-1" href="../../../BasicEntry/Voucher/VoucherEntry/create.php">Bill Entry</a></li>
-                                <li><a href="../../../BasicEntry/Voucher/VoucherEntry/index.php">Your Bills</a></li>
+                                <li><a href="../../../BasicEntry/Voucher/VoucherEntry/index.php">Your Pending Bills</a></li>
+                                <li><a href="../../../BasicEntry/Voucher/VoucherEntry/approvedRequests.php">Your Approved Bills</a></li>
 
                             </ul>
                         </li>
-                        <li><a href="#">Create Negotiator</a></li>
+                        <li class="dropdown-submenu"><a tabindex="-1" href="#">Negotiator</a>
+                            <ul class="dropdown-menu">
+                                <li><a tabindex="-1" href="../../../BasicEntry/Negotiator/CreateNegotiator/create.php">Create Negotiator</a></li>
+                                <li><a href="../../../BasicEntry/Negotiator/CreateNegotiator/index.php">Negotiator List</a></li>
+
+                            </ul>
+                        </li>
                     <?php
                     if (strstr($oneUserInfo['permitted_actions'],'Basic Account') || $oneUserInfo['is_admin']==1) {
                         ?>
@@ -292,8 +299,15 @@ if (isset($_SESSION['id']) && !empty($_SESSION['id'])) {
 
                             </ul>
                         </li>
+
+                        <li class="dropdown-submenu"><a tabindex="-1" href="#">Payment</a>
+                            <ul class="dropdown-menu">
+                                <li><a tabindex="-1" href="../../../Operation/Payment/EnterPayment/create.php">Enter Payment</a></li>
+                                <li><a href="../../../Operation/Payment/EnterPayment/index.php">List Of Payments</a></li>
+
+                            </ul>
+                        </li>
                         <?php }  ?>
-                        <li><a href="#">Enter Payment</a></li>
                         <li><a href="#">Account Transfer</a></li>
                         <li><a href="#">Enter LC</a></li>
                         <li><a href="#">Enter BG/PG</a></li>
@@ -325,8 +339,15 @@ if (isset($_SESSION['id']) && !empty($_SESSION['id'])) {
                         <li><a href="../../../BasicEntry/Attendense/AttendenseEntry/pendingAttendense.php">Approve Attendance</a></li>
                         <li><a href="../../../BasicEntry/EmployeeLeave/LeaveEntry/pendingLeave.php">Approve Leave</a></li>
                         <li><a href="../../../BasicEntry/Attendense/AttendenseEntry/pendingAttendense.php">Approve Outstation</a></li>
-                        <li><a href="../../../BasicEntry/Voucher/VoucherEntry/pendingVoucher.php">Approve Voucher</a></li>
+                        <li class="dropdown-submenu"><a tabindex="-1" href="#">Voucher</a>
+                            <ul class="dropdown-menu">
+                                <li><a tabindex="-1" href="../../../BasicEntry/Voucher/VoucherEntry/pendingVoucher.php">Approve Voucher</a></li>
+                                <li><a href="../../../BasicEntry/Voucher/BatchPrint/printForm.php">Batch Print</a></li>
+
+                            </ul>
+                        </li>
                         <li><a href="../../../Operation/Expense/EnterExpense/pendingExpense.php">Approve Expenses</a></li>
+                        <li><a href="../../../Operation/Payment/EnterPayment/pendingPayment.php">Approve Payments</a></li>
                         <li><a href="#">Approve Budget</a></li>
                     </ul>
                 </li>
@@ -430,6 +451,7 @@ if (isset($_SESSION['id']) && !empty($_SESSION['id'])) {
                         <li><a href="../../../Reports/AllReports/InOutReport/inOutReportForm.php">Detail In Out Report</a></li>
                         <li><a href="../../../Reports/AllReports/HolidayReport/holidayReportForm.php">Holiday Report</a></li>
                         <li><a href="../../../Reports/AllReports/LeaveReport/leaveReportForm.php">Leave Report</a></li>
+                        <li><a href="../../../Reports/AllReports/LeaveSummaryReport/leaveSummaryReportForm.php">Leave Summary Report</a></li>
                         <li><a href="#">Customer Report</a></li>
                         <li><a href="#">Employee Report</a></li>
                         <li><a href="#">Supplier Report</a></li>

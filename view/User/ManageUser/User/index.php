@@ -68,7 +68,7 @@ include_once '../../../../view/Navigation/Nav/Navbar/navigation.php';
 <div class="row">
 
     <div class="col-md-1"></div>
-    <div id="custom-table" class="col-md-10" style="background-color: #9acfea;padding: 1px;margin-left: 210px">
+    <div id="custom-table" class="col-md-10" style="background-color: #9acfea;padding: 1px;margin-left: 210px;max-height: 450px;overflow: scroll">
 
 
         <div class="table-responsive" id="custom-table">

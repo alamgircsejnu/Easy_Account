@@ -9,6 +9,7 @@ $_POST['voucherNo'] = $_GET['voucherNo'];
 $voucher = new VoucherEntry();
 $voucher->prepare($_POST);
 $allVouchers = $voucher->show();
+$voucher->printed();
 //print_r($allVouchers);
 //die();
 ?>
@@ -67,48 +68,53 @@ $allVouchers = $voucher->show();
     <div class="col-md-3"></div>
 </div>
 <div id="printReport" style="font-family: 'Palatino Linotype'">
-    <div id="table-caption" class="row">
+    <div id="table-caption" class="row" style="margin-bottom: 0px">
         <div class="col-md-2"></div>
         <div id="company-name" class="col-md-8" style="background-color: white;text-align: center">
-            <h5><b>2RA TECHNOLOGY LIMITED</b></h5>
-            <h6><b>3<sup>rd</sup> Floor, House# 294, Lane# 04, Mirpur DOHS, Dhaka</b></h6>
-            <h4><b><u>BILL</u></b></h4>
+            <h5 style="margin-bottom: 0px;font-size: 17px"><b>2RA TECHNOLOGY LIMITED</b></h5>
+            <h6 style="margin-top: 0px;margin-bottom:0px;font-size: 14px"><b>3<sup>rd</sup> Floor, House# 294, Lane# 04, Mirpur DOHS, Dhaka</b></h6>
+            <h4 style="margin-top: 0px;margin-bottom:0px;font-size: 17px"><b><u>BILL</u></b></h4>
         </div>
         <div class="col-md-2"></div>
     </div>
-    <div class="row">
+    <div style="margin-top: 0px;font-size: 14px">
         <div style="background-color: white">
-            <div class="row">
+            <div style="margin-top: 0px;margin-bottom: 0px;padding-top: 0px;padding-bottom: 0px">
                 <div>
                     <?php
-                    echo '<p style="float: left;margin-left: 70px">Name : '.$allVouchers[0]['employee_name'].'</p>'
+                    echo '<p style="float: left;margin-left: 55px;margin-top: 5px;margin-bottom: 0px">Date : '.$allVouchers[0]['date'].'</p>'
                     ?>
                 </div>
                 <div>
                     <?php
-                    echo '<p style="float: left;margin-left: 30px">Designation : '.$allVouchers[0]['employee_designation'].'</p>'
+                    echo '<p style="float: left;margin-left: 10px;margin-top: 5px;margin-bottom: 0px;min-width: 140px">Expense Type : '.$allVouchers[0]['expense_type'].'</p>'
                     ?>
                 </div>
                 <div>
                     <?php
-                    echo '<p style="float: left;margin-left: 30px">Project Code : '.$allVouchers[0]['project_id'].'</p>'
-                    ?>
-                </div>
-            </div><br>
-            <div class="row">
-                <div>
-                    <?php
-                    echo '<p style="float: left;margin-left: 70px">Expense Type : '.$allVouchers[0]['expense_type'].'</p>'
+                    echo '<p style="float: left;margin-left: 10px;margin-top: 5px;margin-bottom: 0px">Voucher No : '.$allVouchers[0]['voucher_no'].'</p>'
                     ?>
                 </div>
                 <div>
                     <?php
-                    echo '<p style="float: left;margin-left: 60px">Voucher No : '.$allVouchers[0]['voucher_no'].'</p>'
+                    echo '<p style="float: left;margin-left: 10px;margin-top: 5px;margin-bottom: 0px">Customer : '.$allVouchers[0]['customer_name'].'</p>'
+                    ?>
+                </div>
+            </div>
+            <div style="margin-top: 0px;margin-bottom: 0px;padding-top: 0px;padding-bottom: 0px">
+                <div>
+                    <?php
+                    echo '<p style="float: left;margin-left: 55px;margin-top: 5px;margin-bottom: 5px">Name : '.$allVouchers[0]['employee_name'].'</p>'
                     ?>
                 </div>
                 <div>
                     <?php
-                    echo '<p style="float: left;margin-left: 60px">Date : '.$allVouchers[0]['date'].'</p>'
+                    echo '<p style="float: left;margin-left: 20px;margin-top: 5px;margin-bottom: 5px">Designation : '.$allVouchers[0]['employee_designation'].'</p>'
+                    ?>
+                </div>
+                <div>
+                    <?php
+                    echo '<p style="float: left;margin-left: 20px;margin-top: 5px;margin-bottom: 5px">Project Name : '.$allVouchers[0]['project_name'].'</p>'
                     ?>
                 </div>
             </div><br>
@@ -123,7 +129,7 @@ $allVouchers = $voucher->show();
                             <table style="border-collapse: collapse;border: 1px solid black;margin-left: 50px;">
                                 <thead>
                                 <tr>
-                                    <th align="center" style="border-collapse: collapse;border: 1px solid black">SL No.</th>
+                                    <th align="center" style="border-collapse: collapse;border: 1px solid black">SL.</th>
                                     <th align="center" width="200"  style="border-collapse: collapse;border: 1px solid black">From</th>
                                     <th align="center" width="200"  style="border-collapse: collapse;border: 1px solid black">To</th>
                                     <th align="center" width="140"  style="border-collapse: collapse;border: 1px solid black">Vehicle</th>
@@ -142,12 +148,12 @@ $allVouchers = $voucher->show();
                                 ?>
                                 <tbody>
                                 <tr>
-                                    <td align="center" style="border-collapse: collapse;border: 1px solid black"><?php echo $serial ?></td>
-                                    <td align="center" style="border-collapse: collapse;border: 1px solid black"><?php echo $oneVoucher['from_place'] ?></td>
-                                    <td align="center" style="border-collapse: collapse;border: 1px solid black"><?php echo $oneVoucher['to_place']?></td>
-                                    <td align="center" style="border-collapse: collapse;border: 1px solid black"><?php echo $oneVoucher['vehicle']?></td>
-                                    <td align="center" style="border-collapse: collapse;border: 1px solid black"><?php echo $oneVoucher['amount']; ?></td>
-                                    <td align="center" style="border-collapse: collapse;border: 1px solid black"><?php echo $oneVoucher['remarks']; ?></td>
+                                    <td align="center" style="border-collapse: collapse;border: 1px solid black;font-size: 14px"><?php echo $serial ?></td>
+                                    <td align="center" style="border-collapse: collapse;border: 1px solid black;font-size: 14px"><?php echo $oneVoucher['from_place'] ?></td>
+                                    <td align="center" style="border-collapse: collapse;border: 1px solid black;font-size: 14px"><?php echo $oneVoucher['to_place']?></td>
+                                    <td align="center" style="border-collapse: collapse;border: 1px solid black;font-size: 14px"><?php echo $oneVoucher['vehicle']?></td>
+                                    <td align="center" style="border-collapse: collapse;border: 1px solid black;font-size: 14px"><?php echo $oneVoucher['amount']; ?></td>
+                                    <td align="center" style="border-collapse: collapse;border: 1px solid black;font-size: 14px"><?php echo $oneVoucher['remarks']; ?></td>
                                 </tr>
                                 <?php
                                 }
@@ -163,14 +169,14 @@ $allVouchers = $voucher->show();
                                 ?>
                                 <tr>
                                     <td colspan="4" style="text-align: right!important;border-collapse: collapse;border: 1px solid black">
-                                        <?php echo "<p style='margin-right: 20px'>Total Amount: </p>" ?>
+                                        <?php echo "<p style='margin-right: 20px'><b>Total Amount: </b></p>" ?>
 
                                     </td>
                                     <td align="center" style="border-collapse: collapse;border: 1px solid black">
                                         <?php
                                         $inWords = $voucher->convertingIntoWords($totalAmount);
                                         ?>
-                                        <?php echo $totalAmount ?>
+                                        <?php echo '<b>'.$totalAmount.'</b>' ?>
 
                                     </td>
                                     <td align="center">
@@ -223,14 +229,14 @@ $allVouchers = $voucher->show();
                                 ?>
                                 <tr>
                                     <td colspan="2" style="text-align: right!important;border-collapse: collapse;border: 1px solid black">
-                                        <?php echo "<p style='margin-right: 20px'>Total Amount: </p> " ?>
+                                        <?php echo "<p style='margin-right: 20px'><b>Total Amount: </b></p> " ?>
 
                                     </td>
                                     <td align="center" style="border-collapse: collapse;border: 1px solid black">
                                         <?php
                                         $inWords = $voucher->convertingIntoWords($totalAmount);
                                         ?>
-                                        <?php echo $totalAmount ?>
+                                        <?php echo '<b>'.$totalAmount.'</b>' ?>
 
                                     </td>
                                     <td align="center" style="border-collapse: collapse;border: 1px solid black">

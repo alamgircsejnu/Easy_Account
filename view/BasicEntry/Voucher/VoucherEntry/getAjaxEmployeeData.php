@@ -7,4 +7,6 @@ $voucher = new VoucherEntry();
 $voucher->prepare($_POST);
 $designation = $voucher->employeeDesignation();
 
-echo json_encode($designation['designation']);
+$employeeName = $designation['first_name'].' '.$designation['last_name'];
+
+echo json_encode($employeeName);

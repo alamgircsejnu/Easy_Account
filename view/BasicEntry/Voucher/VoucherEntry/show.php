@@ -71,7 +71,17 @@ include_once '../../../../view/Navigation/Nav/Navbar/navigation.php';
         ?>
     </div>
     <div class="col-md-3">
+        <?php
+        if ($allVouchers[0]['is_approved']==1){
+        ?>
         <a href="print.php?voucherNo=<?php echo $_GET['voucherNo'] ?>" target="_blank" class="btn btn-primary" style="margin-left: 125px">Print</a>
+        <?php
+        }else {
+        ?>
+            <a href="approveFromShow.php?voucherNo=<?php echo $_GET['voucherNo'] ?>" class="btn btn-primary" style="margin-left: 100px">Approve</a>
+        <?php
+        }
+        ?>
     </div>
 </div>
 
@@ -102,7 +112,7 @@ include_once '../../../../view/Navigation/Nav/Navbar/navigation.php';
     </div>
     <div class="col-md-3">
         <?php
-        echo '<p>Project Code : '.$allVouchers[0]['project_id'].'</p>'
+        echo '<p>Project Name : '.$allVouchers[0]['project_name'].'</p>'
         ?>
     </div>
     <div class="col-md-1"></div>

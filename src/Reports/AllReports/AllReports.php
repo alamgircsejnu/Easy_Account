@@ -177,4 +177,16 @@ class AllReports
         }
         return $mydata;
     }
+
+    public function leaveSummaryReport(){
+        $mydata=array();
+        $query="SELECT * FROM `tbl_leave` WHERE `tbl_leave`.`company_id`='".$this->companyId."' AND `tbl_leave`.`employee_id`='".$this->employeeId."' AND `tbl_leave`.`is_approved`='1' AND `tbl_leave`.`date` BETWEEN '".$this->from."' AND '".$this->to."' ORDER BY date ASC";
+//        echo $query;
+//        die();
+        $result=  mysql_query($query);
+        while ($row=  mysql_fetch_assoc($result)){
+            $mydata[]=$row;
+        }
+        return $mydata;
+    }
 }

@@ -70,7 +70,7 @@ include_once '../../../../view/Navigation/Nav/Navbar/navigation.php';
 
         <div class="panel panel-primary custom-panel">
 
-            <div class="panel-heading">Attendense Entry Form</div>
+            <div class="panel-heading">Attendance Entry Form</div>
             <br>
             <form role="form" action="store.php" method="post">
 
@@ -130,7 +130,7 @@ include_once '../../../../view/Navigation/Nav/Navbar/navigation.php';
                     <div class="form-group">
                         <div>
                             <div class="col-md-4" style="float: right;width: 4%;margin-top: 11px;margin-right: 17px">
-                                <button type="submit" class="btn btn-info pull-right">Insert Attendense</button>
+                                <button type="submit" class="btn btn-info pull-right">Insert Attendance</button>
                             </div>
                         </div>
                     </div>

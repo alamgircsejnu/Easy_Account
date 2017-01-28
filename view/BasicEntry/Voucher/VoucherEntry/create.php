@@ -34,6 +34,7 @@ if (isset($_SESSION['id']) && !empty($_SESSION['id'])){
     $expenseTypes = $task->expenseTypes();
     $allEmployees = $task->employees();
     $allProjects = $task->runningProjects();
+    $allCustomers = $task->Customers();
     ?>
 
     <!DOCTYPE html>
@@ -123,7 +124,7 @@ if (isset($_SESSION['id']) && !empty($_SESSION['id'])){
                     </div>
                         <div class="form-group col-md-4">
                             <label class="control-label" for="date">Date<sup style="color: red">*</sup></label>
-                            <input id="date" name="date" type="text" placeholder="" class="form-control" required="" style="height: 30px">
+                            <input id="date" name="date" type="text" placeholder="YY-MM-DD" class="form-control" required="" style="height: 30px">
 
                         </div>
 
@@ -158,22 +159,42 @@ if (isset($_SESSION['id']) && !empty($_SESSION['id'])){
 
                         </div>
                         <div class="form-group col-md-4">
-                            <label class="control-label" for="designation">Designation:</label>
-                            <input id="designation" name="designation" type="text" placeholder="" class="form-control" style="height: 30px">
+                            <label class="control-label" for="employeeName">Employee Name:</label>
+                            <input id="employeeName" name="employeeName" type="text" placeholder="" class="form-control" readonly style="height: 30px">
 
                         </div>
-                        <div class="form-group  col-md-4">
-                            <label class="control-label" for="projectId">Project Code<sup style="color: red">*</sup></label>
-                            <select required name="projectId" class="form-control col-sm-6 custom-input" id="projectId">
+                        <div class="form-group col-md-4">
+                            <label class="control-label" for="customerName">Customer Name<sup style="color: red">*</sup></label>
+                            <select required name="customerName" class="form-control col-sm-6 custom-input" id="customerName">
                                 <option></option>
                                 <?php
-                                if (isset($allProjects) && !empty($allProjects)) {
-                                    foreach ($allProjects as $oneProject) {
+                                if (isset($allCustomers) && !empty($allCustomers)) {
+                                    foreach ($allCustomers as $oneCustomer) {
                                         ?>
-                                        <option><?php echo $oneProject['project_id']?></option>
+                                        <option value="<?php echo $oneCustomer['customer_name']?>"><?php echo $oneCustomer['customer_name']?></option>
 
                                     <?php }}  ?>
                             </select>
+
+                        </div>
+                    </div>
+                    <div class="row">
+
+                        <div class="form-group col-md-4">
+                            <label class="control-label" for="projectId">Project Code<sup style="color: red">*</sup></label>
+                            <select required name="projectId" class="form-control col-sm-6 custom-input" id="projectId">
+                                <option></option>
+                            </select>
+
+
+                        </div>
+                        <div class="form-group  col-md-4">
+                            <label class="control-label" for="projectName">Project Name</label>
+                            <input id="projectName" name="projectName" type="text" placeholder="" class="form-control" readonly style="height: 30px">
+                        </div>
+                        <div class="form-group  col-md-4">
+                            <label class="control-label" for="projectDescription">Project Description</label>
+                            <input id="projectDescription" name="projectDescription" type="text" placeholder="" class="form-control" readonly style="height: 30px">
                         </div>
                     </div>
                     <hr style="background-color: rebeccapurple;border-top-color: rebeccapurple;color: rebeccapurple;"><br>
@@ -355,7 +376,50 @@ if (isset($_SESSION['id']) && !empty($_SESSION['id'])){
                 url : 'getAjaxEmployeeData.php',
                 success : function(result){
 
-                    $("#designation").val(result)
+                    $("#employeeName").val(result)
+                }
+            })
+
+        });
+
+    </script>
+    <script type="text/javascript">
+        $('#customerName').on('change', function(){
+            customerName = $('#customerName option:selected').val(); // the dropdown item selected value
+//        console.log(bankName);
+            $.ajax({
+                type :'POST',
+                dataType:'json',
+                data : { customerName : customerName },
+                url : 'getAjaxProjectData.php',
+                success : function(result){
+
+                    $('#projectId').html('');
+                    $('#projectId').append('<option></option>');
+                    result.forEach(function(t) {
+                        // $('#item') refers to the EMPTY select list
+                        // the .append means add to the object refered to above
+                        $('#projectId').append('<option>'+t['project_id']+'</option>');
+                    });
+                }
+            })
+
+        });
+
+    </script>
+    <script type="text/javascript">
+        $('#projectId').on('change', function(){
+            projectId = $('#projectId option:selected').val(); // the dropdown item selected value
+            console.log(projectId);
+            $.ajax({
+                type :'POST',
+                dataType:'json',
+                data : { projectId : projectId },
+                url : 'getAjaxProjectInformation.php',
+                success : function(result){
+                    console.log(result);
+                    $("#projectName").val(result['project_name']);
+                    $("#projectDescription").val(result['project_description']);
                 }
             })
 

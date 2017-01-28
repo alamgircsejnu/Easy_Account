@@ -74,7 +74,7 @@ include_once '../../../../view/Navigation/Nav/Navbar/navigation.php';
 <div class="row">
 
     <div class="col-md-1"></div>
-    <div id="custom-table" class="col-md-10" style="background-color: #9acfea;padding: 1px;margin-left: 210px">
+    <div id="custom-table" class="col-md-10" style="background-color: #9acfea;padding: 1px;margin-left: 210px;max-height: 450px;overflow: scroll">
 
 
         <div class="table-responsive" id="custom-table">
@@ -86,7 +86,6 @@ include_once '../../../../view/Navigation/Nav/Navbar/navigation.php';
                     <th align="center">Employee Name</th>
                     <th align="center">Project Code</th>
                     <th align="center">Date</th>
-                    <th align="center">Entry Date</th>
                     <th align="center">Entry By</th>
                     <th align="center">Action</th>
                     <th align="center">Status</th>
@@ -105,7 +104,6 @@ include_once '../../../../view/Navigation/Nav/Navbar/navigation.php';
                     <td><?php echo $oneVoucher['employee_name']?></td>
                     <td><?php echo $oneVoucher['project_id']?></td>
                     <td><?php echo $oneVoucher['date']; ?></td>
-                    <td><?php echo $oneVoucher['entry_date']; ?></td>
                     <td><?php echo $oneVoucher['entry_by']; ?></td>
                     <td width="130">
                         <a href="show.php?voucherNo=<?php echo $oneVoucher['voucher_no'] ?>"> <img style="margin: 3%" border="0"

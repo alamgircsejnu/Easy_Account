@@ -14,6 +14,7 @@ class AttendenseEntry
 {
     public $id = '';
     public $companyId = '';
+    public $attId = '';
     public $cardId = '';
     public $employeeId = '';
     public $employeeName = '';
@@ -43,6 +44,9 @@ class AttendenseEntry
         }
         if (array_key_exists('companyId', $data)) {
             $this->companyId = $data['companyId'];
+        }
+        if (array_key_exists('attId', $data)) {
+            $this->attId = $data['attId'];
         }
         if (array_key_exists('cardId', $data)) {
             $this->cardId = $data['cardId'];
@@ -104,27 +108,27 @@ class AttendenseEntry
         date_default_timezone_set("Asia/Dhaka");
         if (isset($this->inTimeCheck) && !empty($this->inTimeCheck) && isset($this->outTimeCheck) && !empty($this->outTimeCheck)) {
 
-            $query="INSERT INTO `tbl_attendense` (`id`,`company_id`, `cid`,`employee_id`,`employee_name`,`ctime`,`purpose`,`device_id`,`remarks`,`entry_time`,`is_approved`) VALUES ('', '" . $this->companyId . "','" . $this->cardId . "','" . $this->employeeId . "','" . $this->employeeName . "','" . $this->date." ".$this->inTime. "','Entry','0','" . $this->remarks . "','" . date('Y-m-d H:i:s') . "','0'),('', '" . $this->companyId . "','" . $this->cardId . "','" . $this->employeeId . "','" . $this->employeeName . "','" . $this->date." ".$this->outTime. "','Exit','0','" . $this->remarks . "','" . date('Y-m-d H:i:s') . "','0')";
+            $query="INSERT INTO `tbl_attendense` (`id`,`company_id`,`att_id`, `cid`,`employee_id`,`employee_name`,`ctime`,`purpose`,`location`,`device_id`,`remarks`,`entry_time`,`is_approved`) VALUES ('', '" . $this->companyId . "','" . $this->attId . "','" . $this->cardId . "','" . $this->employeeId . "','" . $this->employeeName . "','" . $this->date." ".$this->inTime. "','Entry','" . $this->dutyLocation . "','0','" . $this->remarks . "','" . date('Y-m-d H:i:s') . "','0'),('', '" . $this->companyId . "','" . $this->attId . "','" . $this->cardId . "','" . $this->employeeId . "','" . $this->employeeName . "','" . $this->date." ".$this->outTime. "','Exit','" . $this->dutyLocation . "','0','" . $this->remarks . "','" . date('Y-m-d H:i:s') . "','0')";
 
             if (mysql_query($query)) {
-                $_SESSION['successMessage'] = "Attendense added for approval";
+                $_SESSION['successMessage'] = "Attendance added for approval";
             } else {
                 $_SESSION['errorMessage'] = "Oops!!! Something wrong!";
             }
 
         } elseif (isset($this->inTimeCheck) && !empty($this->inTimeCheck)){
-            $query="INSERT INTO `tbl_attendense` (`id`,`company_id`,`cid`, `employee_id`,`employee_name`,`ctime`,`purpose`,`device_id`,`remarks`,`entry_time`,`is_approved`) VALUES ('', '" . $this->companyId . "','" . $this->cardId . "','" . $this->employeeId . "','" . $this->employeeName . "','" . $this->date." ".$this->inTime. "','Entry','0','" . $this->remarks . "','" . date('Y-m-d H:i:s') . "','0')";
+            $query="INSERT INTO `tbl_attendense` (`id`,`company_id`,`att_id`,`cid`, `employee_id`,`employee_name`,`ctime`,`purpose`,`location`,`device_id`,`remarks`,`entry_time`,`is_approved`) VALUES ('', '" . $this->companyId . "','" . $this->attId . "','" . $this->cardId . "','" . $this->employeeId . "','" . $this->employeeName . "','" . $this->date." ".$this->inTime. "','Entry','" . $this->dutyLocation . "','0','" . $this->remarks . "','" . date('Y-m-d H:i:s') . "','0')";
 
             if (mysql_query($query)) {
-                $_SESSION['successMessage'] = "Attendense added for approval";
+                $_SESSION['successMessage'] = "Attendance added for approval";
             } else {
                 $_SESSION['errorMessage'] = "Oops!!! Something wrong!";
             }
         } elseif (isset($this->outTimeCheck) && !empty($this->outTimeCheck)){
-            $query="INSERT INTO `tbl_attendense` (`id`,`company_id`,`cid`, `employee_id`,`employee_name`,`ctime`,`purpose`,`device_id`,`remarks`,`entry_time`,`is_approved`) VALUES ('', '" . $this->companyId . "','" . $this->cardId . "','" . $this->employeeId . "','" . $this->employeeName . "','" . $this->date." ".$this->outTime. "','Exit','0','" . $this->remarks . "','" . date('Y-m-d H:i:s') . "','0')";
+            $query="INSERT INTO `tbl_attendense` (`id`,`company_id`,`att_id`,`cid`, `employee_id`,`employee_name`,`ctime`,`purpose`,`location`,`device_id`,`remarks`,`entry_time`,`is_approved`) VALUES ('', '" . $this->companyId . "','" . $this->attId . "','" . $this->cardId . "','" . $this->employeeId . "','" . $this->employeeName . "','" . $this->date." ".$this->outTime. "','Exit','" . $this->dutyLocation . "','0','" . $this->remarks . "','" . date('Y-m-d H:i:s') . "','0')";
 
             if (mysql_query($query)) {
-                $_SESSION['successMessage'] = "Attendense added for approval";
+                $_SESSION['successMessage'] = "Attendance added for approval";
             } else {
                 $_SESSION['errorMessage'] = "Oops!!! Something wrong!";
             }
@@ -132,9 +136,9 @@ class AttendenseEntry
         header('location:index.php');
     }
 
-    public function index(){
+    public function attendanceId(){
         $mydata=array();
-        $query="SELECT * FROM `tbl_attendense` WHERE `tbl_attendense`.`company_id`='".$this->companyId."' AND `tbl_attendense`.`employee_id`='".$this->employeeId."' AND `tbl_attendense`.`is_approved`='0' ORDER BY id DESC";
+        $query="SELECT * FROM `tbl_attendense` WHERE `tbl_attendense`.`company_id`='".$this->companyId."' AND `tbl_attendense`.`employee_id`='".$this->employeeId."' AND `tbl_attendense`.`is_approved`='0' GROUP BY att_id ORDER BY id DESC";
 //        echo $query;
 //        die();
         $result=  mysql_query($query);
@@ -144,9 +148,82 @@ class AttendenseEntry
         return $mydata;
     }
 
+    public function index(){
+        $mydata=array();
+        $query="SELECT * FROM `tbl_attendense` WHERE `tbl_attendense`.`company_id`='".$this->companyId."' AND `tbl_attendense`.`employee_id`='".$this->employeeId."' AND `tbl_attendense`.`att_id`='".$this->attId."' AND `tbl_attendense`.`is_approved`='0' ORDER BY id ASC";
+//        echo $query;
+//        die();
+        $result=  mysql_query($query);
+        while ($row=  mysql_fetch_assoc($result)){
+            $mydata[]=$row;
+        }
+        return $mydata;
+    }
+
+    public function edit(){
+        $mydata=array();
+        $query="SELECT * FROM `tbl_attendense` WHERE `tbl_attendense`.`company_id`='".$this->companyId."' AND `tbl_attendense`.`employee_id`='".$this->employeeId."' AND `tbl_attendense`.`att_id`='".$this->attId."' AND `tbl_attendense`.`is_approved`='0' ORDER BY id ASC";
+//        echo $query;
+//        die();
+        $result=  mysql_query($query);
+        while ($row=  mysql_fetch_assoc($result)){
+            $time =strtotime( $row['ctime']);
+            $row['ctime'] = date('H:i:s',$time);
+            $row['date'] = date('Y-m-d',$time);
+            $mydata[]=$row;
+        }
+        return $mydata;
+    }
+
+    public function update()
+    {
+        date_default_timezone_set("Asia/Dhaka");
+        $deleteQuery="DELETE FROM `tbl_attendense` where `tbl_attendense`.`company_id`='".$this->companyId."' AND `tbl_attendense`.`att_id`='".$this->attId."'";
+        mysql_query($deleteQuery);
+        if (isset($this->inTimeCheck) && !empty($this->inTimeCheck) && isset($this->outTimeCheck) && !empty($this->outTimeCheck)) {
+
+            $query="INSERT INTO `tbl_attendense` (`id`,`company_id`,`att_id`, `cid`,`employee_id`,`employee_name`,`ctime`,`purpose`,`location`,`device_id`,`remarks`,`entry_time`,`is_approved`) VALUES ('', '" . $this->companyId . "','" . $this->attId . "','" . $this->cardId . "','" . $this->employeeId . "','" . $this->employeeName . "','" . $this->date." ".$this->inTime. "','Entry','" . $this->dutyLocation . "','0','" . $this->remarks . "','" . date('Y-m-d H:i:s') . "','0'),('', '" . $this->companyId . "','" . $this->attId . "','" . $this->cardId . "','" . $this->employeeId . "','" . $this->employeeName . "','" . $this->date." ".$this->outTime. "','Exit','" . $this->dutyLocation . "','0','" . $this->remarks . "','" . date('Y-m-d H:i:s') . "','0')";
+
+            if (mysql_query($query)) {
+                $_SESSION['successMessage'] = "Attendance updated. Please wait for approval";
+            } else {
+                $_SESSION['errorMessage'] = "Oops!!! Something wrong!";
+            }
+
+        } elseif (isset($this->inTimeCheck) && !empty($this->inTimeCheck)){
+            $query="INSERT INTO `tbl_attendense` (`id`,`company_id`,`att_id`,`cid`, `employee_id`,`employee_name`,`ctime`,`purpose`,`location`,`device_id`,`remarks`,`entry_time`,`is_approved`) VALUES ('', '" . $this->companyId . "','" . $this->attId . "','" . $this->cardId . "','" . $this->employeeId . "','" . $this->employeeName . "','" . $this->date." ".$this->inTime. "','Entry','" . $this->dutyLocation . "','0','" . $this->remarks . "','" . date('Y-m-d H:i:s') . "','0')";
+
+            if (mysql_query($query)) {
+                $_SESSION['successMessage'] = "Attendance updated. Please wait for approval";
+            } else {
+                $_SESSION['errorMessage'] = "Oops!!! Something wrong!";
+            }
+        } elseif (isset($this->outTimeCheck) && !empty($this->outTimeCheck)){
+            $query="INSERT INTO `tbl_attendense` (`id`,`company_id`,`att_id`,`cid`, `employee_id`,`employee_name`,`ctime`,`purpose`,`location`,`device_id`,`remarks`,`entry_time`,`is_approved`) VALUES ('', '" . $this->companyId . "','" . $this->attId . "','" . $this->cardId . "','" . $this->employeeId . "','" . $this->employeeName . "','" . $this->date." ".$this->outTime. "','Exit','" . $this->dutyLocation . "','0','" . $this->remarks . "','" . date('Y-m-d H:i:s') . "','0')";
+
+            if (mysql_query($query)) {
+                $_SESSION['successMessage'] = "Attendance updated. Please wait for approval";
+            } else {
+                $_SESSION['errorMessage'] = "Oops!!! Something wrong!";
+            }
+        }
+        header('location:index.php');
+    }
+
+    public function pendingId(){
+        $mydata=array();
+        $query="SELECT * FROM `tbl_attendense` WHERE `tbl_attendense`.`company_id`='".$this->companyId."' AND `tbl_attendense`.`is_approved`='0' GROUP BY att_id ORDER BY id DESC";
+//        echo $query;
+//        die();
+        $result=  mysql_query($query);
+        while ($row=  mysql_fetch_assoc($result)){
+            $mydata[]=$row;
+        }
+        return $mydata;
+    }
     public function pendingRequests(){
         $mydata=array();
-        $query="SELECT * FROM `tbl_attendense` WHERE `tbl_attendense`.`company_id`='".$this->companyId."' AND `tbl_attendense`.`is_approved`='0' ORDER BY id DESC";
+        $query="SELECT * FROM `tbl_attendense` WHERE `tbl_attendense`.`company_id`='".$this->companyId."' AND `tbl_attendense`.`att_id`='".$this->attId."' AND `tbl_attendense`.`is_approved`='0' ORDER BY id ASC";
 //        echo $query;
 //        die();
         $result=  mysql_query($query);
@@ -191,6 +268,15 @@ class AttendenseEntry
 
     public function cardId(){
         $query="SELECT * FROM `tbl_employee` where `tbl_employee`.`company_id`='".$this->companyId."' AND `tbl_employee`.`employee_id`='".$this->employeeId."'";
+//        echo $query;
+//        die();
+        $result=  mysql_query($query);
+        $row=  mysql_fetch_assoc($result);
+        return $row;
+    }
+
+    public function lastEntry(){
+        $query="SELECT max(att_id) as att_id FROM `tbl_attendense` WHERE `tbl_attendense`.`company_id` = '".$this->companyId."'";
 //        echo $query;
 //        die();
         $result=  mysql_query($query);
@@ -370,5 +456,7 @@ class AttendenseEntry
         }
         header('location:processAttendenseForm.php');
     }
+
+
 
 }

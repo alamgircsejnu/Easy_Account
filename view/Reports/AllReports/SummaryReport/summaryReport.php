@@ -4,7 +4,7 @@ date_default_timezone_set("Asia/Dhaka");
 include_once '../../../../vendor/autoload.php';;
 use App\Reports\fpdf\fpdf;
 use App\Reports\AllReports\AllReports;
-
+if (isset($_SESSION['id']) && !empty($_SESSION['id'])) {
 $_POST['companyId'] = $_SESSION['companyId'];
 $from = $_POST['from'];
 if (array_key_exists('toDate', $_POST)){
@@ -28,7 +28,7 @@ class PDF extends FPDF
     function Header()
     {
         // Arial bold 15
-        $this->SetFont('Courier','B',14);
+        $this->SetFont('Courier','B',15);
         // Move to the right
         $this->Cell(80);
         // Title
@@ -257,4 +257,7 @@ $pdf->SetFont('Times','',10);
 $pdf->AddPage();
 $pdf->FancyTable($header,$allEmployee);
 $pdf->Output();
+} else{
+    header('Location:../../../User/ManageUser/Login/login.php');
+}
 ?>

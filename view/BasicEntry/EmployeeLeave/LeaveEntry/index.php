@@ -75,10 +75,8 @@ include_once '../../../../view/Navigation/Nav/Navbar/navigation.php';
     </div>
     <div class="col-md-10">
         <div id="custom-table" style="background-color: #9acfea;padding: 1px">
-
-
-            <div class="table-responsive" id="custom-table">
-                <table class="table table-bordered">
+            <div class="table-responsive" id="custom-table" style="max-height: 430px">
+                <table class="table table-bordered" >
                     <thead>
                     <tr>
                         <th align="center">SL#</th>

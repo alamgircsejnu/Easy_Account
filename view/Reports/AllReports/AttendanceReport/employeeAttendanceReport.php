@@ -4,7 +4,7 @@ date_default_timezone_set("Asia/Dhaka");
 include_once '../../../../vendor/autoload.php';;
 use App\Reports\fpdf\fpdf;
 use App\Reports\AllReports\AllReports;
-
+if (isset($_SESSION['id']) && !empty($_SESSION['id'])) {
 $_POST['companyId'] = $_SESSION['companyId'];
 $from = $_POST['from'];
 if (array_key_exists('toDate', $_POST)){
@@ -299,4 +299,7 @@ $pdf->SetFont('Times','',10);
 $pdf->AddPage();
 $pdf->FancyTable($header,$employee,$allAttendance);
 $pdf->Output();
+} else{
+    header('Location:../../../User/ManageUser/Login/login.php');
+}
 ?>

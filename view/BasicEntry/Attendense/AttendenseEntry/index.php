@@ -8,7 +8,8 @@ $_POST['employeeId'] = $_SESSION['username'];
 
 $attendense = new AttendenseEntry();
 $attendense->prepare($_POST);
-$allAttendense = $attendense->index();
+$allId = $attendense->attendanceId();
+
 ?>
 
 <!DOCTYPE html>
@@ -84,30 +85,41 @@ include_once '../../../../view/Navigation/Nav/Navbar/navigation.php';
                         <th align="center">SL#</th>
                         <th align="center">Employee Id</th>
                         <th align="center">Employee Name</th>
-                        <th align="center">Punch Time</th>
-                        <th align="center">Purpose</th>
-                        <th align="center">remarks</th>
                         <th align="center">Entry Time</th>
+                        <th align="center">Exit Time</th>
+                        <th align="center">remarks</th>
+                        <th align="center">Status</th>
+                        <th align="center">Actions</th>
                     </tr>
                     </thead>
                     <?php
-                    if (isset($allAttendense) && !empty($allAttendense)) {
+                    if (isset($allId) && !empty($allId)) {
                     $serial = 0;
-                    foreach ($allAttendense as $oneAttendense) {
+                    foreach ($allId as $oneId) {
+                    $_POST['attId'] = $oneId['att_id'];
+                    $attendense = new AttendenseEntry();
+                    $attendense->prepare($_POST);
+                    $attendense = $attendense->index();
                     $serial++
                     ?>
                     <tbody>
                     <tr>
                         <td><?php echo $serial ?></td>
-                        <td><?php echo $oneAttendense['employee_id'] ?></td>
-                        <td><?php echo $oneAttendense['employee_name']; ?></td>
-                        <td><?php echo $oneAttendense['ctime']; ?></td>
-                        <td><?php echo $oneAttendense['purpose']; ?></td>
-                        <td><?php echo $oneAttendense['remarks']; ?></td>
-                        <td><?php echo $oneAttendense['entry_time']; ?></td>
+                        <td><?php echo $attendense[0]['employee_id'] ?></td>
+                        <td><?php echo $attendense[0]['employee_name']; ?></td>
+                        <td><?php if (isset($attendense[0]['ctime']) && !empty($attendense[0]['ctime']) && $attendense[0]['purpose']=='Entry'){
+                            echo $attendense[0]['ctime'];
+                            } ?></td>
+                            <td><?php if (isset($attendense[1]['ctime']) && !empty($attendense[1]['ctime']) && $attendense[1]['purpose']=='Exit'){
+                                echo $attendense[1]['ctime'];
+                                }elseif (isset($attendense[0]['ctime']) && !empty($attendense[0]['ctime']) && $attendense[0]['purpose']=='Exit'){
+                                    echo $attendense[0]['ctime'];
+                                }?></td>
+
+                        <td><?php echo $attendense[0]['remarks']; ?></td>
                         <td style="width: 130px">
                             <?php
-                            if ($oneAttendense['is_approved'] == 0) {
+                            if ($attendense[0]['is_approved'] == 0) {
                                 ?>
                                 Pending
                                 <?php
@@ -118,6 +130,15 @@ include_once '../../../../view/Navigation/Nav/Navbar/navigation.php';
                                 <?php
                             }
                             ?>
+                        </td>
+                        <td>
+                            <a href="edit.php?attId=<?php echo $attendense[0]['att_id'] ?>"> <img style="margin: 3%" border="0"
+                                                                                         title="Edit" alt="Edit"
+                                                                                         src="../../../../asset/images/edit.png"
+                                                                                         width="25" height="20"></a>
+                            <a href="trash.php?attId=<?php echo $attendense[0]['att_id'] ?>" onclick="return confirm('Are you sure?')">
+                                <img style="margin: 3%" border="0" title="Delete This User" alt="Delete"
+                                     src="../../../../asset/images/delete.png" width="25" height="20"></a>
                         </td>
                     </tr>
                     <?php

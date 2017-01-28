@@ -9,9 +9,13 @@ $_POST['voucherNo'] = $_GET['voucherNo'];
 $voucher = new VoucherEntry();
 $voucher->prepare($_POST);
 $allVouchers = $voucher->show();
+$_POST['customerName']=$allVouchers[0]['customer_name'];
+$voucher->prepare($_POST);
 $expenseTypes = $voucher->expenseTypes();
 $allEmployees = $voucher->employees();
 $allProjects = $voucher->runningProjects();
+$allCustomers = $voucher->Customers();
+$projectNames = $voucher->ProjectNames();
 //print_r($allVouchers);
 //die();
 ?>
@@ -138,22 +142,49 @@ include_once '../../../../view/Navigation/Nav/Navbar/navigation.php';
 
                     </div>
                     <div class="form-group col-md-4">
-                        <label class="control-label" for="designation">Designation:</label>
-                        <input id="designation" name="designation" type="text" value="<?php echo $allVouchers[0]['employee_designation'] ?>" placeholder="" class="form-control" style="height: 30px">
+                        <label class="control-label" for="employeeName">Employee Name:</label>
+                        <input id="employeeName" name="employeeName" type="text" placeholder="" value="<?php echo $allVouchers[0]['employee_name'] ?>" class="form-control" readonly style="height: 30px">
 
                     </div>
-                    <div class="form-group  col-md-4">
+                    <div class="form-group col-md-4">
+                        <label class="control-label" for="customerName">Customer Name<sup style="color: red">*</sup></label>
+                        <select required name="customerName" class="form-control col-sm-6 custom-input" id="customerName">
+                            <option></option>
+                            <?php
+                            if (isset($allCustomers) && !empty($allCustomers)) {
+                                foreach ($allCustomers as $oneCustomer) {
+                                    ?>
+                                    <option <?php if ($oneCustomer['customer_name']==$allVouchers[0]['customer_name']) echo 'selected'?>><?php echo $oneCustomer['customer_name']?></option>
+
+                                <?php }}  ?>
+                        </select>
+
+                    </div>
+                </div>
+                <div class="row">
+
+                    <div class="form-group col-md-4">
                         <label class="control-label" for="projectId">Project Code<sup style="color: red">*</sup></label>
                         <select required name="projectId" class="form-control col-sm-6 custom-input" id="projectId">
                             <option></option>
                             <?php
-                            if (isset($allProjects) && !empty($allProjects)) {
-                                foreach ($allProjects as $oneProject) {
+                            if (isset($projectNames) && !empty($projectNames)) {
+                                foreach ($projectNames as $projectName) {
                                     ?>
-                                    <option <?php if ($allVouchers[0]['project_id']==$oneProject['project_id']) echo 'selected'?>><?php echo $oneProject['project_id']?></option>
+                                    <option <?php if ($projectName['project_id']==$allVouchers[0]['project_id']) echo 'selected'?>><?php echo $projectName['project_id']?></option>
 
                                 <?php }}  ?>
                         </select>
+
+
+                    </div>
+                    <div class="form-group  col-md-4">
+                        <label class="control-label" for="projectName">Project Name</label>
+                        <input id="projectName" name="projectName" type="text" placeholder="" value="<?php echo $allVouchers[0]['project_name'] ?>" class="form-control" readonly style="height: 30px">
+                    </div>
+                    <div class="form-group  col-md-4">
+                        <label class="control-label" for="projectDescription">Project Description</label>
+                        <input id="projectDescription" name="projectDescription" type="text" placeholder="" value="<?php echo $allVouchers[0]['project_description'] ?>" class="form-control" readonly style="height: 30px">
                     </div>
                 </div>
                 <hr style="background-color: rebeccapurple;border-top-color: rebeccapurple;color: rebeccapurple;"><br>
@@ -376,7 +407,50 @@ include_once '../../../../view/Navigation/Nav/Navbar/navigation.php';
             url : 'getAjaxEmployeeData.php',
             success : function(result){
 
-                $("#designation").val(result)
+                $("#employeeName").val(result)
+            }
+        })
+
+    });
+
+</script>
+<script type="text/javascript">
+    $('#customerName').on('change', function(){
+        customerName = $('#customerName option:selected').val(); // the dropdown item selected value
+//        console.log(bankName);
+        $.ajax({
+            type :'POST',
+            dataType:'json',
+            data : { customerName : customerName },
+            url : 'getAjaxProjectData.php',
+            success : function(result){
+
+                $('#projectId').html('');
+                $('#projectId').append('<option></option>');
+                result.forEach(function(t) {
+                    // $('#item') refers to the EMPTY select list
+                    // the .append means add to the object refered to above
+                    $('#projectId').append('<option>'+t['project_id']+'</option>');
+                });
+            }
+        })
+
+    });
+
+</script>
+<script type="text/javascript">
+    $('#projectId').on('change', function(){
+        projectId = $('#projectId option:selected').val(); // the dropdown item selected value
+        console.log(projectId);
+        $.ajax({
+            type :'POST',
+            dataType:'json',
+            data : { projectId : projectId },
+            url : 'getAjaxProjectInformation.php',
+            success : function(result){
+                console.log(result);
+                $("#projectName").val(result['project_name']);
+                $("#projectDescription").val(result['project_description']);
             }
         })
 

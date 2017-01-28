@@ -237,6 +237,18 @@ include_once '../../../../view/Navigation/Nav/Navbar/navigation.php';
                             </div>
                         </td>
                     </tr>
+                    <tr>
+                        <td>
+                            <div>
+                                <p>Employee Due :</p>
+                            </div>
+                        </td>
+                        <td>
+                            <div>
+                                <p><?php echo $oneEmployee['employee_due']; ?></p>
+                            </div>
+                        </td>
+                    </tr>
                     </tbody>
                 </table>
             </div>

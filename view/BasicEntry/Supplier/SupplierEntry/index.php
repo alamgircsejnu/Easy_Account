@@ -73,7 +73,7 @@ include_once '../../../../view/Navigation/Nav/Navbar/navigation.php';
 <div class="row">
 
     <div class="col-md-1"></div>
-    <div id="custom-table" class="col-md-10" style="background-color: #9acfea;padding: 1px;margin-left: 210px">
+    <div id="custom-table" class="col-md-10" style="background-color: #9acfea;padding: 1px;max-height: 450px;overflow: scroll;margin-left: 210px">
 
 
         <div class="table-responsive" id="custom-table">
@@ -84,9 +84,7 @@ include_once '../../../../view/Navigation/Nav/Navbar/navigation.php';
                     <th align="center">Supplier ID</th>
                     <th align="center">Supplier Name</th>
                     <th align="center">Supplier Address</th>
-                    <th align="center">Supplier Phone</th>
-                    <th align="center">Supplier Email</th>
-                    <th align="center">Entry Date</th>
+                    <th align="center">Supplier Due</th>
                     <th align="center">Entry By</th>
                     <th align="center">Action</th>
                 </tr>
@@ -103,10 +101,7 @@ include_once '../../../../view/Navigation/Nav/Navbar/navigation.php';
                     <td><?php echo $oneSupplier['supplier_id'] ?></td>
                     <td><?php echo $oneSupplier['supplier_name']?></td>
                     <td><?php echo $oneSupplier['supplier_address']; ?></td>
-                    <td><?php echo $oneSupplier['supplier_phone']; ?></td>
-                    <td><?php echo $oneSupplier['supplier_email']; ?></td>
                     <td><?php echo $oneSupplier['supplier_due']; ?></td>
-                    <td><?php echo $oneSupplier['entry_date']; ?></td>
                     <td><?php echo $oneSupplier['entry_by']; ?></td>
                     <td>
                         <a href="show.php?id=<?php echo $oneSupplier['id'] ?>"> <img style="margin: 3%" border="0"

@@ -104,11 +104,12 @@ include_once '../../../../view/Navigation/Nav/Navbar/navigation.php';
                     <div class="col-md-6">
                         <label for="projectId" style="margin-top: 5px">Project ID</label>
                         <input type="text" id="projectId" name="projectId" class="form-control custom-input"
-                             value="<?php echo $newTaskId ?>"  placeholder="Project ID" required>
+                             value="<?php echo $newTaskId ?>"  placeholder="Project ID" required readonly>
                     </div>
                     <div class="col-md-6">
                         <label for="customerId" style="margin-top: 5px">Customer Name</label>
                         <select name="customerId" class="form-control col-sm-6 custom-input" id="customerId">
+                            <option></option>
                             <?php
                             for ($i=0;$i<count($customers);$i++){
                             ?>
@@ -127,19 +128,19 @@ include_once '../../../../view/Navigation/Nav/Navbar/navigation.php';
                     <div class="col-md-6">
                         <label for="POAmount" style="margin-top: 5px">PO Amount</label>
                         <input type="text" id="POAmount" name="POAmount" class="form-control custom-input"
-                               placeholder="PO Amount" required>
+                               placeholder="PO Amount">
                     </div>
                 </div>
                 <br><br><br>
                 <div class="col-md-6">
                     <label for="PODate" style="margin-top: 5px">PO Date</label>
                     <input type="text" id="PODate" name="PODate" class="form-control custom-input"
-                           placeholder="PO Date" required>
+                           placeholder="PO Date">
                 </div>
                 <div class="col-md-6">
                     <label for="deliveryDate" style="margin-top: 5px">Delivery Date</label>
                     <input type="text" id="deliveryDate" name="deliveryDate" class="form-control custom-input"
-                           placeholder="Delivery Date" required>
+                           placeholder="Delivery Date">
                 </div>
                 <br><br><br>
                 <div class="col-md-12">

@@ -216,7 +216,7 @@ if (isset($_SESSION['id']) && !empty($_SESSION['id'])) {
 
     <?php
 } else{
-    header('Location:../Login/login.php');
+    header('Location:../../../User/ManageUser/Login/login.php');
 
 }
 ?>

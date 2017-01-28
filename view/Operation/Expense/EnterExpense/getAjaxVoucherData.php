@@ -19,6 +19,7 @@ $voucherData['expenseType'] = $singleVoucher[0]['expense_type'];
 $voucherData['expDate'] = $singleVoucher[0]['date'];
 $voucherData['expensedBy'] = $singleVoucher[0]['employee_id'];
 $voucherData['projectId'] = $singleVoucher[0]['project_id'];
+$voucherData['expenseId'] = $singleVoucher[0]['voucher_no'];
 $voucherData['projectName'] = $projectDetails['project_name'];
 $voucherData['customerName'] = $projectDetails['customer_name'];
 

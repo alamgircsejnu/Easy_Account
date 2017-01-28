@@ -218,7 +218,7 @@ class Expense
             $_SESSION['errorMessage'] = "Oops! Something wrong!";
         }
 
-        header('location:pendingExpense.php');
+        header('location:pendingPayment.php');
     }
 
     public function pendingExpenses(){
@@ -233,12 +233,23 @@ class Expense
         return $mydata;
     }
     public function lastEntry(){
-        $query="SELECT * FROM `tbl_expense` WHERE `tbl_expense`.`company_id` = '".$this->companyId."' ORDER BY id DESC LIMIT 1";
+        $data = array();
+        $query="SELECT max(voucher_no) as voucher_no FROM `tbl_voucher` WHERE `tbl_voucher`.`company_id` = '".$this->companyId."'";
 //        echo $query;
 //        die();
         $result=  mysql_query($query);
         $row=  mysql_fetch_assoc($result);
-        return $row;
+        $query1="SELECT max(expense_id) as expense_id FROM `tbl_expense` WHERE `tbl_expense`.`company_id` = '".$this->companyId."'";
+//        echo $query;
+//        die();
+        $result1=  mysql_query($query1);
+        $row1=  mysql_fetch_assoc($result1);
+        if ($row['voucher_no']>=$row1['expense_id']){
+            $data['expense_id']= $row['voucher_no'];
+        } else{
+            $data['expense_id']= $row1['expense_id'];
+        }
+        return $data;
     }
 
     public function expenseTypes(){

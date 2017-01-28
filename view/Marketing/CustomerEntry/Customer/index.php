@@ -73,7 +73,7 @@ include_once '../../../../view/Navigation/Nav/Navbar/navigation.php';
 <div class="row">
 
     <div class="col-md-1"></div>
-    <div id="custom-table" class="col-md-10" style="background-color: #9acfea;padding: 1px;margin-left: 210px">
+    <div id="custom-table" class="col-md-10" style="background-color: #9acfea;padding: 1px;margin-left: 210px;max-height: 450px;overflow: scroll">
 
 
         <div class="table-responsive" id="custom-table">
@@ -83,24 +83,9 @@ include_once '../../../../view/Navigation/Nav/Navbar/navigation.php';
                     <th align="center">SL#</th>
                     <th align="center">Customer ID</th>
                     <th align="center">Customer Name</th>
-                    <th align="center">Customer Address</th>
-                    <th align="center">Customer Phone</th>
-                    <th align="center">Customer Contact</th>
-                    <th align="center">Contact Designation</th>
-                    <th align="center">Contact Email</th>
-                    <th align="center">Contact Mobile</th>
-                    <th align="center">Factory Address</th>
-                    <th align="center">Factory Phone</th>
-                    <th align="center">Factory Contact</th>
-                    <th align="center">Designation</th>
-                    <th align="center">Factory Email</th>
-                    <th align="center">Factory Mobile</th>
-                    <th align="center">Starting Year</th>
-                    <th align="center">Entry Date</th>
                     <th align="center">Entry By</th>
                     <th align="center">Debit</th>
                     <th align="center">Crebit</th>
-                    <th align="center">Status</th>
                     <th align="center">Action</th>
                 </tr>
                 </thead>
@@ -115,24 +100,9 @@ include_once '../../../../view/Navigation/Nav/Navbar/navigation.php';
                     <td><?php echo $serial ?></td>
                     <td><?php echo $oneCustomer['customer_id'] ?></td>
                     <td><?php echo $oneCustomer['customer_name']?></td>
-                    <td><?php echo $oneCustomer['customer_address']; ?></td>
-                    <td><?php echo $oneCustomer['customer_phone']; ?></td>
-                    <td><?php echo $oneCustomer['customer_contact']; ?></td>
-                    <td><?php echo $oneCustomer['contact_desig']; ?></td>
-                    <td><?php echo $oneCustomer['customer_email']; ?></td>
-                    <td><?php echo $oneCustomer['customer_mobile']; ?></td>
-                    <td><?php echo $oneCustomer['customer_factory']; ?></td>
-                    <td><?php echo $oneCustomer['factory_phone']; ?></td>
-                    <td><?php echo $oneCustomer['factory_contact']; ?></td>
-                    <td><?php echo $oneCustomer['fac_cont_desig']; ?></td>
-                    <td><?php echo $oneCustomer['customer_email2']; ?></td>
-                    <td><?php echo $oneCustomer['customer_mobile2']; ?></td>
-                    <td><?php echo $oneCustomer['starting_year']; ?></td>
-                    <td><?php echo $oneCustomer['data_entry_date']; ?></td>
                     <td><?php echo $oneCustomer['entry_by']; ?></td>
                     <td><?php echo $oneCustomer['debit']; ?></td>
                     <td><?php echo $oneCustomer['credit']; ?></td>
-                    <td><?php echo $oneCustomer['status']; ?></td>
                     <td>
                         <a href="show.php?id=<?php echo $oneCustomer['id'] ?>"> <img style="margin: 3%" border="0"
                                                                                      title="See Details" alt="Details"

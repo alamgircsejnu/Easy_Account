@@ -9,11 +9,36 @@ $_POST['entryBy'] = $_SESSION['employeeName'];
 //die();
 $voucher = new VoucherEntry();
 $emp = $voucher->employeeName($_POST['employeeId']);
-$employeeName = $emp['first_name'].' '.$emp['last_name'];
-$_POST['employeeName'] = $employeeName;
+$employeeDesignation = $emp['designation'];
+$_POST['designation'] = $employeeDesignation;
 //print_r($_POST);
 //die();
 $voucher->prepare($_POST);
 
+$lastTask = $voucher->lastEntry();
+if (isset($lastTask) && !empty($lastTask)){
+    $lastTaskId = $lastTask['voucher_no'];
+    $taskYear = substr($lastTaskId,2,4);
+//    echo $taskYear;
+//    die();
+    $currentYear =  date('Y');
+    if ($taskYear==$currentYear){
 
+        $taskNumber = substr($lastTaskId,6);
+        $newTaskNumber = (int)$taskNumber +1;
+        $newTaskId = 'VN'.$taskYear.$newTaskNumber;
+//echo $first;
+//echo '<br>';
+//echo $newTaskId;
+//die();
+    } else{
+        $newTaskNumber = '1001';
+        $newTaskId = 'VN'.date('Y').$newTaskNumber;
+    }
+} else{
+    $newTaskNumber = '1001';
+    $newTaskId = 'VN'.date('Y').$newTaskNumber;
+}
+$_POST['voucherNo'] = $newTaskId;
+$voucher->prepare($_POST);
 $voucher->storeExpenses($_POST);

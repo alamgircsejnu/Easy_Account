@@ -126,7 +126,7 @@ class Employee
 
     public function index(){
         $mydata=array();
-        $query="SELECT * FROM `tbl_employee` WHERE `tbl_employee`.`company_id`='".$this->companyId."' AND deleted_at IS NULL";
+        $query="SELECT * FROM `tbl_employee` WHERE `tbl_employee`.`company_id`='".$this->companyId."' AND deleted_at IS NULL ORDER BY employee_id";
 //        echo $query;
 //        die();
         $result=  mysql_query($query);

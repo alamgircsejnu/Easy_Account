@@ -66,7 +66,7 @@ include_once '../../../../view/Navigation/Nav/Navbar/navigation.php';
 <div class="row">
 
     <div class="col-md-2"></div>
-    <div id="custom-table" class="col-md-9" style="background-color: #9acfea;padding: 1px;margin-left: 260px">
+    <div id="custom-table" class="col-md-10" style="background-color: #9acfea;padding: 1px;margin-left: 210px;max-height: 450px;overflow: scroll">
 
 
         <div class="table-responsive" id="custom-table">
@@ -78,12 +78,6 @@ include_once '../../../../view/Navigation/Nav/Navbar/navigation.php';
                     <th align="center">Project Name</th>
                     <th align="center">Customer ID</th>
                     <th align="center">Customer Name</th>
-                    <th align="center">Project Description</th>
-                    <th align="center">Project Status</th>
-                    <th align="center">Project Price</th>
-                    <th align="center">PO Date</th>
-                    <th align="center">Delivery Date</th>
-                    <th align="center">Entry Date</th>
                     <th align="center">Entry By</th>
                     <th align="center">Action</th>
                     <th align="center">If Finished</th>
@@ -102,12 +96,6 @@ include_once '../../../../view/Navigation/Nav/Navbar/navigation.php';
                     <td><?php echo $oneproject['project_name']; ?></td>
                     <td><?php echo $oneproject['customer_id']; ?></td>
                     <td><?php echo $oneproject['customer_name']; ?></td>
-                    <td><?php echo $oneproject['project_description']; ?></td>
-                    <td><?php echo $oneproject['project_status']; ?></td>
-                    <td><?php echo $oneproject['project_price']; ?></td>
-                    <td><?php echo $oneproject['po_date']; ?></td>
-                    <td><?php echo $oneproject['delivery_date']; ?></td>
-                    <td><?php echo $oneproject['created_at']; ?></td>
                     <td><?php echo $oneproject['created_by']; ?></td>
                     <td width="130px">
                         <a href="show.php?id=<?php echo $oneproject['id'] ?>"> <img style="margin: 3%" border="0"

@@ -83,7 +83,7 @@ class User
 
     public function index(){
         $mydata=array();
-        $query="SELECT * FROM `tbl_user` where `tbl_user`.`company_id`='".$this->companyId."' AND deleted_at IS NULL";
+        $query="SELECT * FROM `tbl_user` where `tbl_user`.`company_id`='".$this->companyId."' AND deleted_at IS NULL ORDER BY user_name";
 //        echo $query;
 //        die();
         $result=  mysql_query($query);
@@ -212,7 +212,7 @@ class User
 
     public function allEmployee(){
         $mydata=array();
-        $query="SELECT * FROM `tbl_employee` WHERE deleted_at IS NULL";
+        $query="SELECT * FROM `tbl_employee` WHERE deleted_at IS NULL ORDER BY employee_id  ";
 //        echo $query;
 //        die();
         $result=  mysql_query($query);
