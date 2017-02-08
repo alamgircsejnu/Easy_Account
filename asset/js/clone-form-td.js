@@ -92,26 +92,28 @@ $(function () {
         $('#entry' + num).after(newElem);
         $('#ID' + newNum + '_title').focus();
 
-    // Enable the "remove" button. This only shows once you have a duplicated section.
+        // Enable the "remove" button. This only shows once you have a duplicated section.
         $('#btnDel').attr('disabled', false);
 
-    // Right now you can only add 4 sections, for a total of 5. Change '5' below to the max number of sections you want to allow.
-
+        // Right now you can only add 4 sections, for a total of 5. Change '5' below to the max number of sections you want to allow.
+        if (newNum == 10)
+            $('#btnAdd').attr('disabled', true).prop('value', "You've reached the limit"); // value here updates the text in the 'add' button when the limit is reached
     });
 
+
     $('#btnDel').click(function () {
-    // Confirmation dialog box. Works on all desktop browsers and iPhone.
+        // Confirmation dialog box. Works on all desktop browsers and iPhone.
         if (confirm("Are you sure you wish to remove this section? This cannot be undone."))
-            {
-                var num = $('.clonedInput').length;
-                // how many "duplicatable" input fields we currently have
-                $('#entry' + num).slideUp('slow', function () {$(this).remove();
+        {
+            var num = $('.clonedInput').length;
+            // how many "duplicatable" input fields we currently have
+            $('#entry' + num).slideUp('slow', function () {$(this).remove();
                 // if only one element remains, disable the "remove" button
-                    if (num -1 === 1)
-                $('#btnDel').attr('disabled', true);
+                if (num -1 === 1)
+                    $('#btnDel').attr('disabled', true);
                 // enable the "add" button
                 $('#btnAdd').attr('disabled', false).prop('value', "add section");});
-            }
+        }
         return false; // Removes the last section you added
     });
     // Enable the "add" button

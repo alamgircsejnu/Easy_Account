@@ -77,7 +77,7 @@ $voucher->printed();
         </div>
         <div class="col-md-2"></div>
     </div>
-    <div style="margin-top: 0px;font-size: 14px">
+    <div style="margin-top: 0px;font-size: 16px">
         <div style="background-color: white">
             <div style="margin-top: 0px;margin-bottom: 0px;padding-top: 0px;padding-bottom: 0px">
                 <div>
@@ -87,17 +87,12 @@ $voucher->printed();
                 </div>
                 <div>
                     <?php
-                    echo '<p style="float: left;margin-left: 10px;margin-top: 5px;margin-bottom: 0px;min-width: 140px">Expense Type : '.$allVouchers[0]['expense_type'].'</p>'
+                    echo '<p style="float: left;margin-left: 50px;margin-top: 5px;margin-bottom: 0px;min-width: 140px">Expense Type : '.$allVouchers[0]['expense_type'].'</p>'
                     ?>
                 </div>
                 <div>
                     <?php
-                    echo '<p style="float: left;margin-left: 10px;margin-top: 5px;margin-bottom: 0px">Voucher No : '.$allVouchers[0]['voucher_no'].'</p>'
-                    ?>
-                </div>
-                <div>
-                    <?php
-                    echo '<p style="float: left;margin-left: 10px;margin-top: 5px;margin-bottom: 0px">Customer : '.$allVouchers[0]['customer_name'].'</p>'
+                    echo '<p style="float: left;margin-left: 50px;margin-top: 5px;margin-bottom: 0px">Voucher No : '.$allVouchers[0]['voucher_no'].'</p>'
                     ?>
                 </div>
             </div>
@@ -109,12 +104,7 @@ $voucher->printed();
                 </div>
                 <div>
                     <?php
-                    echo '<p style="float: left;margin-left: 20px;margin-top: 5px;margin-bottom: 5px">Designation : '.$allVouchers[0]['employee_designation'].'</p>'
-                    ?>
-                </div>
-                <div>
-                    <?php
-                    echo '<p style="float: left;margin-left: 20px;margin-top: 5px;margin-bottom: 5px">Project Name : '.$allVouchers[0]['project_name'].'</p>'
+                    echo '<p style="float: left;margin-left: 70px;margin-top: 5px;margin-bottom: 5px">Project Name : '.$allVouchers[0]['project_name'].' - '.$allVouchers[0]['customer_name'].'</p>'
                     ?>
                 </div>
             </div><br>
@@ -133,7 +123,7 @@ $voucher->printed();
                                     <th align="center" width="200"  style="border-collapse: collapse;border: 1px solid black">From</th>
                                     <th align="center" width="200"  style="border-collapse: collapse;border: 1px solid black">To</th>
                                     <th align="center" width="140"  style="border-collapse: collapse;border: 1px solid black">Vehicle</th>
-                                    <th align="center" width="140"  style="border-collapse: collapse;border: 1px solid black">Amount(taka)</th>
+                                    <th align="center" width="140"  style="border-collapse: collapse;border: 1px solid black">Amount(BDT)</th>
                                     <th align="center" width="140"  style="border-collapse: collapse;border: 1px solid black">Remarks</th>
                                 </tr>
                                 </thead>
@@ -195,7 +185,7 @@ $voucher->printed();
                                 <tr>
                                     <th align="center" style="border-collapse: collapse;border: 1px solid black">SL No.</th>
                                     <th align="center" style="width: 350px;border-collapse: collapse;border: 1px solid black">Description</th>
-                                    <th align="center" style="border-collapse: collapse;border: 1px solid black">Amount(taka)</th>
+                                    <th align="center" style="border-collapse: collapse;border: 1px solid black">Amount(BDT)</th>
                                     <th align="center" style="border-collapse: collapse;border: 1px solid black">Remarks</th>
                                 </tr>
                                 </thead>

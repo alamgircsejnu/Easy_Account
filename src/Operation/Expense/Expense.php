@@ -218,12 +218,24 @@ class Expense
             $_SESSION['errorMessage'] = "Oops! Something wrong!";
         }
 
-        header('location:pendingPayment.php');
+        header('location:pendingExpense.php');
     }
 
     public function pendingExpenses(){
         $mydata=array();
         $query="SELECT * FROM `tbl_expense` WHERE `tbl_expense`.`company_id`='".$this->companyId."' AND `tbl_expense`.`is_approved`='0' AND deleted_at IS NULL ORDER BY id DESC";
+//        echo $query;
+//        die();
+        $result=  mysql_query($query);
+        while ($row=  mysql_fetch_assoc($result)){
+            $mydata[]=$row;
+        }
+        return $mydata;
+    }
+
+    public function approvedExpenses(){
+        $mydata=array();
+        $query="SELECT * FROM `tbl_expense` WHERE `tbl_expense`.`company_id`='".$this->companyId."' AND `tbl_expense`.`is_approved`='1' AND deleted_at IS NULL ORDER BY id DESC";
 //        echo $query;
 //        die();
         $result=  mysql_query($query);

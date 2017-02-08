@@ -71,18 +71,16 @@ include_once '../../../../view/Navigation/Nav/Navbar/navigation.php';
     <div class="col-md-3"></div>
 </div>
 <div class="row">
-
     <div class="col-md-1"></div>
-        <div id="custom-table" class="col-md-10" style="background-color: #9acfea;padding: 1px;margin-left: 210px">
+    <div id="custom-table" class="col-md-10" style="background-color: #9acfea;padding: 1px;margin-left: 210px;max-height: 450px;overflow-x: scroll;overflow-y: scroll">
 
-
-            <div class="table-responsive" id="custom-table">
-                <table class="table table-bordered">
-                    <thead>
-                    <tr>
+        <div class="table-responsive" id="custom-table">
+            <table class="table table-bordered">
+                <thead>
+                <tr>
                         <th align="center">SL#</th>
                         <th align="center">Expense Id</th>
-                        <th align="center">Expense Type</th>
+<!--                        <th align="center">Expense Type</th>-->
                         <th align="center">Project Code</th>
                         <th align="center">Pay Type</th>
                         <th align="center">Expense Amount</th>
@@ -102,7 +100,7 @@ include_once '../../../../view/Navigation/Nav/Navbar/navigation.php';
                     <tr>
                         <td><?php echo $serial ?></td>
                         <td><?php echo $oneExpense['expense_id'] ?></td>
-                        <td><?php echo $oneExpense['expense_type']; ?></td>
+<!--                        <td>--><?php //echo $oneExpense['expense_type']; ?><!--</td>-->
                         <td><?php echo $oneExpense['project_id']; ?></td>
                         <td><?php echo $oneExpense['pay_type']; ?></td>
                         <td><?php echo $oneExpense['expense_amount']; ?></td>
@@ -119,7 +117,7 @@ include_once '../../../../view/Navigation/Nav/Navbar/navigation.php';
                             if ($oneExpense['is_approved'] == 0) {
                                 ?>
                                 <a href="approve.php?id=<?php echo $oneExpense['id'] ?>" class="btn btn-primary"
-                                   onclick="return confirm('Are you sure?')">Approve</a>
+                                   onclick="return confirm("Expense ID :"+<?php echo $oneExpense['expense_id'] ?>+"Expense Type :"+<?php echo $oneExpense['expense_type']?>)">Approve</a>
                                 <?php
                             } else {
 

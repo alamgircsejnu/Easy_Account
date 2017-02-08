@@ -2,6 +2,8 @@
 session_start();
 include_once '../../../../vendor/autoload.php';
 use App\Voucher\VoucherEntry\VoucherEntry;
+use App\Users\ManageUser\User;
+$currentId = $_SESSION['id'];
 
 $_POST['companyId'] = $_SESSION['companyId'];
 $_POST['employeeId'] = $_SESSION['username'];
@@ -11,6 +13,9 @@ $voucher->prepare($_POST);
 $allVouchers = $voucher->show();
 //print_r($allVouchers);
 //die();
+
+$userInfo = new User();
+$oneUserInfo = $userInfo->show($currentId);
 ?>
 
 <!DOCTYPE html>
@@ -56,7 +61,18 @@ include_once '../../../../view/Navigation/Nav/Navbar/navigation.php';
 
 <br><br>
 <div class="row">
-    <div class="col-md-3"></div>
+    <div class="col-md-3">
+            <?php
+            if (strstr($oneUserInfo['permitted_actions'],'Admin Op') || $oneUserInfo['is_admin']==1) {
+            if ($allVouchers[0]['is_approved'] == 0) {
+                ?>
+                <a href="approveFromShow.php?voucherNo=<?php echo $_GET['voucherNo'] ?>" class="btn btn-primary"
+                   style="margin-left: 319px">Approve</a>
+                <?php
+            }
+        }
+        ?>
+    </div>
     <div class="col-md-6">
         <?php
 
@@ -71,17 +87,8 @@ include_once '../../../../view/Navigation/Nav/Navbar/navigation.php';
         ?>
     </div>
     <div class="col-md-3">
-        <?php
-        if ($allVouchers[0]['is_approved']==1){
-        ?>
         <a href="print.php?voucherNo=<?php echo $_GET['voucherNo'] ?>" target="_blank" class="btn btn-primary" style="margin-left: 125px">Print</a>
-        <?php
-        }else {
-        ?>
-            <a href="approveFromShow.php?voucherNo=<?php echo $_GET['voucherNo'] ?>" class="btn btn-primary" style="margin-left: 100px">Approve</a>
-        <?php
-        }
-        ?>
+
     </div>
 </div>
 
@@ -151,7 +158,7 @@ include_once '../../../../view/Navigation/Nav/Navbar/navigation.php';
                     <th align="center" width="130">From</th>
                     <th align="center" width="130">To</th>
                     <th align="center" width="130">Vehicle</th>
-                    <th align="center">Amount(taka)</th>
+                    <th align="center">Amount(BDT)</th>
                     <th align="center">Remarks</th>
                 </tr>
                 </thead>
@@ -215,7 +222,7 @@ include_once '../../../../view/Navigation/Nav/Navbar/navigation.php';
                     <tr style="border: 1px solid black">
                         <th align="center">SL No.</th>
                         <th align="center" style="width: 300px">Description</th>
-                        <th align="center">Amount(taka)</th>
+                        <th align="center">Amount(BDT)</th>
                         <th align="center">Remarks</th>
                     </tr>
                     </thead>

@@ -106,6 +106,12 @@ class AttendenseEntry
     public function store()
     {
         date_default_timezone_set("Asia/Dhaka");
+        $query="SELECT max(att_id) as att_id FROM `tbl_attendense` WHERE `tbl_attendense`.`company_id` = '".$this->companyId."'";
+//        echo $query;
+//        die();
+        $result=  mysql_query($query);
+        $row=  mysql_fetch_assoc($result);
+        $this->attId = $row['att_id']+1;
         if (isset($this->inTimeCheck) && !empty($this->inTimeCheck) && isset($this->outTimeCheck) && !empty($this->outTimeCheck)) {
 
             $query="INSERT INTO `tbl_attendense` (`id`,`company_id`,`att_id`, `cid`,`employee_id`,`employee_name`,`ctime`,`purpose`,`location`,`device_id`,`remarks`,`entry_time`,`is_approved`) VALUES ('', '" . $this->companyId . "','" . $this->attId . "','" . $this->cardId . "','" . $this->employeeId . "','" . $this->employeeName . "','" . $this->date." ".$this->inTime. "','Entry','" . $this->dutyLocation . "','0','" . $this->remarks . "','" . date('Y-m-d H:i:s') . "','0'),('', '" . $this->companyId . "','" . $this->attId . "','" . $this->cardId . "','" . $this->employeeId . "','" . $this->employeeName . "','" . $this->date." ".$this->outTime. "','Exit','" . $this->dutyLocation . "','0','" . $this->remarks . "','" . date('Y-m-d H:i:s') . "','0')";
@@ -147,6 +153,17 @@ class AttendenseEntry
         }
         return $mydata;
     }
+    public function approvedIds(){
+        $mydata=array();
+        $query="SELECT * FROM `tbl_attendense` WHERE `tbl_attendense`.`company_id`='".$this->companyId."' AND `tbl_attendense`.`employee_id`='".$this->employeeId."' AND `tbl_attendense`.`is_approved`='1' GROUP BY att_id ORDER BY id DESC";
+//        echo $query;
+//        die();
+        $result=  mysql_query($query);
+        while ($row=  mysql_fetch_assoc($result)){
+            $mydata[]=$row;
+        }
+        return $mydata;
+    }
 
     public function index(){
         $mydata=array();
@@ -180,6 +197,12 @@ class AttendenseEntry
         date_default_timezone_set("Asia/Dhaka");
         $deleteQuery="DELETE FROM `tbl_attendense` where `tbl_attendense`.`company_id`='".$this->companyId."' AND `tbl_attendense`.`att_id`='".$this->attId."'";
         mysql_query($deleteQuery);
+        $query="SELECT max(att_id) as att_id FROM `tbl_attendense` WHERE `tbl_attendense`.`company_id` = '".$this->companyId."'";
+//        echo $query;
+//        die();
+        $result=  mysql_query($query);
+        $row=  mysql_fetch_assoc($result);
+        $this->attId = $row['att_id']+1;
         if (isset($this->inTimeCheck) && !empty($this->inTimeCheck) && isset($this->outTimeCheck) && !empty($this->outTimeCheck)) {
 
             $query="INSERT INTO `tbl_attendense` (`id`,`company_id`,`att_id`, `cid`,`employee_id`,`employee_name`,`ctime`,`purpose`,`location`,`device_id`,`remarks`,`entry_time`,`is_approved`) VALUES ('', '" . $this->companyId . "','" . $this->attId . "','" . $this->cardId . "','" . $this->employeeId . "','" . $this->employeeName . "','" . $this->date." ".$this->inTime. "','Entry','" . $this->dutyLocation . "','0','" . $this->remarks . "','" . date('Y-m-d H:i:s') . "','0'),('', '" . $this->companyId . "','" . $this->attId . "','" . $this->cardId . "','" . $this->employeeId . "','" . $this->employeeName . "','" . $this->date." ".$this->outTime. "','Exit','" . $this->dutyLocation . "','0','" . $this->remarks . "','" . date('Y-m-d H:i:s') . "','0')";
@@ -234,7 +257,7 @@ class AttendenseEntry
     }
     public function approvedRequests(){
         $mydata=array();
-        $query="SELECT * FROM `tbl_attendense` WHERE `tbl_attendense`.`company_id`='".$this->companyId."' AND `tbl_attendense`.`is_approved`='1' ORDER BY id DESC";
+        $query="SELECT * FROM `tbl_attendense` WHERE `tbl_attendense`.`company_id`='".$this->companyId."' AND `tbl_attendense`.`employee_id`='".$this->employeeId."' AND `tbl_attendense`.`att_id`='".$this->attId."' AND `tbl_attendense`.`is_approved`='1' ORDER BY id ASC";
 //        echo $query;
 //        die();
         $result=  mysql_query($query);
@@ -247,15 +270,20 @@ class AttendenseEntry
     public function approve()
     {
         date_default_timezone_set("Asia/Dhaka");
-        $query="SELECT * FROM `tbl_attendense` where `tbl_attendense`.`id`=".$this->id;
+        $mydata = array();
+        $query="SELECT * FROM `tbl_attendense` where `tbl_attendense`.`att_id`='".$this->attId."'";
         $result=  mysql_query($query);
-        $row=  mysql_fetch_assoc($result);
+        while ($oneRow=  mysql_fetch_assoc($result)){
+            $mydata[]=$oneRow;
+        }
+        $query1 = "INSERT INTO `tbl_card` (`id`,`company_id`,`cid`, `employee_id`,`employee_name`,`ctime`,`device_id`,`purpose`,`remarks`,`entry_time`) VALUES ";
+        foreach ($mydata as $row){
+        $query1=$query1."('','".$row['company_id']."','".$row['cid']."', '".$row['employee_id']."','". $row['employee_name']."','". $row['ctime']."','". $row['device_id']."','". $row['purpose']."','". $row['remarks']."','". $row['entry_time']."'),";
+        }
+        $query2 = rtrim($query1, ",");
+        mysql_query($query2);
 
-        $query1="INSERT INTO `tbl_card` (`id`,`company_id`,`cid`, `employee_id`,`employee_name`,`ctime`,`device_id`,`purpose`,`remarks`,`entry_time`) VALUES ('','".$row['company_id']."','".$row['cid']."', '".$row['employee_id']."','". $row['employee_name']."','". $row['ctime']."','". $row['device_id']."','". $row['purpose']."','". $row['remarks']."','". $row['entry_time']."')";
-
-        mysql_query($query1);
-
-        $query2 = "UPDATE `tbl_attendense` SET `is_approved` = '1',`approved_by`='" . $this->approvedBy . "',`approved_date`='" . date('Y-m-d H:i:s') . "' WHERE  `tbl_attendense`.`company_id`='".$this->companyId."' AND `tbl_attendense`.`id` =" . $this->id;
+        $query2 = "UPDATE `tbl_attendense` SET `is_approved` = '1',`approved_by`='" . $this->approvedBy . "',`approved_date`='" . date('Y-m-d H:i:s') . "' WHERE  `tbl_attendense`.`company_id`='".$this->companyId."' AND `tbl_attendense`.`att_id` ='".$this->attId."'";
 
         if (mysql_query($query2)) {
             $_SESSION['successMessage'] = "Approved Successfully";
@@ -264,6 +292,19 @@ class AttendenseEntry
         }
 
         header('location:pendingAttendense.php');
+    }
+
+    public function delete()
+    {
+        $query = "DELETE FROM `tbl_attendense` WHERE `tbl_attendense`.`company_id`='".$this->companyId."' AND `tbl_attendense`.`att_id` ='".$this->attId."'";
+
+        if (mysql_query($query)) {
+            $_SESSION['successMessage'] = "Deleted Successfully";
+        } else {
+            $_SESSION['errorMessage'] = "Oops! Something wrong!";
+        }
+
+        header('location:index.php');
     }
 
     public function cardId(){

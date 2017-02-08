@@ -211,7 +211,8 @@ if (isset($_SESSION['id']) && !empty($_SESSION['id'])) {
                             <li class="dropdown-submenu"><a tabindex="-1" href="#">Manual Attendance</a>
                                 <ul class="dropdown-menu">
                                     <li><a tabindex="-1" href="view/BasicEntry/Attendense/AttendenseEntry/create.php">Attendance Entry</a></li>
-                                    <li><a href="view/BasicEntry/Attendense/AttendenseEntry/index.php">Your Attendance</a></li>
+                                    <li><a href="view/BasicEntry/Attendense/AttendenseEntry/index.php">Your Pendint Attendance</a></li>
+                                    <li><a href="view/BasicEntry/Attendense/AttendenseEntry/approvedAttendense.php">Your Approved Attendance</a></li>
 
                                 </ul>
                             </li>
@@ -347,8 +348,13 @@ if (isset($_SESSION['id']) && !empty($_SESSION['id'])) {
 
                                 </ul>
                             </li>
-                            <li><a href="view/BasicEntry/Voucher/VoucherEntry/pendingVoucher.php">Approve Voucher</a></li>
-                            <li><a href="view/Operation/Expense/EnterExpense/pendingExpense.php">Approve Expenses</a></li>
+                            <li class="dropdown-submenu"><a tabindex="-1" href="#">Expenses</a>
+                                <ul class="dropdown-menu">
+                                    <li><a tabindex="-1" href="view/Operation/Expense/EnterExpense/pendingExpense.php">Approve Expense</a></li>
+                                    <li><a href="view/Operation/Expense/EnterExpense/approvedExpenses.php">Approved Expenses</a></li>
+
+                                </ul>
+                            </li>
                             <li><a href="view/Operation/Payment/EnterPayment/pendingPayment.php">Approve Payments</a></li>
                             <li><a href="#">Approve Budget</a></li>
                         </ul>

@@ -13,6 +13,7 @@ $prepareAttendense = $attendense->prepare($_POST);
 
 $employee = $attendense->cardId();
 $_POST['cardId'] = $employee['card_id'];
+
 $prepareAttendense = $attendense->prepare($_POST);
 $attendense->store();
 //print_r($prepareAttendense);

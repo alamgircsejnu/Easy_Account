@@ -72,13 +72,10 @@ if (isset($_SESSION['id']) && !empty($_SESSION['id'])){
         <div class="col-md-3"></div>
     </div>
     <div class="row">
+        <div class="col-md-1"></div>
+        <div id="custom-table" class="col-md-10" style="background-color: #9acfea;padding: 1px;margin-left: 210px;max-height: 450px;overflow: scroll">
 
-        <div class="col-md-10" style="margin-left: 200px">
-            <div class="col-md-2"></div>
-            <div id="custom-table" style="background-color: #9acfea;padding: 1px">
-
-
-                <div class="table-responsive" id="custom-table">
+        <div class="table-responsive" id="custom-table">
                     <table class="table table-bordered">
                         <thead>
                         <tr>
@@ -120,12 +117,13 @@ if (isset($_SESSION['id']) && !empty($_SESSION['id'])){
                                 <?php
                                 if ($attendense[0]['is_approved'] == 0) {
                                     ?>
-                                    Pending
+                                    <a href="approve.php?attId=<?php echo $attendense[0]['att_id'] ?>" class="btn btn-primary"
+                                       onclick="return confirm('Are you sure?')">Approve</a>
                                     <?php
                                 } else {
 
                                     ?>
-                                    Approved
+                                    Already Approved
                                     <?php
                                 }
                                 ?>

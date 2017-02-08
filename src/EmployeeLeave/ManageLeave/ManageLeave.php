@@ -128,7 +128,7 @@ class ManageLeave
     }
     public function approvedRequests(){
         $mydata=array();
-        $query="SELECT * FROM `tbl_leave` WHERE `tbl_leave`.`company_id`='".$this->companyId."' AND `tbl_leave`.`is_approved`='1' ORDER BY id DESC";
+        $query="SELECT * FROM `tbl_leave` WHERE `tbl_leave`.`company_id`='".$this->companyId."' AND `tbl_leave`.`employee_id`='".$this->employeeId."' AND `tbl_leave`.`is_approved`='1' ORDER BY id DESC";
 //        echo $query;
 //        die();
         $result=  mysql_query($query);

@@ -218,6 +218,17 @@ class VoucherEntry
         }
         return $mydata;
     }
+    public function printedVouchers(){
+        $mydata=array();
+        $query="SELECT * FROM `tbl_voucher` WHERE `tbl_voucher`.`company_id`='".$this->companyId."' AND `tbl_voucher`.`is_printed`='1' AND `tbl_voucher`.`is_approved`='0' AND deleted_at IS NULL GROUP BY voucher_no ORDER BY id DESC";
+//        echo $query;
+//        die();
+        $result=  mysql_query($query);
+        while ($row=  mysql_fetch_assoc($result)){
+            $mydata[]=$row;
+        }
+        return $mydata;
+    }
     public function previousVouchers(){
         $mydata=array();
         $query="SELECT * FROM `tbl_voucher` WHERE `tbl_voucher`.`company_id`='".$this->companyId."' AND `tbl_voucher`.`is_printed`='1' AND `tbl_voucher`.`is_approved`='1' AND deleted_at IS NULL GROUP BY voucher_no ORDER BY date DESC";
@@ -232,7 +243,7 @@ class VoucherEntry
 
     public function approvedVouchers(){
         $mydata=array();
-        $query="SELECT * FROM `tbl_voucher` WHERE `tbl_voucher`.`company_id`='".$this->companyId."' AND `tbl_voucher`.`is_approved`='1' AND deleted_at IS NULL GROUP BY voucher_no ORDER BY id DESC";
+        $query="SELECT * FROM `tbl_voucher` WHERE `tbl_voucher`.`company_id`='".$this->companyId."' AND `tbl_voucher`.`employee_id`='".$this->employeeId."' AND `tbl_voucher`.`is_approved`='1' AND deleted_at IS NULL GROUP BY voucher_no ORDER BY id DESC";
 //        echo $query;
 //        die();
         $result=  mysql_query($query);

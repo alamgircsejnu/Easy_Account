@@ -1,13 +1,14 @@
 <?php
 session_start();
 include_once '../../../../vendor/autoload.php';
-use App\Employee\ManageEmployee\Employee;
-if (isset($_SESSION['id']) && !empty($_SESSION['id'])){
-$_POST['companyId'] = $_SESSION['companyId'];
+use App\Operation\Expense\Expense;
 
-$employee = new Employee();
-$employee->prepare($_POST);
-$allEmployees = $employee->index();
+$_POST['companyId'] = $_SESSION['companyId'];
+$_POST['employeeId'] = $_SESSION['username'];
+
+$expense = new Expense();
+$expense->prepare($_POST);
+$allExpenses = $expense->approvedExpenses();
 ?>
 
 <!DOCTYPE html>
@@ -38,6 +39,9 @@ $allEmployees = $employee->index();
             height: 29px;
         }
 
+        th, td {
+            text-align: center;
+        }
     </style>
 </head>
 
@@ -67,48 +71,61 @@ include_once '../../../../view/Navigation/Nav/Navbar/navigation.php';
     <div class="col-md-3"></div>
 </div>
 <div class="row">
-
-    <div class="col-md-2"></div>
-    <div id="custom-table" class="col-md-10" style="background-color: #9acfea;padding: 1px;max-height: 450px;overflow: scroll">
-
+    <div class="col-md-1"></div>
+    <div id="custom-table" class="col-md-10" style="background-color: #9acfea;padding: 1px;margin-left: 210px;max-height: 450px;overflow: scroll">
 
         <div class="table-responsive" id="custom-table">
             <table class="table table-bordered">
                 <thead>
                 <tr>
                     <th align="center">SL#</th>
-                    <th align="center">Employee ID</th>
-                    <th align="center">Employee Name</th>
-                    <th align="center">Department</th>
-                    <th align="center">Designation</th>
-                    <th align="center">Action</th>
+                    <th align="center">Expense Id</th>
+                    <th align="center">Expense Type</th>
+                    <th align="center">Project Code</th>
+                    <th align="center">Pay Type</th>
+                    <th align="center">Expense Amount</th>
+                    <th align="center">Expense Date</th>
+                    <th align="center">Expensed By</th>
+                    <th align="center">See Details</th>
+                    <th align="center">Approve</th>
                 </tr>
                 </thead>
                 <?php
-                if (isset($allEmployees) && !empty($allEmployees)) {
+                if (isset($allExpenses) && !empty($allExpenses)) {
                 $serial = 0;
-                foreach ($allEmployees as $oneEmployee) {
+                foreach ($allExpenses as $oneExpense) {
                 $serial++
                 ?>
                 <tbody>
                 <tr>
                     <td><?php echo $serial ?></td>
-                    <td><?php echo $oneEmployee['employee_id'] ?></td>
-                    <td><?php echo $oneEmployee['first_name'].' '.$oneEmployee['last_name']; ?></td>
-                    <td><?php echo $oneEmployee['department']; ?></td>
-                    <td><?php echo $oneEmployee['designation']; ?></td>
+                    <td><?php echo $oneExpense['expense_id'] ?></td>
+                    <td><?php echo $oneExpense['expense_type']; ?></td>
+                    <td><?php echo $oneExpense['project_id']; ?></td>
+                    <td><?php echo $oneExpense['pay_type']; ?></td>
+                    <td><?php echo $oneExpense['expense_amount']; ?></td>
+                    <td><?php echo $oneExpense['expense_date']; ?></td>
+                    <td><?php echo $oneExpense['expense_by']; ?></td>
                     <td>
-                        <a href="show.php?id=<?php echo $oneEmployee['id'] ?>"> <img style="margin: 3%" border="0"
-                                                                                 title="See Details" alt="Details"
-                                                                                 src="../../../../asset/images/showDetails.png"
-                                                                                 width="25" height="20"></a>
-                        <a href="edit.php?id=<?php echo $oneEmployee['id'] ?>"> <img style="margin: 3%" border="0"
-                                                                                 title="Edit User Info" alt="Edit"
-                                                                                 src="../../../../asset/images/edit.png"
-                                                                                 width="25" height="20"></a>
-                        <a href="trash.php?id=<?php echo $oneEmployee['id'] ?>" onclick="return confirm('Are you sure?')">
-                            <img style="margin: 3%" border="0" title="Delete This User" alt="Delete"
-                                 src="../../../../asset/images/delete.png" width="25" height="20"></a>
+                        <a href="show.php?id=<?php echo $oneExpense['id'] ?>"> <img style="margin: 3%" border="0"
+                                                                                    title="See Details" alt="Details"
+                                                                                    src="../../../../asset/images/showDetails.png"
+                                                                                    width="25" height="20"></a>
+                    </td>
+                    <td style="width: 130px">
+                        <?php
+                        if ($oneExpense['is_approved'] == 0) {
+                            ?>
+                            <a href="approve.php?id=<?php echo $oneExpense['id'] ?>" class="btn btn-primary"
+                               onclick="return confirm('Are you sure?')">Approve</a>
+                            <?php
+                        } else {
+
+                            ?>
+                            Already Approved
+                            <?php
+                        }
+                        ?>
                     </td>
                 </tr>
                 <?php
@@ -116,7 +133,7 @@ include_once '../../../../view/Navigation/Nav/Navbar/navigation.php';
                 } else {
                     ?>
                     <tr>
-                        <td colspan="5" align="center">
+                        <td colspan="10" align="center">
                             <?php echo "No Data Available " ?>
 
                         </td>
@@ -127,7 +144,8 @@ include_once '../../../../view/Navigation/Nav/Navbar/navigation.php';
             </table>
         </div>
     </div>
-    <div class="col-md-1"></div>
+</div>
+<div class="col-md-1"></div>
 </div>
 
 
@@ -152,8 +170,3 @@ include_once '../../../../view/Navigation/Nav/Navbar/navigation.php';
 </script>
 </body>
 </html>
-<?php
-} else{
-    header('Location:../../../User/ManageUser/Login/login.php');
-}
-?>

@@ -52,8 +52,11 @@ include_once '../../../../view/Navigation/Nav/Navbar/navigation.php';
 ?>
 
 <br><br>
+<div style="margin-left: 195px;margin-top: 5px;float: left">
+    <a href="printedVouchers.php" class="btn btn-primary pull-right">Printed Vouchers</a>
+</div>
 <div style="margin-right: 25px;margin-top: 5px">
-    <a href="previousVouchers.php" class="btn btn-primary pull-right">Printed Vouchers</a>
+    <a href="previousVouchers.php" class="btn btn-primary pull-right">Approved & Printed Vouchers</a>
 </div>
 <div class="row">
     <div class="col-md-3"></div>

@@ -10,8 +10,8 @@ $voucher = new VoucherEntry();
 $voucher->prepare($_POST);
 $Vouchers = $voucher->selectVouchers();
 //$voucher->printed();
-print_r($allVouchers);
-die();
+//print_r($Vouchers);
+//die();
 ?>
 
 <!DOCTYPE html>
@@ -67,8 +67,18 @@ die();
     </div>
     <div class="col-md-3"></div>
 </div>
-<div id="printReport" style="font-family: 'Palatino Linotype'">
-    <?php foreach ($Vouchers as $voucher){} ?>
+<div id="printReport" style="font-family: 'Palatino Linotype';">
+    <?php
+        $sl = 0;
+        $brNumber = 19;
+        foreach ($Vouchers as $voucher){
+        $_POST['voucherNo'] = $voucher['voucher_no'];
+        $voucher = new VoucherEntry();
+        $voucher->prepare($_POST);
+        $allVouchers = $voucher->show();
+        $voucher->printed();
+         $rowNum = 0;
+    ?>
     <div id="table-caption" class="row" style="margin-bottom: 0px">
         <div class="col-md-2"></div>
         <div id="company-name" class="col-md-8" style="background-color: white;text-align: center">
@@ -83,34 +93,29 @@ die();
             <div style="margin-top: 0px;margin-bottom: 0px;padding-top: 0px;padding-bottom: 0px">
                 <div>
                     <?php
-                    echo '<p style="float: left;margin-left: 70px;margin-top: 5px;margin-bottom: 0px">Name : '.$allVouchers[0]['employee_name'].'</p>'
+                    echo '<p style="float: left;margin-left: 55px;margin-top: 5px;margin-bottom: 0px">Date : '.$allVouchers[0]['date'].'</p>'
                     ?>
                 </div>
                 <div>
                     <?php
-                    echo '<p style="float: left;margin-left: 30px;margin-top: 5px;margin-bottom: 0px;min-width: 140px">Designation : '.$allVouchers[0]['employee_designation'].'</p>'
+                    echo '<p style="float: left;margin-left: 60px;margin-top: 5px;margin-bottom: 0px;min-width: 140px">Expense Type : '.$allVouchers[0]['expense_type'].'</p>'
                     ?>
                 </div>
                 <div>
                     <?php
-                    echo '<p style="float: left;margin-left: 30px;margin-top: 5px;margin-bottom: 0px">Expense Type : '.$allVouchers[0]['expense_type'].'</p>'
+                    echo '<p style="float: left;margin-left: 60px;margin-top: 5px;margin-bottom: 0px">Voucher No : '.$allVouchers[0]['voucher_no'].'</p>'
                     ?>
                 </div>
             </div>
             <div style="margin-top: 0px;margin-bottom: 0px;padding-top: 0px;padding-bottom: 0px">
                 <div>
                     <?php
-                    echo '<p style="float: left;margin-left: 70px;margin-top: 5px;margin-bottom: 5px">Date : '.$allVouchers[0]['date'].'</p>'
+                    echo '<p style="float: left;margin-left: 55px;margin-top: 5px;margin-bottom: 5px">Name : '.$allVouchers[0]['employee_name'].'</p>'
                     ?>
                 </div>
                 <div>
                     <?php
-                    echo '<p style="float: left;margin-left: 60px;margin-top: 5px;margin-bottom: 5px">Voucher No : '.$allVouchers[0]['voucher_no'].'</p>'
-                    ?>
-                </div>
-                <div>
-                    <?php
-                    echo '<p style="float: left;margin-left: 60px;margin-top: 5px;margin-bottom: 5px">Project Name : '.$allVouchers[0]['project_name'].'</p>'
+                    echo '<p style="float: left;margin-left: 70px;margin-top: 5px;margin-bottom: 5px">Project Name : '.$allVouchers[0]['project_name'].' - '.$allVouchers[0]['customer_name'].'</p>'
                     ?>
                 </div>
             </div><br>
@@ -141,6 +146,7 @@ die();
                                 foreach ($allVouchers as $oneVoucher) {
                                 $serial++;
                                 $totalAmount += $oneVoucher['amount'];
+                                $rowNum++;
                                 ?>
                                 <tbody>
                                 <tr>
@@ -203,6 +209,7 @@ die();
                                 foreach ($allVouchers as $oneVoucher) {
                                 $serial++;
                                 $totalAmount += $oneVoucher['amount'];
+                                $rowNum++;
                                 ?>
                                 <tbody>
                                 <tr>
@@ -269,6 +276,16 @@ die();
             </div>
         </div>
     </div>
+    <?php
+            $brNo = intval($brNumber/2)-$rowNum;
+          for ($i=0;$i<$brNo;$i++){
+                  echo '<br>';
+          }
+            if ($sl%2==0){
+                echo '<hr style="border-top: 1px dotted black"/>';
+            }
+          $sl++;
+     } ?>
 </div>
 <a href="show.php?voucherNo=<?php echo $_GET['voucherNo'] ?>" id="redirectShow"></a>
 <br><br><br><br>
@@ -291,6 +308,17 @@ die();
         myWindow.close();
         $('#redirectShow').trigger('click');
     }
+
+//    function addPage() {
+////        console.log(elementId);
+//        var divToPrint = document.getElementById('printReport').innerHTML;
+//        var myWindow=window.open();
+//        myWindow.document.addPage();
+//        myWindow.document.close();
+//        myWindow.focus();
+//        myWindow.print();
+//        myWindow.close();
+//    }
     printDiv();
 
 </script>

@@ -1,13 +1,14 @@
 <?php
 session_start();
 include_once '../../../../vendor/autoload.php';
-use App\Employee\ManageEmployee\Employee;
-if (isset($_SESSION['id']) && !empty($_SESSION['id'])){
-$_POST['companyId'] = $_SESSION['companyId'];
+use App\Voucher\VoucherEntry\VoucherEntry;
 
-$employee = new Employee();
-$employee->prepare($_POST);
-$allEmployees = $employee->index();
+$_POST['companyId'] = $_SESSION['companyId'];
+$_POST['employeeId'] = $_SESSION['username'];
+
+$voucher = new VoucherEntry();
+$voucher->prepare($_POST);
+$allVoucherS = $voucher->printedVouchers();
 ?>
 
 <!DOCTYPE html>
@@ -38,6 +39,9 @@ $allEmployees = $employee->index();
             height: 29px;
         }
 
+        th, td {
+            text-align: center;
+        }
     </style>
 </head>
 
@@ -47,8 +51,13 @@ $allEmployees = $employee->index();
 include_once '../../../../view/Navigation/Nav/Navbar/navigation.php';
 ?>
 
-
 <br><br>
+<div style="margin-left: 195px;margin-top: 5px;float: left">
+    <a href="pendingVoucher.php" class="btn btn-primary pull-right">Latest Vouchers</a>
+</div>
+<div style="margin-right: 25px;margin-top: 5px">
+    <a href="previousVouchers.php" class="btn btn-primary pull-right">Approved & Printed Vouchers</a>
+</div>
 <div class="row">
     <div class="col-md-3"></div>
     <div class="col-md-6">
@@ -69,7 +78,7 @@ include_once '../../../../view/Navigation/Nav/Navbar/navigation.php';
 <div class="row">
 
     <div class="col-md-2"></div>
-    <div id="custom-table" class="col-md-10" style="background-color: #9acfea;padding: 1px;max-height: 450px;overflow: scroll">
+    <div id="custom-table" class="col-md-10" style="background-color: #9acfea;padding: 1px;max-height: 450px;overflow: scroll;margin-left: 210px">
 
 
         <div class="table-responsive" id="custom-table">
@@ -77,38 +86,49 @@ include_once '../../../../view/Navigation/Nav/Navbar/navigation.php';
                 <thead>
                 <tr>
                     <th align="center">SL#</th>
-                    <th align="center">Employee ID</th>
+                    <th align="center">Voucher No</th>
                     <th align="center">Employee Name</th>
-                    <th align="center">Department</th>
-                    <th align="center">Designation</th>
-                    <th align="center">Action</th>
+                    <th align="center">Project Code</th>
+                    <th align="center">Date</th>
+                    <th align="center">Entry By</th>
+                    <th align="center">See Details</th>
+                    <th align="center">Approve</th>
                 </tr>
                 </thead>
                 <?php
-                if (isset($allEmployees) && !empty($allEmployees)) {
+                if (isset($allVoucherS) && !empty($allVoucherS)) {
                 $serial = 0;
-                foreach ($allEmployees as $oneEmployee) {
+                foreach ($allVoucherS as $oneVoucher) {
                 $serial++
                 ?>
                 <tbody>
                 <tr>
                     <td><?php echo $serial ?></td>
-                    <td><?php echo $oneEmployee['employee_id'] ?></td>
-                    <td><?php echo $oneEmployee['first_name'].' '.$oneEmployee['last_name']; ?></td>
-                    <td><?php echo $oneEmployee['department']; ?></td>
-                    <td><?php echo $oneEmployee['designation']; ?></td>
+                    <td><?php echo $oneVoucher['voucher_no'] ?></td>
+                    <td><?php echo $oneVoucher['employee_name']; ?></td>
+                    <td><?php echo $oneVoucher['project_id']; ?></td>
+                    <td><?php echo $oneVoucher['date']; ?></td>
+                    <td><?php echo $oneVoucher['entry_by']; ?></td>
                     <td>
-                        <a href="show.php?id=<?php echo $oneEmployee['id'] ?>"> <img style="margin: 3%" border="0"
-                                                                                 title="See Details" alt="Details"
-                                                                                 src="../../../../asset/images/showDetails.png"
-                                                                                 width="25" height="20"></a>
-                        <a href="edit.php?id=<?php echo $oneEmployee['id'] ?>"> <img style="margin: 3%" border="0"
-                                                                                 title="Edit User Info" alt="Edit"
-                                                                                 src="../../../../asset/images/edit.png"
-                                                                                 width="25" height="20"></a>
-                        <a href="trash.php?id=<?php echo $oneEmployee['id'] ?>" onclick="return confirm('Are you sure?')">
-                            <img style="margin: 3%" border="0" title="Delete This User" alt="Delete"
-                                 src="../../../../asset/images/delete.png" width="25" height="20"></a>
+                        <a href="show.php?voucherNo=<?php echo $oneVoucher['voucher_no'] ?>"> <img style="margin: 3%" border="0"
+                                                                                                   title="See Details" alt="Details"
+                                                                                                   src="../../../../asset/images/showDetails.png"
+                                                                                                   width="25" height="20"></a>
+                    </td>
+                    <td style="width: 130px">
+                        <?php
+                        if ($oneVoucher['is_approved'] == 0) {
+                            ?>
+                            <a href="approve.php?voucherNo=<?php echo $oneVoucher['voucher_no'] ?>" class="btn btn-primary"
+                               onclick="return confirm('Are you sure?')">Approve</a>
+                            <?php
+                        } else {
+
+                            ?>
+                            Already Approved
+                            <?php
+                        }
+                        ?>
                     </td>
                 </tr>
                 <?php
@@ -116,7 +136,7 @@ include_once '../../../../view/Navigation/Nav/Navbar/navigation.php';
                 } else {
                     ?>
                     <tr>
-                        <td colspan="5" align="center">
+                        <td colspan="9" align="center">
                             <?php echo "No Data Available " ?>
 
                         </td>
@@ -127,7 +147,8 @@ include_once '../../../../view/Navigation/Nav/Navbar/navigation.php';
             </table>
         </div>
     </div>
-    <div class="col-md-1"></div>
+</div>
+<div class="col-md-1"></div>
 </div>
 
 
@@ -152,8 +173,3 @@ include_once '../../../../view/Navigation/Nav/Navbar/navigation.php';
 </script>
 </body>
 </html>
-<?php
-} else{
-    header('Location:../../../User/ManageUser/Login/login.php');
-}
-?>

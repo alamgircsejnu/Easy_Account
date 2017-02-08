@@ -72,16 +72,13 @@ include_once '../../../../view/Navigation/Nav/Navbar/navigation.php';
     <div class="col-md-3"></div>
 </div>
 <div class="row">
+    <div class="col-md-1"></div>
+    <div id="custom-table" class="col-md-10" style="background-color: #9acfea;padding: 1px;margin-left: 210px;max-height: 450px;overflow: scroll">
 
-    <div class="col-md-10" style="margin-left: 200px">
-        <div class="col-md-2"></div>
-        <div id="custom-table" style="background-color: #9acfea;padding: 1px">
-
-
-            <div class="table-responsive" id="custom-table">
-                <table class="table table-bordered">
-                    <thead>
-                    <tr>
+        <div class="table-responsive" id="custom-table">
+            <table class="table table-bordered">
+                <thead>
+                <tr>
                         <th align="center">SL#</th>
                         <th align="center">Employee Id</th>
                         <th align="center">Employee Name</th>
@@ -136,7 +133,7 @@ include_once '../../../../view/Navigation/Nav/Navbar/navigation.php';
                                                                                          title="Edit" alt="Edit"
                                                                                          src="../../../../asset/images/edit.png"
                                                                                          width="25" height="20"></a>
-                            <a href="trash.php?attId=<?php echo $attendense[0]['att_id'] ?>" onclick="return confirm('Are you sure?')">
+                            <a href="delete.php?attId=<?php echo $attendense[0]['att_id'] ?>" onclick="return confirm('Are you sure?')">
                                 <img style="margin: 3%" border="0" title="Delete This User" alt="Delete"
                                      src="../../../../asset/images/delete.png" width="25" height="20"></a>
                         </td>

@@ -72,7 +72,7 @@ if (isset($_SESSION['id']) && !empty($_SESSION['id'])) {
 
                 <div class="panel-heading">Batch Print</div>
                 <br>
-                <form role="form" action="batchPrint.php" method="post">
+                <form role="form" action="batchPrint.php" method="post" target="_blank">
 
                     <div  style="margin-top: 21px;">
                         <div>

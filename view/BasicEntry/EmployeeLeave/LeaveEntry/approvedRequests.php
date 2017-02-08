@@ -130,7 +130,7 @@ include_once '../../../../view/Navigation/Nav/Navbar/navigation.php';
                     } else {
                         ?>
                         <tr>
-                            <td colspan="5" align="center">
+                            <td colspan="10" align="center">
                                 <?php echo "No Data Available " ?>
 
                             </td>
